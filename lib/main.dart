@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:smartvid/Resources/pages/dispositivospage.dart';
 import 'package:smartvid/Resources/pages/homepage.dart';
+import 'package:smartvid/Resources/pages/humedadrelativapage.dart';
+import 'package:smartvid/Resources/pages/luminosidadpage.dart';
+import 'package:smartvid/Resources/pages/monitoreopage.dart';
 import 'package:smartvid/Resources/pages/registerpage.dart';
+import 'package:smartvid/Resources/pages/temperaturadelsuelopage.dart';
+import 'package:smartvid/Resources/pages/temperaturarelativapage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import 'package:smartvid/Resources/pages/routerpage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
@@ -50,6 +56,75 @@ class MyApp extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const HomePage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Monitoreo'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MonitoreoPage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Temperatura Relativa'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const TemperaturaRelativaPage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Humedad Relativa'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HumedadRelativaPage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Temperatura del Suelo'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const TemperaturaDelSueloPage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Humedad del Suelo'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const TemperaturaDelSueloPage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Luminosidad'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const LuminosidadPage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Dispositivos'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const DispositivosPage()),
               );
             },
           ),
