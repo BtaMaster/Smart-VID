@@ -123,8 +123,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           horizontal: 50, vertical: 20)),
                   onPressed: () {
                     //Aquí iría la validación de los campos:
-                    if (nombresController.text.isEmpty)
+                    if (nombresController.text.isEmpty) {
                       errorNombres = 'Campo vacío';
+                    }
                   },
                   child: const Text('Crear Cuenta'),
                 )),

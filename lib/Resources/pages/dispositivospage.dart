@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
-
+import 'package:latlong2/latlong.dart';
 import 'package:smartvid/Resources/util/colors.dart';
+
+import 'package:smartvid/Resources/pages/mapapage.dart';
 
 class DispositivosPage extends StatefulWidget {
   const DispositivosPage({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class DispositivosPage extends StatefulWidget {
 }
 
 class _DispositivosPageState extends State<DispositivosPage> {
-  var rng = new Random(); //Vamos a generar estados aleatorios
+  var rng = Random(); //Vamos a generar estados aleatorios
   List<bool> controllerstatus = [];
   @override
   Widget build(BuildContext context) {
@@ -88,14 +90,29 @@ class _DispositivosPageState extends State<DispositivosPage> {
                   ])
                 ],
               ),
-              trailing: TextButton(
-                child: Text('Ver Mapa',
-                    style: GoogleFonts.lato(
-                        fontSize: 17,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400)),
-                onPressed: () {},
-              ),
+              trailing: Padding(
+                  padding: const EdgeInsets.only(top: 5, right: 5),
+                  child: TextButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith(
+                            (state) => Colors.grey[100]),
+                        shape: MaterialStateProperty.resolveWith(
+                          (shape) => RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                        )),
+                    child: Text('Ver Mapa',
+                        style: GoogleFonts.lato(
+                            fontSize: 17,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400)),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MapaPage(
+                                point: LatLng(-13, -72),
+                                nombre: "Controlador de ejemplo"))),
+                  )),
             ),
             Container(
               height: MediaQuery.of(context).size.width / 16,
@@ -138,14 +155,29 @@ class _DispositivosPageState extends State<DispositivosPage> {
                   ])
                 ],
               ),
-              trailing: TextButton(
-                child: Text('Ver Mapa',
-                    style: GoogleFonts.lato(
-                        fontSize: 17,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400)),
-                onPressed: () {},
-              ),
+              trailing: Padding(
+                  padding: const EdgeInsets.only(top: 5, right: 5),
+                  child: TextButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith(
+                            (state) => Colors.grey[100]),
+                        shape: MaterialStateProperty.resolveWith(
+                          (shape) => RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                        )),
+                    child: Text('Ver Mapa',
+                        style: GoogleFonts.lato(
+                            fontSize: 17,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400)),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MapaPage(
+                                point: LatLng(-13, -72),
+                                nombre: "Controlador de ejemplo"))),
+                  )),
             ),
             Container(
               height: MediaQuery.of(context).size.width / 16,
@@ -188,14 +220,29 @@ class _DispositivosPageState extends State<DispositivosPage> {
                   ])
                 ],
               ),
-              trailing: TextButton(
-                child: Text('Ver Mapa',
-                    style: GoogleFonts.lato(
-                        fontSize: 17,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400)),
-                onPressed: () {},
-              ),
+              trailing: Padding(
+                  padding: const EdgeInsets.only(top: 5, right: 5),
+                  child: TextButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith(
+                            (state) => Colors.grey[100]),
+                        shape: MaterialStateProperty.resolveWith(
+                          (shape) => RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                        )),
+                    child: Text('Ver Mapa',
+                        style: GoogleFonts.lato(
+                            fontSize: 17,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400)),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MapaPage(
+                                point: LatLng(-13, -72),
+                                nombre: "Controlador de ejemplo"))),
+                  )),
             ),
             Container(
               height: MediaQuery.of(context).size.width / 16,
@@ -238,14 +285,29 @@ class _DispositivosPageState extends State<DispositivosPage> {
                   ])
                 ],
               ),
-              trailing: TextButton(
-                child: Text('Ver Mapa',
-                    style: GoogleFonts.lato(
-                        fontSize: 17,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400)),
-                onPressed: () {},
-              ),
+              trailing: Padding(
+                  padding: const EdgeInsets.only(top: 5, right: 5),
+                  child: TextButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith(
+                            (state) => Colors.grey[100]),
+                        shape: MaterialStateProperty.resolveWith(
+                          (shape) => RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                        )),
+                    child: Text('Ver Mapa',
+                        style: GoogleFonts.lato(
+                            fontSize: 17,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400)),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MapaPage(
+                                point: LatLng(-13, -72),
+                                nombre: "Controlador de ejemplo"))),
+                  )),
             ),
             Container(
               height: MediaQuery.of(context).size.width / 16,

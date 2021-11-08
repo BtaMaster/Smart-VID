@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:smartvid/Resources/classes/fases.dart';
+import 'package:smartvid/Resources/pages/calendariopage.dart';
+import 'package:smartvid/Resources/pages/calendariodetallepage.dart';
 import 'package:smartvid/Resources/pages/dispositivospage.dart';
 import 'package:smartvid/Resources/pages/homepage.dart';
+import 'package:smartvid/Resources/pages/humedaddelsuelo.dart';
 import 'package:smartvid/Resources/pages/humedadrelativapage.dart';
 import 'package:smartvid/Resources/pages/luminosidadpage.dart';
+import 'package:smartvid/Resources/pages/mapapage.dart';
 import 'package:smartvid/Resources/pages/monitoreopage.dart';
+import 'package:smartvid/Resources/pages/notificacionespage.dart';
 import 'package:smartvid/Resources/pages/registerpage.dart';
 import 'package:smartvid/Resources/pages/temperaturadelsuelopage.dart';
 import 'package:smartvid/Resources/pages/temperaturarelativapage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import 'package:smartvid/Resources/pages/routerpage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
+import 'package:latlong2/latlong.dart';
 
 void main() => runApp(MaterialApp(
     title: "Smart VID",
@@ -104,7 +111,7 @@ class MyApp extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const TemperaturaDelSueloPage()),
+                    builder: (context) => const HumedadDelSueloPage()),
               );
             },
           ),
@@ -125,6 +132,69 @@ class MyApp extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const DispositivosPage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Mapa'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MapaPage(
+                        point: LatLng(-13, -72),
+                        nombre: "Controlador de ejemplo")),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Notificaciones'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const NotificacionesPage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Calendario'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CalendarioPage()),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Calendario vegetativo'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CalendarioDetallePage(
+                          tipoCalendario: "VEGETATIVO",
+                          fase1: FaseReposoInvernal(
+                              diasTranscurridos: 39, diasFaltantes: 51),
+                          fase2: FaseLloros(
+                              diasTranscurridos: 9, diasFaltantes: 21),
+                        )),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Calendario reproductivo'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CalendarioDetallePage(
+                          tipoCalendario: "REPRODUCTIVO",
+                          fase1: FaseCrecimientoDeOrganos(
+                              diasTranscurridos: 39, diasFaltantes: 51),
+                          fase2: FaseBrotamiento(
+                              diasTranscurridos: 9, diasFaltantes: 21),
+                        )),
               );
             },
           ),

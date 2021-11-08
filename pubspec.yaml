@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^2.1.0
   syncfusion_flutter_gauges: ^19.3.47
+  flutter_map: ^0.14.0
+  material_design_icons_flutter: ^5.0.6295
+  table_calendar: ^3.0.3
 
 dev_dependencies:
   flutter_test:
