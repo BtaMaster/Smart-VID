@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smartvid/Resources/util/colors.dart';
+import '../classes/aws_cognito.dart';
+
+final awsCognito = AWSCognitoRepository();
 
 //Login widget
 class LoginPage extends StatefulWidget {
@@ -9,6 +12,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -39,6 +45,7 @@ class _LoginState extends State<LoginPage> {
                     flex: 1,
                     child: Center(
                       child: TextFormField(
+                        controller: emailController,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -60,12 +67,14 @@ class _LoginState extends State<LoginPage> {
                     flex: 1,
                     child: Center(
                       child: TextFormField(
+                        controller: passwordController,
                         //FocusScope.of(context).requestFocus(new FocusNode()),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
                         ),
                         cursorColor: Colors.white,
+                        obscureText: true,
                         autocorrect: false,
                         decoration: const InputDecoration(
                           enabledBorder: UnderlineInputBorder(
@@ -85,7 +94,10 @@ class _LoginState extends State<LoginPage> {
                       primary: HexColor.getColorfromHex(calendarColor),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 50, vertical: 20)),
-                  onPressed: () {},
+                  onPressed: () {
+                    awsCognito.login(
+                        emailController.text, passwordController.text);
+                  },
                   child: const Text('Iniciar Sesión'),
                 )),
                 const Spacer(flex: 1),

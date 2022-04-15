@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smartvid/Resources/classes/fases.dart';
 import 'package:smartvid/Resources/pages/calendariopage.dart';
 import 'package:smartvid/Resources/pages/calendariodetallepage.dart';
@@ -18,10 +19,14 @@ import 'package:smartvid/Resources/pages/routerpage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:latlong2/latlong.dart';
 
-void main() => runApp(MaterialApp(
-    title: "Smart VID",
-    home: const MyApp(),
-    theme: ThemeData(primarySwatch: HexColor.getMaterialColor(headColor))));
+void main() async => {
+      await dotenv.load(fileName: '../.env'),
+      runApp(MaterialApp(
+          title: "Smart VID",
+          home: const MyApp(),
+          theme:
+              ThemeData(primarySwatch: HexColor.getMaterialColor(headColor))))
+    };
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

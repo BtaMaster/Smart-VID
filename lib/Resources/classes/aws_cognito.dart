@@ -7,9 +7,11 @@ final userPool = CognitoUserPool(
   dotenv.env['USER_POOL_CLIENTID'] ?? '', //clientId
 );
 
-abstract class AWSCognitoRepository {
+class AWSCognitoRepository {
   Future<void> signup(
       String email, String password, String firstName, String lastName) async {
+    print(userPool.getUserPoolId());
+    print(userPool.getClientId());
     final userAttributes = [
       AttributeArg(name: 'first_name', value: firstName),
       AttributeArg(name: 'last_name', value: lastName),
@@ -21,6 +23,7 @@ abstract class AWSCognitoRepository {
         password,
         userAttributes: userAttributes,
       );
+      print(data);
       print("Sign up successful!");
     } catch (e) {
       print(e);
@@ -28,6 +31,8 @@ abstract class AWSCognitoRepository {
   }
 
   Future<void> login(String email, String password) async {
+    print(userPool.getUserPoolId());
+    print(userPool.getClientId());
     final cognitoUser = CognitoUser(email, userPool);
     final authCredentials =
         AuthenticationDetails(username: email, password: password);
@@ -50,7 +55,8 @@ abstract class AWSCognitoRepository {
       print(e);
     }
     attributes?.forEach((attribute) {
-      print('attribute ${attribute.getName()} has value ${attribute.getValue()}');
+      print(
+          'attribute ${attribute.getName()} has value ${attribute.getValue()}');
     });
   }
 }
