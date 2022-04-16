@@ -73,6 +73,7 @@ class _LoginState extends State<LoginPage> {
                         ),
                         cursorColor: Colors.white,
                         controller: passwordController,
+                        obscureText: true,
                         autocorrect: false,
                         decoration: const InputDecoration(
                           enabledBorder: UnderlineInputBorder(

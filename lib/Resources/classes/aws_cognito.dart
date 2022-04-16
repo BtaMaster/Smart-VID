@@ -28,21 +28,32 @@ class AWSCognitoRepository {
   }
 
   Future<void> login(String email, String password) async {
+    await signOut();
     try {
       await Amplify.Auth.signIn(username: email, password: password);
+      print("User $email logged in!.");
+      getUser(email, password).then((value) => print(value));
     } on Exception {
+      print("User $email login failed.");
       rethrow;
     }
   }
 
-  Future<String> getUser(String email, String password) async {
+  Future<String?> getUser(String email, String password) async {
     try {
       final awsUser = await Amplify.Auth.getCurrentUser();
-      print(awsUser);
-      return awsUser.userId;
+      return awsUser.username.toString();
     } catch (e) {
-      print("No user found.");
-      return '';
+      return null;
+    }
+  }
+
+  Future<void> signOut() async {
+    try {
+      await Amplify.Auth.signOut();
+      print("User signed out.");
+    } catch (e) {
+      print("User sign out failed.");
     }
   }
 }

@@ -5,9 +5,6 @@ const amplifyconfig =
     "auth": {
         "plugins": {
             "awsCognitoAuthPlugin": {
-                "IdentityManager": {
-                    "Default": {}
-                },
                 "CognitoUserPool": {
                     "Default": {
                         "PoolId": "us-east-1_Wd7smDG1O",
