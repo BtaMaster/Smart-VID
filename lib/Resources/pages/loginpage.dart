@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smartvid/Resources/util/colors.dart';
+import '../classes/aws_cognito.dart';
+
+final cognitoRepository = AWSCognitoRepository();
 
 //Login widget
 class LoginPage extends StatefulWidget {
@@ -9,6 +12,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginPage> {
+  final emaillController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -44,6 +49,7 @@ class _LoginState extends State<LoginPage> {
                           fontSize: 20.0,
                         ),
                         cursorColor: Colors.white,
+                        controller: emaillController,
                         autocorrect: false,
                         decoration: const InputDecoration(
                           enabledBorder: UnderlineInputBorder(
@@ -66,6 +72,7 @@ class _LoginState extends State<LoginPage> {
                           fontSize: 20.0,
                         ),
                         cursorColor: Colors.white,
+                        controller: passwordController,
                         autocorrect: false,
                         decoration: const InputDecoration(
                           enabledBorder: UnderlineInputBorder(
@@ -85,7 +92,10 @@ class _LoginState extends State<LoginPage> {
                       primary: HexColor.getColorfromHex(calendarColor),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 50, vertical: 20)),
-                  onPressed: () {},
+                  onPressed: () {
+                    cognitoRepository.login(
+                        emaillController.text, passwordController.text);
+                  },
                   child: const Text('Iniciar Sesión'),
                 )),
                 const Spacer(flex: 1),

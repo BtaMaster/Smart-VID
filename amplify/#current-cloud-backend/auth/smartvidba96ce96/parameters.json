@@ -1,0 +1,17 @@
+{
+  "authSelections": "userPoolOnly",
+  "resourceName": "smartvidba96ce96",
+  "serviceType": "imported",
+  "region": "us-east-1",
+  "usernameAttributes": [
+    "email"
+  ],
+  "requiredAttributes": [],
+  "passwordPolicyMinLength": 6,
+  "passwordPolicyCharacters": [],
+  "mfaConfiguration": "OFF",
+  "autoVerifiedAttributes": [
+    "email"
+  ],
+  "mfaTypes": []
+}

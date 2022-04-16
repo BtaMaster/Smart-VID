@@ -1,3 +1,5 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:smartvid/Resources/classes/fases.dart';
 import 'package:smartvid/Resources/pages/calendariopage.dart';
@@ -17,11 +19,17 @@ import 'package:smartvid/Resources/util/colors.dart';
 import 'package:smartvid/Resources/pages/routerpage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:smartvid/amplifyconfiguration.dart';
 
-void main() => runApp(MaterialApp(
-    title: "Smart VID",
-    home: const MyApp(),
-    theme: ThemeData(primarySwatch: HexColor.getMaterialColor(headColor))));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Amplify.addPlugins([AmplifyAuthCognito()]);
+  await Amplify.configure(amplifyconfig);
+  runApp(MaterialApp(
+      title: "Smart VID",
+      home: const MyApp(),
+      theme: ThemeData(primarySwatch: HexColor.getMaterialColor(headColor))));
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

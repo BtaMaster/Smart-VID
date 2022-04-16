@@ -1,0 +1,48 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-smartvid-dev-161437-authRole",
+      "UnauthRoleArn": "arn:aws:iam::111916279248:role/amplify-smartvid-dev-161437-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::111916279248:role/amplify-smartvid-dev-161437-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-smartvid-dev-161437-deployment",
+      "UnauthRoleName": "amplify-smartvid-dev-161437-unauthRole",
+      "StackName": "amplify-smartvid-dev-161437",
+      "StackId": "arn:aws:cloudformation:us-east-1:111916279248:stack/amplify-smartvid-dev-161437/10a1aa10-bd01-11ec-8b0f-0e43d5cd492d",
+      "AmplifyAppId": "d1gwff1n8kdvx5"
+    }
+  },
+  "auth": {
+    "smartvidba96ce96": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "output": {
+        "UserPoolId": "us-east-1_Wd7smDG1O",
+        "UserPoolName": "FlutterUserPool",
+        "AppClientID": "6540ltjeun1q99n6u25e3adv6r",
+        "AppClientSecret": "1o7omgkdu1qc0j810168q8r3i6va7aq8vnqsq8fbp612835kv83r",
+        "AppClientIDWeb": "1pkmhim7lhggjfnbb62k11l68f"
+      },
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 6,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "lastPushTimeStamp": "2022-04-15T22:30:25.783Z"
+    }
+  }
+}

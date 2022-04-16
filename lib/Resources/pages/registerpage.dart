@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 
+import '../classes/aws_cognito.dart';
+
+final cognitoRepository = AWSCognitoRepository();
+
 //Login widget
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -9,11 +13,12 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  var nombresController = TextEditingController();
+  var firstNameController = TextEditingController();
+  var lastNameController = TextEditingController();
   var errorNombres = '';
-  var correoController = TextEditingController();
+  var emailControler = TextEditingController();
   var errorCorreo = '';
-  var contraseniaController = TextEditingController();
+  var passwordController = TextEditingController();
   var errorContrasenia = '';
   @override
   Widget build(BuildContext context) {
@@ -45,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     flex: 2,
                     child: Center(
                       child: TextFormField(
-                        controller: nombresController,
+                        controller: firstNameController,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -59,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               borderSide: BorderSide(color: Colors.white)),
                           contentPadding: const EdgeInsets.only(
                               bottom: 5.0, left: 5.0, right: 5.0),
-                          labelText: 'Nombres y Apellidos',
+                          labelText: 'Nombres',
                           labelStyle: const TextStyle(color: Colors.white),
                         ),
                       ),
@@ -69,7 +74,31 @@ class _RegisterPageState extends State<RegisterPage> {
                     flex: 2,
                     child: Center(
                       child: TextFormField(
-                        controller: correoController,
+                        controller: lastNameController,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        ),
+                        cursorColor: Colors.white,
+                        autocorrect: false,
+                        decoration: InputDecoration(
+                          errorText:
+                              errorNombres.isNotEmpty ? errorNombres : null,
+                          enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                          contentPadding: const EdgeInsets.only(
+                              bottom: 5.0, left: 5.0, right: 5.0),
+                          labelText: 'Apellidos',
+                          labelStyle: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )),
+                const Spacer(flex: 1),
+                Flexible(
+                    flex: 2,
+                    child: Center(
+                      child: TextFormField(
+                        controller: emailControler,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -93,7 +122,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     flex: 2,
                     child: Center(
                       child: TextFormField(
-                        controller: contraseniaController,
+                        controller: passwordController,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -123,8 +152,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           horizontal: 50, vertical: 20)),
                   onPressed: () {
                     //Aquí iría la validación de los campos:
-                    if (nombresController.text.isEmpty) {
+                    if (firstNameController.text.isEmpty ||
+                        lastNameController.text.isEmpty) {
                       errorNombres = 'Campo vacío';
+                    } else {
+                      cognitoRepository.signup(
+                          emailControler.text,
+                          passwordController.text,
+                          firstNameController.text,
+                          lastNameController.text);
                     }
                   },
                   child: const Text('Crear Cuenta'),

@@ -1,0 +1,11 @@
+{
+  "auth": {
+    "smartvidba96ce96": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
