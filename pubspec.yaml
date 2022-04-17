@@ -39,6 +39,9 @@ dependencies:
   flutter_map: ^0.14.0
   material_design_icons_flutter: ^5.0.6295
   table_calendar: ^3.0.3
+  flutter_local_notifications: ^9.2.0
+  firebase_core: ^1.14.1
+  firebase_messaging: ^11.2.13
 
 dev_dependencies:
   flutter_test:

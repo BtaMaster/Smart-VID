@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "222947388662",
+    "project_id": "enviarnotificacionespush",
+    "storage_bucket": "enviarnotificacionespush.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:222947388662:android:f548aad05133ac1ec590d7",
+        "android_client_info": {
+          "package_name": "com.example.smartvid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "222947388662-sitrkn1c09tkfguanpcqsrt98ju1vmco.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAustyn-rIy37SXuSZvJv8K9O5OS-INGPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "222947388662-sitrkn1c09tkfguanpcqsrt98ju1vmco.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:222947388662:android:119c1a11ec48499ac590d7",
+        "android_client_info": {
+          "package_name": "com.smartvid.enviarnotificaciones"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "222947388662-sitrkn1c09tkfguanpcqsrt98ju1vmco.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAustyn-rIy37SXuSZvJv8K9O5OS-INGPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "222947388662-sitrkn1c09tkfguanpcqsrt98ju1vmco.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

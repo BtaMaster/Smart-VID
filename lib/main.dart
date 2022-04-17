@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:smartvid/Resources/classes/fases.dart';
 import 'package:smartvid/Resources/pages/calendariopage.dart';
 import 'package:smartvid/Resources/pages/calendariodetallepage.dart';
@@ -13,18 +14,77 @@ import 'package:smartvid/Resources/pages/notificacionespage.dart';
 import 'package:smartvid/Resources/pages/registerpage.dart';
 import 'package:smartvid/Resources/pages/temperaturadelsuelopage.dart';
 import 'package:smartvid/Resources/pages/temperaturarelativapage.dart';
+import 'package:smartvid/Resources/provider/push_notifications_provider.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import 'package:smartvid/Resources/pages/routerpage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-void main() => runApp(MaterialApp(
-    title: "Smart VID",
-    home: const MyApp(),
-    theme: ThemeData(primarySwatch: HexColor.getMaterialColor(headColor))));
 
-class MyApp extends StatelessWidget {
+Future<void> backgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print(message.data.toString());
+  print(message.notification!.title);
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MaterialApp(
+      title: "Smart VID",
+      home: const MyApp(),
+      theme: ThemeData(primarySwatch: HexColor.getMaterialColor(headColor))));
+}
+
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState(){
+    super.initState();
+    final messaging = FirebaseMessaging.instance;
+    PushNotificationProvider().initNotifications();
+    /*
+      //Configuración para Apple
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+    print('User granted permission: ${settings.authorizationStatus}');
+    */
+   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      await Firebase.initializeApp();
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+      }
+   });
+
+
+    //Notificación cuando la aplicación esta en segundo plano
+    FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+     if(message.data != null){
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const NotificacionesPage()));
+     }
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
