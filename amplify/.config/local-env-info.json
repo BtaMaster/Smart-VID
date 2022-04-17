@@ -1,5 +1,5 @@
 {
   "projectPath": "C:\\Users\\Arix\\Documents\\UPC\\TDP\\Sem04AgriculturaIoT\\Smart-VID",
-  "defaultEditor": "Visual Studio Code",
-  "envName": "dev"
+  "envName": "staging",
+  "defaultEditor": "vscode"
 }

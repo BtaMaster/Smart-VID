@@ -13,8 +13,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  var firstNameController = TextEditingController();
-  var lastNameController = TextEditingController();
+  var nameController = TextEditingController();
   var errorNombres = '';
   var emailControler = TextEditingController();
   var errorCorreo = '';
@@ -50,7 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     flex: 2,
                     child: Center(
                       child: TextFormField(
-                        controller: firstNameController,
+                        controller: nameController,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -65,30 +64,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           contentPadding: const EdgeInsets.only(
                               bottom: 5.0, left: 5.0, right: 5.0),
                           labelText: 'Nombres',
-                          labelStyle: const TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    )),
-                const Spacer(flex: 1),
-                Flexible(
-                    flex: 2,
-                    child: Center(
-                      child: TextFormField(
-                        controller: lastNameController,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                        ),
-                        cursorColor: Colors.white,
-                        autocorrect: false,
-                        decoration: InputDecoration(
-                          errorText:
-                              errorNombres.isNotEmpty ? errorNombres : null,
-                          enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
-                          contentPadding: const EdgeInsets.only(
-                              bottom: 5.0, left: 5.0, right: 5.0),
-                          labelText: 'Apellidos',
                           labelStyle: const TextStyle(color: Colors.white),
                         ),
                       ),
@@ -152,15 +127,14 @@ class _RegisterPageState extends State<RegisterPage> {
                           horizontal: 50, vertical: 20)),
                   onPressed: () {
                     //Aquí iría la validación de los campos:
-                    if (firstNameController.text.isEmpty ||
-                        lastNameController.text.isEmpty) {
+                    if (nameController.text.isEmpty) {
                       errorNombres = 'Campo vacío';
                     } else {
                       cognitoRepository.signup(
                           emailControler.text,
                           passwordController.text,
-                          firstNameController.text,
-                          lastNameController.text);
+                          nameController.text
+                          );
                     }
                   },
                   child: const Text('Crear Cuenta'),

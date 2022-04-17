@@ -1,7 +1,7 @@
 {
-  "dev": {
+  "staging": {
     "configLevel": "project",
     "useProfile": true,
-    "profileName": "FlutterAmplify"
+    "profileName": "default"
   }
 }

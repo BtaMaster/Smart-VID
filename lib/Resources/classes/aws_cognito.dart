@@ -11,12 +11,11 @@ final userPool = CognitoUserPool(
 
 class AWSCognitoRepository {
   Future<void> signup(
-      String email, String password, String firstName, String lastName) async {
+      String email, String password, String name) async {
     try {
       final CognitoSignUpOptions options =
           CognitoSignUpOptions(userAttributes: {
-        const CognitoUserAttributeKey.custom('first_name'): firstName,
-        const CognitoUserAttributeKey.custom('last_name'): lastName
+        CognitoUserAttributeKey.parse('name'): name
       });
       await Amplify.Auth.signUp(
           username: email, password: password, options: options);
