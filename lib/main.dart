@@ -19,6 +19,8 @@ import 'package:smartvid/Resources/pages/routerpage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:latlong2/latlong.dart';
 
+import 'Resources/pages/reportepage.dart';
+
 
 void main() => runApp(
     MaterialApp(
@@ -199,6 +201,16 @@ class MyApp extends StatelessWidget {
                           fase2: FaseBrotamiento(
                               diasTranscurridos: 9, diasFaltantes: 21),
                         )),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Reporte'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ReportePage()),
               );
             },
           ),
