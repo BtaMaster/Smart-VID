@@ -10,6 +10,7 @@ import 'package:smartvid/Resources/pages/humedadrelativapage.dart';
 import 'package:smartvid/Resources/pages/luminosidadpage.dart';
 import 'package:smartvid/Resources/pages/mapapage.dart';
 import 'package:smartvid/Resources/pages/monitoreopage.dart';
+import 'package:smartvid/Resources/pages/notificaciondetallepage.dart';
 import 'package:smartvid/Resources/pages/notificacionespage.dart';
 import 'package:smartvid/Resources/pages/registerpage.dart';
 import 'package:smartvid/Resources/pages/temperaturadelsuelopage.dart';
@@ -22,11 +23,14 @@ import 'package:latlong2/latlong.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+import 'Resources/classes/notificacion.dart';
+
 
 Future<void> backgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print(message.data.toString());
-  print(message.notification!.title);
+  print('Data: ${message.data.toString()}');
+  print('Título de la Notificación: ${message.notification!.title}');
+  print('Descripción de la Notificación: ${message.notification!.body}');
 }
 
 void main() async {
@@ -46,6 +50,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  late final Notificacion notificacion;
+
+
   @override
   void initState(){
     super.initState();
@@ -69,7 +77,8 @@ class _MyAppState extends State<MyApp> {
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.data}');
       if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
+        print('Message also contained a Title notification: ${message.notification!.title}');
+        print('Message also contained a Description notification: ${message.notification!.body}');
       }
    });
 
@@ -77,9 +86,41 @@ class _MyAppState extends State<MyApp> {
     //Notificación cuando la aplicación esta en segundo plano
     FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
+    //Ruta de navegación al abrir el mensaje de la notificación
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
      if(message.data != null){
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const NotificacionesPage()));
+       switch(message.data['problema']){
+         case 'Humedad Relativa':
+           Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+             (notificacion: NotificacionHumedadRelativa(message.notification!.body.toString(),
+               valorDetectado: message.data['valorDetectado']))));
+           break;
+         case 'Luminosidad Solar':
+           Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+             (notificacion: NotificacionLuminosidadSolar(message.notification!.body.toString(),
+               valorDetectado: message.data['valorDetectado']))));
+           break;
+         case 'Temperatura Relativa':
+           Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+             (notificacion: NotificacionTemperaturaRelativa(message.notification!.body.toString(),
+               valorDetectado: message.data['valorDetectado']))));
+           break;
+         case 'Temperatura Suelo':
+           Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+             (notificacion: NotificacionTemperaturaSuelo(message.notification!.body.toString(),
+               valorDetectado: message.data['valorDetectado']))));
+           break;
+         case 'Humedad Suelo':
+           Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+             (notificacion: NotificacionHumedadSuelo(message.notification!.body.toString(),
+               valorDetectado: message.data['valorDetectado']))));
+           break;
+         default:
+           Navigator.of(context)
+               .push(MaterialPageRoute(builder:
+               (context) => const NotificacionesPage()));
+           break;
+       }
      }
     });
 

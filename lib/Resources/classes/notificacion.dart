@@ -31,65 +31,65 @@ class NotificacionLuminosidadSolarTest extends Notificacion {
 
 class NotificacionLuminosidadSolar extends Notificacion {
   NotificacionLuminosidadSolar(String mensaje,
-      {String? valorOptimo, String? valorDetectado})
+      {String? valorDetectado})
       : super(
             titulo: "Notificacion: Luminosidad Solar",
             mensaje: mensaje,
             widget: Icon(Icons.light_mode),
             horaOcurrencia:
                 DateFormat('kk:mm \n EEE d MMM').format(DateTime.now()),
-            valorOptimo: valorOptimo,
+            valorOptimo: "40000 lux - 80000 lux",
             valorDetectado: valorDetectado);
 }
 
 class NotificacionTemperaturaRelativa extends Notificacion {
   NotificacionTemperaturaRelativa(String mensaje,
-      {String? valorOptimo, String? valorDetectado})
+      {String? valorDetectado})
       : super(
             titulo: "Notificacion: Temperatura Relativa",
             mensaje: mensaje,
             widget: Icon(Icons.thermostat),
             horaOcurrencia:
                 DateFormat('kk:mm \n EEE d MMM').format(DateTime.now()),
-            valorOptimo: valorOptimo,
+            valorOptimo: "26°C - 30°C",
             valorDetectado: valorDetectado);
 }
 
 class NotificacionHumedadRelativa extends Notificacion {
   NotificacionHumedadRelativa(String mensaje,
-      {String? valorOptimo, String? valorDetectado})
+      {String? valorDetectado})
       : super(
             titulo: "Notificacion: Humedad Relativa",
             mensaje: mensaje,
             widget: Icon(MdiIcons.water),
             horaOcurrencia:
                 DateFormat('kk:mm \n EEE d MMM').format(DateTime.now()),
-            valorOptimo: valorOptimo,
+            valorOptimo: "60% - 70%",
             valorDetectado: valorDetectado);
 }
 
 class NotificacionTemperaturaSuelo extends Notificacion {
   NotificacionTemperaturaSuelo(String mensaje,
-      {String? valorOptimo, String? valorDetectado})
+      {String? valorDetectado})
       : super(
             titulo: "Notificacion: Temperatura Suelo",
             mensaje: mensaje,
             widget: Icon(MdiIcons.thermometerLines),
             horaOcurrencia:
                 DateFormat('kk:mm \n EEE d MMM').format(DateTime.now()),
-            valorOptimo: valorOptimo,
+            valorOptimo: "25°C - 30°C",
             valorDetectado: valorDetectado);
 }
 
 class NotificacionHumedadSuelo extends Notificacion {
   NotificacionHumedadSuelo(String mensaje,
-      {String? valorOptimo, String? valorDetectado})
+      {String? valorDetectado})
       : super(
             titulo: "Notificacion: Humedad Suelo",
             mensaje: mensaje,
             widget: Icon(MdiIcons.waterOutline),
             horaOcurrencia:
                 DateFormat('kk:mm \n EEE d MMM').format(DateTime.now()),
-            valorOptimo: valorOptimo,
+            valorOptimo: "35% - 45%",
             valorDetectado: valorDetectado);
 }
