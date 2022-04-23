@@ -130,175 +130,177 @@ class _ReportePageState extends State<ReportePage> {
 
     return Scaffold(
         backgroundColor: HexColor.getColorfromHex(interfaceColor),
-        body: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              children: [
-                SizedBox(
-                  height: screenSize.height * 0.12,
-                ),
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(Icons.arrow_back_ios_rounded),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: screenSize.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        body: SafeArea(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
                 children: [
-                  SizedBox(
-                    height: screenSize.height * 0.1,
+                  const SizedBox(
+                    height: 5,
                   ),
-                  Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(25.0))
-                      ),
-                      child: Text('Gráfico de lineas Tiempo vs Parametros Meteorológicos', style: TextStyle(fontSize: 10, color: Colors.red, fontWeight: FontWeight.bold),)),
-                  FutureBuilder<List<MonitoringData>>(
-                      future: _monitoringServices.getMonitoringDataList(DateFormat("yyyy-MM-ddTHH:mm:ss").format(startDate), DateFormat("yyyy-MM-ddTHH:mm:ss").format(lastDate)),
-                      builder: (context, snapshot) {
-                        if(snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                          return Stack(
-                            alignment: AlignmentDirectional.topCenter,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                padding: EdgeInsets.all(5),
-                                height: screenSize.height * 0.7,
-                                width: screenSize.width * 0.7,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                ),
-                                child: SfCartesianChart(
-                                  plotAreaBackgroundColor: Colors.white,
-                                  plotAreaBorderWidth: 0,
-                                  zoomPanBehavior: ZoomPanBehavior(enablePanning: true, enablePinching: true),
-                                  legend: Legend(
-                                      textStyle: TextStyle(color: Colors.black),
-                                      position: LegendPosition.left,
-                                      isVisible: true,
-                                      overflowMode: LegendItemOverflowMode.wrap),
-                                 //primaryXAxis: AxisFecha,
-                                  primaryXAxis: DateTimeAxis(
-                                      labelAlignment: LabelAlignment.start,
-                                      minimum: startDate,
-                                      maximum: lastDate,
-                                      labelRotation: -75,
-                                      edgeLabelPlacement: EdgeLabelPlacement.shift,
-                                      labelStyle: const TextStyle(color: Colors.black, fontSize: 10),
-                                      majorGridLines: const MajorGridLines(width: 0),
-                                  ),
-                                  primaryYAxis: NumericAxis(
-                                    //maximum: 100,
-                                      minimum: -5,
-                                      labelFormat: '{value}',
-                                      interval: 1,
-                                      axisLine: const AxisLine(width: 0),
-                                      labelStyle: const TextStyle(color: Colors.black, fontSize: 10),
-                                      majorTickLines: const MajorTickLines(color: Colors.transparent)),
-                                  series: _getDefaultLineSeries(snapshot.data!),
-                                  tooltipBehavior: TooltipBehavior(enable: true),
-                                ),
-                              ),
-                              Visibility(
-                                visible: snapshot.data!.isEmpty,
-                                child: Positioned(
-                                  top: 50,
-                                  child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius: BorderRadius.all(Radius.circular(25.0))
-                                      ),
-                                      child: Text('No hay datos en este rango', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),)),
-                                ),
-                              )
-                            ],
-                          );
-                        }
-                        else{
-                          return const Center(child: CupertinoActivityIndicator(color: Colors.white,));
-                        }
-                      }
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(Icons.arrow_back_ios_rounded),
+                    ),
                   ),
                 ],
               ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+              SizedBox(
+                height: screenSize.height,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CircleAvatar (
-                      radius: 20,
-                      backgroundColor: selected == 0 ? Colors.greenAccent : Colors.red ,
-                      child:  InkWell(
-                          onTap: (){
-                            selectOption(0);
-                          },
+                    Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(25.0))
+                        ),
+                        child: Text('Gráfico de lineas Tiempo vs Parametros Meteorológicos', style: TextStyle(fontSize: 10, color: Colors.red, fontWeight: FontWeight.bold),)),
+                    FutureBuilder<List<MonitoringData>>(
+                        future: _monitoringServices.getMonitoringDataList(DateFormat("yyyy-MM-ddTHH:mm:ss").format(startDate), DateFormat("yyyy-MM-ddTHH:mm:ss").format(lastDate)),
+                        builder: (context, snapshot) {
+                          if(snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                            return Stack(
+                              alignment: AlignmentDirectional.topCenter,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.all(10),
+                                  padding: EdgeInsets.all(5),
+                                  height: screenSize.height * 0.7,
+                                  width: screenSize.width * 0.7,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                  ),
+                                  child: SfCartesianChart(
+                                    plotAreaBackgroundColor: Colors.white,
+                                    plotAreaBorderWidth: 0,
+                                    zoomPanBehavior: ZoomPanBehavior(enablePanning: true, enablePinching: true),
+                                    legend: Legend(
+                                        textStyle: TextStyle(color: Colors.black),
+                                        position: LegendPosition.left,
+                                        isVisible: true,
+                                        overflowMode: LegendItemOverflowMode.wrap),
+                                   //primaryXAxis: AxisFecha,
+                                    primaryXAxis: DateTimeAxis(
+                                        labelAlignment: LabelAlignment.start,
+                                        minimum: startDate,
+                                        maximum: lastDate,
+                                        labelRotation: -75,
+                                        edgeLabelPlacement: EdgeLabelPlacement.shift,
+                                        labelStyle: const TextStyle(color: Colors.black, fontSize: 10),
+                                        majorGridLines: const MajorGridLines(width: 0),
+                                    ),
+                                    primaryYAxis: NumericAxis(
+                                      //maximum: 100,
+                                        minimum: -5,
+                                        labelFormat: '{value}',
+                                        interval: 1,
+                                        axisLine: const AxisLine(width: 0),
+                                        labelStyle: const TextStyle(color: Colors.black, fontSize: 10),
+                                        majorTickLines: const MajorTickLines(color: Colors.transparent)),
+                                    series: _getDefaultLineSeries(snapshot.data!),
+                                    tooltipBehavior: TooltipBehavior(enable: true),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: snapshot.data!.isEmpty,
+                                  child: Positioned(
+                                    top: 50,
+                                    child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius: BorderRadius.all(Radius.circular(25.0))
+                                        ),
+                                        child: Text('No hay datos en este rango', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),)),
+                                  ),
+                                )
+                              ],
+                            );
+                          }
+                          else{
+                            return SizedBox(
+                                height: screenSize.height * 0.7,
+                                width: screenSize.width * 0.7,
+                                child: const Center(child: CupertinoActivityIndicator(color: Colors.white,)));
+                          }
+                        }
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar (
+                        radius: 20,
+                        backgroundColor: selected == 0 ? Colors.greenAccent : Colors.red ,
+                        child:  InkWell(
+                            onTap: (){
+                              selectOption(0);
+                            },
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 5,),
-                    const Text('Hora'),
-                  ],
-                ),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: selected == 1 ? Colors.greenAccent : Colors.red,
-                      child: InkWell(
-                          onTap: (){
-                            selectOption(1);
-                          },),
-                    ),
-                    const SizedBox(width: 5,),
-                    const Text('Dia')
-                  ],
-                ),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: selected == 2 ? Colors.greenAccent : Colors.red,
-                      child: InkWell(
+                      const SizedBox(width: 5,),
+                      const Text('Hora'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundColor: selected == 1 ? Colors.greenAccent : Colors.red,
+                        child: InkWell(
+                            onTap: (){
+                              selectOption(1);
+                            },),
+                      ),
+                      const SizedBox(width: 5,),
+                      const Text('Dia')
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundColor: selected == 2 ? Colors.greenAccent : Colors.red,
+                        child: InkWell(
+                            onTap: () {
+                              selectOption(2);
+                            },),
+                      ),
+                      const SizedBox(width: 5,),
+                      const Text('Semana')
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      CircleAvatar (
+                        radius: 20,
+                        backgroundColor: selected == 3 ? Colors.greenAccent : Colors.red,
+                        child: InkWell(
                           onTap: () {
-                            selectOption(2);
+                            selectOption(3);
                           },),
-                    ),
-                    const SizedBox(width: 5,),
-                    const Text('Semana')
-                  ],
-                ),
-                Row(
-                  children: [
-                    CircleAvatar (
-                      radius: 20,
-                      backgroundColor: selected == 3 ? Colors.greenAccent : Colors.red,
-                      child: InkWell(
-                        onTap: () {
-                          selectOption(3);
-                        },),
-                    ),
-                    const SizedBox(width: 5,),
-                    const Text('Mes')
-                  ],
-                ),
-              ],
-            )
-          ],
+                      ),
+                      const SizedBox(width: 5,),
+                      const Text('Mes')
+                    ],
+                  ),
+                ],
+              )
+            ],
+          ),
         )
     );
   }
