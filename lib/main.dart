@@ -20,10 +20,12 @@ import 'package:smartvid/Resources/pages/routerpage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:smartvid/amplifyconfiguration.dart';
+import 'package:amplify_api/amplify_api.dart';
 
+import 'models/ModelProvider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Amplify.addPlugins([AmplifyAuthCognito()]);
+  await Amplify.addPlugins([AmplifyAuthCognito(), AmplifyAPI(modelProvider: ModelProvider.instance)]);
   await Amplify.configure(amplifyconfig);
   runApp(MaterialApp(
       title: "Smart VID",

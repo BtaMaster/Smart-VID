@@ -42,6 +42,28 @@ const amplifyconfig = ''' {
                             "EMAIL"
                         ]
                     }
+                },
+                "AppSync": {
+                    "Default": {
+                        "ApiUrl": "https://r56j5iznwrd4pmh6goitsfvnwm.appsync-api.us-east-1.amazonaws.com/graphql",
+                        "Region": "us-east-1",
+                        "AuthMode": "API_KEY",
+                        "ApiKey": "da2-oupdytoogvfklkszsmya4lw2eq",
+                        "ClientDatabasePrefix": "smartvid_API_KEY"
+                    }
+                }
+            }
+        }
+    },
+    "api": {
+        "plugins": {
+            "awsAPIPlugin": {
+                "smartvid": {
+                    "endpointType": "GraphQL",
+                    "endpoint": "https://r56j5iznwrd4pmh6goitsfvnwm.appsync-api.us-east-1.amazonaws.com/graphql",
+                    "region": "us-east-1",
+                    "authorizationType": "API_KEY",
+                    "apiKey": "da2-oupdytoogvfklkszsmya4lw2eq"
                 }
             }
         }

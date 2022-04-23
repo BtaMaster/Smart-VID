@@ -51,5 +51,32 @@
       },
       "lastPushTimeStamp": "2022-04-17T00:28:57.185Z"
     }
+  },
+  "api": {
+    "smartvid": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            }
+          },
+          "additionalAuthenticationProviders": []
+        },
+        "GraphQLAPIIdOutput": "fgxih5jxlzfxrerzvax4yj3ucq",
+        "GraphQLAPIEndpointOutput": "https://r56j5iznwrd4pmh6goitsfvnwm.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-oupdytoogvfklkszsmya4lw2eq"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-smartvid-staging-01535-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apismartvid"
+      },
+      "lastPushTimeStamp": "2022-04-21T18:43:33.462Z",
+      "lastPushDirHash": "7pLExNW/uDe3hicgy1HeKqwQEpQ="
+    }
   }
 }

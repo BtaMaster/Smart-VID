@@ -1,7 +1,18 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smartvid/Resources/classes/aws_appsync.dart';
+import 'package:smartvid/Resources/classes/cycleHelper.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+final appsyncRepository = AwsAppsyncRepository();
+final cycleHelper = CycleHelper();
 
 class TemperaturaRelativaPage extends StatefulWidget {
   const TemperaturaRelativaPage({Key? key}) : super(key: key);
@@ -12,12 +23,79 @@ class TemperaturaRelativaPage extends StatefulWidget {
 }
 
 class _TemperaturaRelativaPageState extends State<TemperaturaRelativaPage> {
-  //PublishSubject<double> eventObservable = new PublishSubject();
   double temperatura = 70.0;
   double thicknessTemp = 35.0;
   String fasereproductivaActual = "FRUCTIFICACIÓN";
-  double temperaturaminimaoptima = 10.0;
-  double temperaturamaximaoptima = 21.0;
+  String temperaturaminimaoptima = "10.0";
+  String temperaturamaximaoptima = "21.0";
+  var data;
+  @override
+  void initState() {
+    super.initState();
+    getMostRecentTemp().then((value) => setState(() {
+          temperatura = double.parse(value);
+        }));
+    getMostRecentTime().then((value) => setState(() {
+          fasereproductivaActual = cycleHelper.getCurrentCycle(value)!;
+          getTempRange();
+        }));
+    WidgetsBinding.instance?.addPostFrameCallback((_) async => {subscribe()});
+  }
+
+  void getTempRange() {
+    var range = cycleHelper.getRelativeTemps(fasereproductivaActual);
+    setState(() {
+      if (range[0] == null && range[1] == null) {
+        temperaturaminimaoptima = "-";
+        temperaturamaximaoptima = "-";
+      } else {
+        temperaturaminimaoptima = range[0].toString();
+        temperaturamaximaoptima = range[1].toString();
+      }
+    });
+  }
+
+  Future<String> getMostRecentTemp() async {
+    var temps = await AwsAppsyncRepository().listTempRelativa() ?? "";
+    var lastTemp = json.decode(temps)["listSensorTempRelativas"]["items"];
+    print("last temp" + lastTemp[0].toString());
+    return (lastTemp[0]["temperaturaRelativa"]);
+  }
+
+  Future<String> getMostRecentTime() async {
+    var temps = await AwsAppsyncRepository().listTempRelativa() ?? "";
+    var lastTemp = json.decode(temps)["listSensorTempRelativas"]["items"];
+    return (lastTemp[0]["Tiempo"]);
+  }
+
+  Future<void> subscribe() async {
+    String graphQLDocument = '''subscription subscribeTempRelativa {
+    onCreateSensorTempRelativa {
+      Tiempo
+      temperaturaRelativa
+    }
+    }
+    ''';
+    final Stream<GraphQLResponse<String>> operation = Amplify.API.subscribe(
+      GraphQLRequest<String>(document: graphQLDocument),
+      onEstablished: () => print('Subscription established'),
+    );
+
+    final StreamSubscription<GraphQLResponse<String>> subscription =
+        operation.listen(
+      (event) {
+        data = event.data;
+
+        setState(() {
+          temperatura = double.parse(
+              json.decode(data)["onCreateSensorTempRelativa"]
+                  ["temperaturaRelativa"]);
+        });
+      },
+      onError: (Object e) => print('Error in subscription stream: $e'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
