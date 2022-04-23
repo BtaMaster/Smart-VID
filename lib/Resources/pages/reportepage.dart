@@ -114,22 +114,22 @@ class _ReportePageState extends State<ReportePage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(25.0))
+                ),
+                child: Text('Gráfico de lineas Tiempo vs Parametros Meteorológicos', style: TextStyle(fontSize: 12, color: Colors.red, fontWeight: FontWeight.bold),)),
             SizedBox(
               height: screenSize.height * 0.6,
               child: FutureBuilder<List<MonitoringData>>(
                   future: _monitoringServices.getMonitoringDataList(DateFormat("yyyy-MM-ddThh:mm:ss").format(startDate), DateFormat("yyyy-MM-ddThh:mm:ss").format(lastDate)),
                   builder: (context, snapshot) {
                     if(snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      return Stack(
+                        alignment: AlignmentDirectional.topCenter,
                         children: [
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(25.0))
-                            ),
-                            child: Text('Gráfico de lineas Tiempo vs Parametros Meteorológicos', style: TextStyle(fontSize: 12, color: Colors.red, fontWeight: FontWeight.bold),)),
                           Container(
                             margin: EdgeInsets.all(10),
                             padding: EdgeInsets.all(10),
@@ -164,13 +164,16 @@ class _ReportePageState extends State<ReportePage> {
                           ),
                           Visibility(
                             visible: snapshot.data!.isEmpty,
-                            child: Container(
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.all(Radius.circular(25.0))
-                                ),
-                                child: Text('No hay datos en este rango', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),)),
+                            child: Positioned(
+                              top: 50,
+                              child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.all(Radius.circular(25.0))
+                                  ),
+                                  child: Text('No hay datos en este rango', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),)),
+                            ),
                           )
                         ],
                       );
