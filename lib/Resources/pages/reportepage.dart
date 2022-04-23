@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter/services.dart';
 
 import '../classes/monitoring_data.dart';
 import '../services/monitoring_services.dart';
@@ -30,6 +31,21 @@ class _ReportePageState extends State<ReportePage> {
     startDate = today.subtract(const Duration(days: 1));
     lastDate = today;
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+  }
+
+  @override
+  dispose(){
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
   }
 
   selectOption(int newValue){
@@ -113,96 +129,115 @@ class _ReportePageState extends State<ReportePage> {
     var screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Reporte',
-              style: GoogleFonts.lato(
-                  fontSize: 17,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400)),
-          centerTitle: true,
-        ),
         backgroundColor: HexColor.getColorfromHex(interfaceColor),
-        body: Column(
+        body: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(25.0))
+            Column(
+              children: [
+                SizedBox(
+                  height: screenSize.height * 0.12,
                 ),
-                child: Text('Gráfico de lineas Tiempo vs Parametros Meteorológicos', style: TextStyle(fontSize: 12, color: Colors.red, fontWeight: FontWeight.bold),)),
+                CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(Icons.arrow_back_ios_rounded),
+                  ),
+                ),
+              ],
+            ),
             SizedBox(
-              height: screenSize.height * 0.6,
-              child: FutureBuilder<List<MonitoringData>>(
-                  future: _monitoringServices.getMonitoringDataList(DateFormat("yyyy-MM-ddTHH:mm:ss").format(startDate), DateFormat("yyyy-MM-ddTHH:mm:ss").format(lastDate)),
-                  builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                      return Stack(
-                        alignment: AlignmentDirectional.topCenter,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(10),
-                            height: screenSize.height * 0.5,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                            ),
-                            child: SfCartesianChart(
-                              plotAreaBackgroundColor: Colors.white,
-                              plotAreaBorderWidth: 0,
-                              zoomPanBehavior: ZoomPanBehavior(enablePanning: true, enablePinching: true),
-                              legend: Legend(
-                                  textStyle: TextStyle(color: Colors.black),
-                                  position: LegendPosition.bottom,
-                                  isVisible: true,
-                                  overflowMode: LegendItemOverflowMode.wrap),
-                             //primaryXAxis: AxisFecha,
-                              primaryXAxis: DateTimeAxis(
-                                  labelAlignment: LabelAlignment.start,
-                                  minimum: startDate,
-                                  maximum: lastDate,
-                                  labelRotation: -75,
-                                  edgeLabelPlacement: EdgeLabelPlacement.shift,
-                                  labelStyle: const TextStyle(color: Colors.black, fontSize: 10),
-                                  majorGridLines: const MajorGridLines(width: 0),
-                              ),
-                              primaryYAxis: NumericAxis(
-                                //maximum: 100,
-                                  minimum: -5,
-                                  labelFormat: '{value}',
-                                  interval: 1,
-                                  axisLine: const AxisLine(width: 0),
-                                  labelStyle: const TextStyle(color: Colors.black, fontSize: 10),
-                                  majorTickLines: const MajorTickLines(color: Colors.transparent)),
-                              series: _getDefaultLineSeries(snapshot.data!),
-                              tooltipBehavior: TooltipBehavior(enable: true),
-                            ),
-                          ),
-                          Visibility(
-                            visible: snapshot.data!.isEmpty,
-                            child: Positioned(
-                              top: 50,
-                              child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.all(Radius.circular(25.0))
+              height: screenSize.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    height: screenSize.height * 0.1,
+                  ),
+                  Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(25.0))
+                      ),
+                      child: Text('Gráfico de lineas Tiempo vs Parametros Meteorológicos', style: TextStyle(fontSize: 10, color: Colors.red, fontWeight: FontWeight.bold),)),
+                  FutureBuilder<List<MonitoringData>>(
+                      future: _monitoringServices.getMonitoringDataList(DateFormat("yyyy-MM-ddTHH:mm:ss").format(startDate), DateFormat("yyyy-MM-ddTHH:mm:ss").format(lastDate)),
+                      builder: (context, snapshot) {
+                        if(snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                          return Stack(
+                            alignment: AlignmentDirectional.topCenter,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.all(10),
+                                padding: EdgeInsets.all(5),
+                                height: screenSize.height * 0.7,
+                                width: screenSize.width * 0.7,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                ),
+                                child: SfCartesianChart(
+                                  plotAreaBackgroundColor: Colors.white,
+                                  plotAreaBorderWidth: 0,
+                                  zoomPanBehavior: ZoomPanBehavior(enablePanning: true, enablePinching: true),
+                                  legend: Legend(
+                                      textStyle: TextStyle(color: Colors.black),
+                                      position: LegendPosition.left,
+                                      isVisible: true,
+                                      overflowMode: LegendItemOverflowMode.wrap),
+                                 //primaryXAxis: AxisFecha,
+                                  primaryXAxis: DateTimeAxis(
+                                      labelAlignment: LabelAlignment.start,
+                                      minimum: startDate,
+                                      maximum: lastDate,
+                                      labelRotation: -75,
+                                      edgeLabelPlacement: EdgeLabelPlacement.shift,
+                                      labelStyle: const TextStyle(color: Colors.black, fontSize: 10),
+                                      majorGridLines: const MajorGridLines(width: 0),
                                   ),
-                                  child: Text('No hay datos en este rango', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),)),
-                            ),
-                          )
-                        ],
-                      );
-                    }
-                    else{
-                      return const Center(child: CupertinoActivityIndicator(color: Colors.white,));
-                    }
-                  }
+                                  primaryYAxis: NumericAxis(
+                                    //maximum: 100,
+                                      minimum: -5,
+                                      labelFormat: '{value}',
+                                      interval: 1,
+                                      axisLine: const AxisLine(width: 0),
+                                      labelStyle: const TextStyle(color: Colors.black, fontSize: 10),
+                                      majorTickLines: const MajorTickLines(color: Colors.transparent)),
+                                  series: _getDefaultLineSeries(snapshot.data!),
+                                  tooltipBehavior: TooltipBehavior(enable: true),
+                                ),
+                              ),
+                              Visibility(
+                                visible: snapshot.data!.isEmpty,
+                                child: Positioned(
+                                  top: 50,
+                                  child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius: BorderRadius.all(Radius.circular(25.0))
+                                      ),
+                                      child: Text('No hay datos en este rango', style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),)),
+                                ),
+                              )
+                            ],
+                          );
+                        }
+                        else{
+                          return const Center(child: CupertinoActivityIndicator(color: Colors.white,));
+                        }
+                      }
+                  ),
+                ],
               ),
             ),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
