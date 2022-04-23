@@ -136,6 +136,7 @@ class _ReportePageState extends State<ReportePage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 5,
@@ -149,6 +150,75 @@ class _ReportePageState extends State<ReportePage> {
                       child: const Icon(Icons.arrow_back_ios_rounded),
                     ),
                   ),
+                  SizedBox(
+                    height: screenSize.height * 0.1,
+                  ),
+                  SizedBox(
+                    height: screenSize.height * 0.5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar (
+                              radius: 15,
+                              backgroundColor: selected == 0 ? Colors.greenAccent : Colors.red ,
+                              child:  InkWell(
+                                onTap: (){
+                                  selectOption(0);
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 5,),
+                            const Text('Hora'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 15,
+                              backgroundColor: selected == 1 ? Colors.greenAccent : Colors.red,
+                              child: InkWell(
+                                onTap: (){
+                                  selectOption(1);
+                                },),
+                            ),
+                            const SizedBox(width: 5,),
+                            const Text('Dia')
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 15,
+                              backgroundColor: selected == 2 ? Colors.greenAccent : Colors.red,
+                              child: InkWell(
+                                onTap: () {
+                                  selectOption(2);
+                                },),
+                            ),
+                            const SizedBox(width: 5,),
+                            const Text('Semana')
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            CircleAvatar (
+                              radius: 15,
+                              backgroundColor: selected == 3 ? Colors.greenAccent : Colors.red,
+                              child: InkWell(
+                                onTap: () {
+                                  selectOption(3);
+                                },),
+                            ),
+                            const SizedBox(width: 5,),
+                            const Text('Mes')
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
               SizedBox(
@@ -172,9 +242,9 @@ class _ReportePageState extends State<ReportePage> {
                               alignment: AlignmentDirectional.topCenter,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.all(8),
-                                  padding: EdgeInsets.all(5),
-                                  height: screenSize.height * 0.7,
+                                  margin: EdgeInsets.all(2),
+                                  padding: EdgeInsets.all(2),
+                                  height: screenSize.height * 0.8,
                                   width: screenSize.width * 0.8,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
@@ -228,74 +298,12 @@ class _ReportePageState extends State<ReportePage> {
                           }
                           else{
                             return SizedBox(
-                                height: screenSize.height * 0.7,
-                                width: screenSize.width * 0.8,
+                                height: screenSize.height * 0.8,
+                                width: screenSize.width * 0.9,
                                 child: const Center(child: CupertinoActivityIndicator(color: Colors.white,)));
                           }
                         }
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar (
-                              radius: 20,
-                              backgroundColor: selected == 0 ? Colors.greenAccent : Colors.red ,
-                              child:  InkWell(
-                                onTap: (){
-                                  selectOption(0);
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 5,),
-                            const Text('Hora'),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 20,
-                              backgroundColor: selected == 1 ? Colors.greenAccent : Colors.red,
-                              child: InkWell(
-                                onTap: (){
-                                  selectOption(1);
-                                },),
-                            ),
-                            const SizedBox(width: 5,),
-                            const Text('Dia')
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 20,
-                              backgroundColor: selected == 2 ? Colors.greenAccent : Colors.red,
-                              child: InkWell(
-                                onTap: () {
-                                  selectOption(2);
-                                },),
-                            ),
-                            const SizedBox(width: 5,),
-                            const Text('Semana')
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            CircleAvatar (
-                              radius: 20,
-                              backgroundColor: selected == 3 ? Colors.greenAccent : Colors.red,
-                              child: InkWell(
-                                onTap: () {
-                                  selectOption(3);
-                                },),
-                            ),
-                            const SizedBox(width: 5,),
-                            const Text('Mes')
-                          ],
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),
