@@ -22,78 +22,89 @@ class _ReportePageState extends State<ReportePage> {
   late DateTime startDate;
   late DateTime lastDate;
   int selected = 1;
+  var AxisFecha =  DateTimeAxis();
 
   @override
   void initState() {
     today = DateTime.now();
-    startDate = today;
-    lastDate = today.add(const Duration(days: 1));
+    startDate = today.subtract(const Duration(days: 1));
+    lastDate = today;
     super.initState();
   }
 
   selectOption(int newValue){
     setState((){
       selected = newValue;
+      today = DateTime.now();
       switch(newValue){
         case 0:
           lastDate = today;
           startDate = today.subtract(const Duration(hours: 1));
           break;
         case 1:
-          lastDate = today.add(const Duration(days: 1));
-          startDate = today;
+          lastDate = today;
+          startDate = today.subtract(const Duration(days: 1));
           break;
         case 2:
-          lastDate = today.add(const Duration(days: 1));
+          lastDate = today;
           startDate = today.subtract(const Duration(days: 7));
           break;
         case 3:
-          lastDate = today.add(const Duration(days: 1));
-          startDate = today.subtract(const Duration(days: 29));
+          lastDate = today;
+          startDate = today.subtract(const Duration(days: 30));
           break;
       }
+      print(startDate);
+      print(lastDate);
     });
   }
 
-  List<LineSeries<MonitoringData, String>> _getDefaultLineSeries(List<MonitoringData> chartData) {
-    return <LineSeries<MonitoringData, String>>[
-      LineSeries<MonitoringData, String>(
+  List<LineSeries<MonitoringData, DateTime>> _getDefaultLineSeries(List<MonitoringData> chartData) {
+    return <LineSeries<MonitoringData, DateTime>>[
+      LineSeries<MonitoringData, DateTime>(
         animationDuration: 2500,
         dataSource: chartData,
         width: 2,
         name: 'Humedad Suelo',
-        xValueMapper: (MonitoringData data, _) => data.time!.substring(0, 10),
-        yValueMapper: (MonitoringData data, _) => data.payload!.floorHumidity,),
-      LineSeries<MonitoringData, String>(
+        xValueMapper: (MonitoringData data, _) => data.time,
+        yValueMapper: (MonitoringData data, _) => data.payload!.floorHumidity,
+      ),
+      LineSeries<MonitoringData, DateTime>(
         animationDuration: 2500,
         dataSource: chartData,
         width: 2,
         name: 'Humedad Relativa',
-        xValueMapper: (MonitoringData data, _) => data.time!.substring(0, 10),
-        yValueMapper: (MonitoringData data, _) => data.payload!.relativeHumidity,),
-      LineSeries<MonitoringData, String>(
+        xValueMapper: (MonitoringData data, _) => data.time,
+        yValueMapper: (MonitoringData data, _) => data.payload!.relativeHumidity,
+      ),
+      LineSeries<MonitoringData, DateTime>(
         animationDuration: 2500,
         dataSource: chartData,
-        xValueMapper: (MonitoringData data, _) => data.time!.substring(0, 10),
+        xValueMapper: (MonitoringData data, _) => data.time,
         yValueMapper: (MonitoringData data, _) => data.payload!.solarLuminosity,
         width: 2,
-        name: 'Luminosidad solar',),
-      LineSeries<MonitoringData, String>(
+        name: 'Luminosidad solar',
+      ),
+      LineSeries<MonitoringData, DateTime>(
         animationDuration: 2500,
         dataSource: chartData,
-        xValueMapper: (MonitoringData data, _) => data.time!.substring(0, 10),
+        xValueMapper: (MonitoringData data, _) => data.time,
         yValueMapper: (MonitoringData data, _) => data.payload!.floorTemperature,
         width: 2,
-        name: 'Temperatura Suelo',),
-      LineSeries<MonitoringData, String>(
+        name: 'Temperatura Suelo',
+      ),
+      LineSeries<MonitoringData, DateTime>(
         animationDuration: 2500,
         dataSource: chartData,
         width: 2,
         name: 'Temperatura Relativa',
-        xValueMapper: (MonitoringData data, _) => data.time!.substring(0, 10),
-        yValueMapper: (MonitoringData data, _) => data.payload!.relativeTemperature,)
+        xValueMapper: (MonitoringData data, _) => data.time,
+        yValueMapper: (MonitoringData data, _) => data.payload!.relativeTemperature,
+        //dataLabelSettings:const DataLabelSettings(isVisible : true)
+      )
     ];
   }
+
 
 
   @override
@@ -124,7 +135,7 @@ class _ReportePageState extends State<ReportePage> {
             SizedBox(
               height: screenSize.height * 0.6,
               child: FutureBuilder<List<MonitoringData>>(
-                  future: _monitoringServices.getMonitoringDataList(DateFormat("yyyy-MM-ddThh:mm:ss").format(startDate), DateFormat("yyyy-MM-ddThh:mm:ss").format(lastDate)),
+                  future: _monitoringServices.getMonitoringDataList(DateFormat("yyyy-MM-ddTHH:mm:ss").format(startDate), DateFormat("yyyy-MM-ddTHH:mm:ss").format(lastDate)),
                   builder: (context, snapshot) {
                     if(snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
                       return Stack(
@@ -146,10 +157,16 @@ class _ReportePageState extends State<ReportePage> {
                                   position: LegendPosition.bottom,
                                   isVisible: true,
                                   overflowMode: LegendItemOverflowMode.wrap),
-                              primaryXAxis: CategoryAxis(
+                             //primaryXAxis: AxisFecha,
+                              primaryXAxis: DateTimeAxis(
+                                  labelAlignment: LabelAlignment.start,
+                                  minimum: startDate,
+                                  maximum: lastDate,
+                                  labelRotation: -75,
                                   edgeLabelPlacement: EdgeLabelPlacement.shift,
                                   labelStyle: const TextStyle(color: Colors.black, fontSize: 10),
-                                  majorGridLines: const MajorGridLines(width: 0)),
+                                  majorGridLines: const MajorGridLines(width: 0),
+                              ),
                               primaryYAxis: NumericAxis(
                                 //maximum: 100,
                                   minimum: -5,

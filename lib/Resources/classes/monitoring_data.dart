@@ -1,6 +1,6 @@
 class MonitoringData{
   Payload? payload;
-  String? time;
+  DateTime? time;
 
   MonitoringData({this.payload, this.time});
 
@@ -8,7 +8,7 @@ class MonitoringData{
     Map<String, dynamic> monitoringDataJson = json;
     return MonitoringData(
         payload: Payload.fromJson(monitoringDataJson['payload']),
-        time: monitoringDataJson['Tiempo']
+        time: DateTime.parse(monitoringDataJson['Tiempo'])
     );
   }
 
