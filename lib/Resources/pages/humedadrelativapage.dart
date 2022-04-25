@@ -21,7 +21,7 @@ class HumedadRelativaPage extends StatefulWidget {
 }
 
 class _HumedadRelativaPageState extends State<HumedadRelativaPage> {
-  //PublishSubject<double> eventObservable = new PublishSubject();
+
   double humedad = 70.0;
   double thicknessMeter = 35.0;
   String fasereproductivaActual = "FRUCTIFICACIÓN";
