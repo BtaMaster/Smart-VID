@@ -6,6 +6,8 @@ class MonitoringServices{
 
   Future<List<MonitoringData>> getMonitoringDataList(String startDate, String lastDate) async{
 
+    print(startDate);
+    print(lastDate);
     final dio = Dio();
 
     var uri = 'https://17bcyenclj.execute-api.us-east-1.amazonaws.com/produccion/reportes';

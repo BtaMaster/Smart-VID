@@ -22,13 +22,13 @@ class _ReportePageState extends State<ReportePage> {
   late DateTime today;
   late DateTime startDate;
   late DateTime lastDate;
-  int selected = 1;
+  int selected = 0;
   var AxisFecha =  DateTimeAxis();
 
   @override
   void initState() {
     today = DateTime.now();
-    startDate = today.subtract(const Duration(days: 1));
+    startDate = today.subtract(const Duration(hours: 1));
     lastDate = today;
     super.initState();
     SystemChrome.setPreferredOrientations([
@@ -166,6 +166,7 @@ class _ReportePageState extends State<ReportePage> {
                     //     ),
                     //     child: Text('Gráfico de lineas Tiempo vs Parametros Meteorológicos', style: TextStyle(fontSize: 10, color: Colors.red, fontWeight: FontWeight.bold),)),
                     FutureBuilder<List<MonitoringData>>(
+
                         future: _monitoringServices.getMonitoringDataList(DateFormat("yyyy-MM-ddTHH:mm:ss").format(startDate), DateFormat("yyyy-MM-ddTHH:mm:ss").format(lastDate)),
                         builder: (context, snapshot) {
                           if(snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
