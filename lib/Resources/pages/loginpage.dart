@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartvid/Resources/pages/homepage.dart';
+import 'package:smartvid/Resources/pages/registerpage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import '../classes/aws_cognito.dart';
 
@@ -94,13 +95,22 @@ class _LoginState extends State<LoginPage> {
                       primary: HexColor.getColorfromHex(calendarColor),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 50, vertical: 20)),
-                  onPressed: () {
-                    cognitoRepository.login(
+                  onPressed: () async {
+                    await cognitoRepository.login(
                         emaillController.text, passwordController.text);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
-                    );
+                    var loggedIn;
+                    await cognitoRepository
+                        .isLoggedIn()
+                        .then((value) => {
+                          loggedIn = value
+                        });
+                    if (loggedIn == true) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()),
+                      );
+                    } else {}
                   },
                   child: const Text('Iniciar Sesión'),
                 )),
@@ -111,6 +121,21 @@ class _LoginState extends State<LoginPage> {
                         textStyle: const TextStyle(fontSize: 10)),
                     onPressed: () {},
                     child: const Text('¿Olvidaste la contraseña?'),
+                  ),
+                ),
+                const Spacer(flex: 1),
+                Center(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 10)),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RegisterPage()),
+                      );
+                    },
+                    child: const Text('Crear Cuenta'),
                   ),
                 ),
                 const Spacer(flex: 1)

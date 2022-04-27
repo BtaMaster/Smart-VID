@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartvid/Resources/pages/homepage.dart';
+import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 
 import '../classes/aws_cognito.dart';
@@ -126,18 +127,26 @@ class _RegisterPageState extends State<RegisterPage> {
                       primary: HexColor.getColorfromHex(calendarColor),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 50, vertical: 20)),
-                  onPressed: () {
+                  onPressed: () async {
                     //Aquí iría la validación de los campos:
                     if (nameController.text.isEmpty) {
                       errorNombres = 'Campo vacío';
                     } else {
-                      cognitoRepository.signup(emailControler.text,
+                      await cognitoRepository.signup(emailControler.text,
                           passwordController.text, nameController.text);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()),
-                    );
+                      await cognitoRepository.login(emailControler.text,
+                          passwordController.text);
+                      var loggedIn;
+                      await cognitoRepository
+                          .isLoggedIn()
+                          .then((value) => {loggedIn = value});
+                      if (loggedIn == true) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()),
+                        );
+                      } else {}
                     }
                   },
                   child: const Text('Crear Cuenta'),
@@ -147,7 +156,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 10)),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()),
+                      );
+                    },
                     child: const Text('Inicio de Sesión'),
                   ),
                 ),

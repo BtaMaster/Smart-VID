@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -10,13 +11,10 @@ final userPool = CognitoUserPool(
 );
 
 class AWSCognitoRepository {
-  Future<void> signup(
-      String email, String password, String name) async {
+  Future<void> signup(String email, String password, String name) async {
     try {
-      final CognitoSignUpOptions options =
-          CognitoSignUpOptions(userAttributes: {
-        CognitoUserAttributeKey.parse('name'): name
-      });
+      final CognitoSignUpOptions options = CognitoSignUpOptions(
+          userAttributes: {CognitoUserAttributeKey.parse('name'): name});
       await Amplify.Auth.signUp(
           username: email, password: password, options: options);
       print("User $email created!.");
@@ -31,19 +29,33 @@ class AWSCognitoRepository {
     try {
       await Amplify.Auth.signIn(username: email, password: password);
       print("User $email logged in!.");
-      getUser(email, password).then((value) => print(value));
+      getUser().then((value) => print(value));
     } on Exception {
       print("User $email login failed.");
       rethrow;
     }
   }
 
-  Future<String?> getUser(String email, String password) async {
+  Future<String?> getUser() async {
     try {
       final awsUser = await Amplify.Auth.getCurrentUser();
       return awsUser.username.toString();
     } catch (e) {
       return null;
+    }
+  }
+
+  Future<bool> isLoggedIn() async {
+    try {
+      final awsUser = await Amplify.Auth.getCurrentUser();
+      print("LOGIN RESULT: " + awsUser.toString());
+      if (awsUser != null) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
     }
   }
 
