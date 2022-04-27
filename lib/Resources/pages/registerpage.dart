@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartvid/Resources/pages/homepage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 
 import '../classes/aws_cognito.dart';
@@ -130,11 +131,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     if (nameController.text.isEmpty) {
                       errorNombres = 'Campo vacío';
                     } else {
-                      cognitoRepository.signup(
-                          emailControler.text,
-                          passwordController.text,
-                          nameController.text
-                          );
+                      cognitoRepository.signup(emailControler.text,
+                          passwordController.text, nameController.text);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomePage()),
+                    );
                     }
                   },
                   child: const Text('Crear Cuenta'),

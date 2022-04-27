@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartvid/Resources/pages/homepage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import '../classes/aws_cognito.dart';
 
@@ -96,6 +97,10 @@ class _LoginState extends State<LoginPage> {
                   onPressed: () {
                     cognitoRepository.login(
                         emaillController.text, passwordController.text);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                    );
                   },
                   child: const Text('Iniciar Sesión'),
                 )),
