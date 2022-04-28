@@ -36,6 +36,7 @@ void main() async {
   await Amplify.configure(amplifyconfig);
   var loggedIn = false;
   await cognitoRepository.isLoggedIn().then((value) => loggedIn = value);
+  //await cognitoRepository.Test();
   runApp(MaterialApp(
       title: "Smart VID",
       home: MyApp(loggedIn),
@@ -57,5 +58,4 @@ class MyApp extends StatelessWidget {
       return const LoginPage();
     }
   }
-
 }

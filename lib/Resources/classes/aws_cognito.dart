@@ -5,11 +5,6 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-final userPool = CognitoUserPool(
-  dotenv.env['USER_POOL_ID'] ?? '', //UserPoolId
-  dotenv.env['USER_POOL_CLIENTID'] ?? '', //clientId
-);
-
 class AWSCognitoRepository {
   Future<void> signup(String email, String password, String name) async {
     try {
@@ -38,11 +33,16 @@ class AWSCognitoRepository {
 
   Future<String?> getUser() async {
     try {
+
       final awsUser = await Amplify.Auth.getCurrentUser();
       return awsUser.username.toString();
     } catch (e) {
       return null;
     }
+  }
+
+  Future<void> Test() async {
+    print(await Amplify.Auth.fetchDevices());
   }
 
   Future<bool> isLoggedIn() async {
