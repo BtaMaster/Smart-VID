@@ -1,5 +1,9 @@
 buildscript {
+<<<<<<< HEAD
     ext.kotlin_version = '1.6.10'
+=======
+    ext.kotlin_version = '1.6.20'
+>>>>>>> aria/week6
     repositories {
         google()
         mavenCentral()
