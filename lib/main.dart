@@ -1,11 +1,8 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:provider/provider.dart';
-=======
 import 'package:smartvid/Resources/classes/aws_cognito.dart';
->>>>>>> aria/week6
 import 'package:smartvid/Resources/classes/fases.dart';
 import 'package:smartvid/Resources/pages/calendariopage.dart';
 import 'package:smartvid/Resources/pages/calendariodetallepage.dart';
