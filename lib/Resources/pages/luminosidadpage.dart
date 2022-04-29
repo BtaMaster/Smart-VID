@@ -1,7 +1,17 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smartvid/Resources/classes/aws_appsync.dart';
+import 'package:smartvid/Resources/classes/cycleHelper.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+final appsyncRepository = AwsAppsyncRepository();
+final cycleHelper = CycleHelper();
 
 class LuminosidadPage extends StatefulWidget {
   const LuminosidadPage({Key? key}) : super(key: key);
@@ -15,8 +25,78 @@ class _LuminosidadPageState extends State<LuminosidadPage> {
   double luminosidad = 70000.0;
   double thicknessMeter = 32.0;
   String fasereproductivaActual = "FRUCTIFICACIÓN";
-  double luminosidadminimaoptima = 40000.0;
-  double luminosidadmaximamaoptima = 80000.0;
+  String luminosidadminimaoptima = "40000.0";
+  String luminosidadmaximamaoptima = "80000.0";
+  var data;
+
+  @override
+  void initState() {
+    super.initState();
+    getMostRecentHumd().then((value) => setState(() {
+          luminosidad = double.parse(value);
+        }));
+    getMostRecentTime().then((value) => setState(() {
+          fasereproductivaActual = cycleHelper.getCurrentCycle(value)!;
+          getHumdRange();
+        }));
+    WidgetsBinding.instance?.addPostFrameCallback((_) async => {subscribe()});
+  }
+
+  void getHumdRange() {
+    var range = cycleHelper.getRelativeHumities(fasereproductivaActual);
+    setState(() {
+      if (range[0] == null && range[1] == null) {
+        luminosidadminimaoptima = "-";
+        luminosidadmaximamaoptima = "-";
+      } else {
+        luminosidadminimaoptima = range[0].toString();
+        luminosidadmaximamaoptima = range[1].toString();
+      }
+    });
+  }
+
+  Future<String> getMostRecentHumd() async {
+    var luminosidades = await AwsAppsyncRepository().listLuminosidad() ?? "";
+    print("luminosidades: " + luminosidades.toString());
+    var lastLum = json.decode(luminosidades)["listSensorLuminosidads"]["items"];
+    print("last " + lastLum[0].toString());
+    return (lastLum[0]["luminosidadSolar"]);
+  }
+
+  Future<String> getMostRecentTime() async {
+    var luminosidades = await AwsAppsyncRepository().listLuminosidad() ?? "";
+    var lastLum = json.decode(luminosidades)["listSensorLuminosidads"]["items"];
+    return (lastLum[0]["Tiempo"]);
+  }
+
+  Future<void> subscribe() async {
+    String graphQLDocument = '''subscription subscribeLuminosidad {
+      onCreateSensorLuminosidad {
+        Tiempo
+        luminosidadSolar
+      }
+    }''';
+  
+    final Stream<GraphQLResponse<String>> operation = Amplify.API.subscribe(
+      GraphQLRequest<String>(document: graphQLDocument),
+      onEstablished: () => print('Subscription established'),
+    );
+
+    final StreamSubscription<GraphQLResponse<String>> subscription =
+        operation.listen(
+      (event) {
+        data = event.data;
+
+        setState(() {
+          luminosidad = double.parse(json
+              .decode(data)["onCreateSensorLuminosidad"]["luminosidadSolar"]);
+        });
+      },
+      onError: (Object e) => print('Error in subscription stream: $e'),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

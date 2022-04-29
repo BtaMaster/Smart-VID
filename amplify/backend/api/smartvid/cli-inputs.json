@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "smartvid",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "C:\\Users\\Arix\\Documents\\UPC\\TDP\\Sem04AgriculturaIoT\\Smart-VID\\amplify\\backend\\api\\smartvid\\schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    }
+  }
+}

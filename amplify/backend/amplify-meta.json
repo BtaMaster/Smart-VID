@@ -1,0 +1,82 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-smartvid-staging-01535-authRole",
+      "UnauthRoleArn": "arn:aws:iam::067520880013:role/amplify-smartvid-staging-01535-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::067520880013:role/amplify-smartvid-staging-01535-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-smartvid-staging-01535-deployment",
+      "UnauthRoleName": "amplify-smartvid-staging-01535-unauthRole",
+      "StackName": "amplify-smartvid-staging-01535",
+      "StackId": "arn:aws:cloudformation:us-east-1:067520880013:stack/amplify-smartvid-staging-01535/80e6adb0-bde3-11ec-b1f1-0ec1afcbebaf",
+      "AmplifyAppId": "d1jlm5hp7qnh6z"
+    }
+  },
+  "auth": {
+    "smartvid": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "output": {
+        "UserPoolId": "us-east-1_unzLgyRjc",
+        "UserPoolName": "usuariosSmartVid",
+        "AppClientID": "2foldrl1l4jgr2mkp8ammjk20g",
+        "AppClientIDWeb": "2foldrl1l4jgr2mkp8ammjk20g"
+      },
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [
+          "NAME",
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_UPPERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS"
+          ]
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "lastPushTimeStamp": "2022-04-17T00:28:57.185Z"
+    }
+  },
+  "api": {
+    "smartvid": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            }
+          },
+          "additionalAuthenticationProviders": []
+        },
+        "GraphQLAPIIdOutput": "fgxih5jxlzfxrerzvax4yj3ucq",
+        "GraphQLAPIEndpointOutput": "https://r56j5iznwrd4pmh6goitsfvnwm.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-oupdytoogvfklkszsmya4lw2eq"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-smartvid-staging-01535-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apismartvid"
+      },
+      "lastPushTimeStamp": "2022-04-22T18:28:16.641Z",
+      "lastPushDirHash": "7pLExNW/uDe3hicgy1HeKqwQEpQ="
+    }
+  }
+}

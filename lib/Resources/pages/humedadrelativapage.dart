@@ -1,7 +1,17 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smartvid/Resources/classes/aws_appsync.dart';
+import 'package:smartvid/Resources/classes/cycleHelper.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+final appsyncRepository = AwsAppsyncRepository();
+final cycleHelper = CycleHelper();
 
 class HumedadRelativaPage extends StatefulWidget {
   const HumedadRelativaPage({Key? key}) : super(key: key);
@@ -11,12 +21,82 @@ class HumedadRelativaPage extends StatefulWidget {
 }
 
 class _HumedadRelativaPageState extends State<HumedadRelativaPage> {
-  //PublishSubject<double> eventObservable = new PublishSubject();
+
   double humedad = 70.0;
   double thicknessMeter = 35.0;
   String fasereproductivaActual = "FRUCTIFICACIÓN";
-  double humedadminimaoptima = 10.0;
-  double humedadmaximaoptima = 21.0;
+  String humedadminimaoptima = "10.0";
+  String humedadmaximaoptima = "21.0";
+  var data;
+
+ @override
+  void initState() {
+    super.initState();
+    getMostRecentHumd().then((value) => setState(() {
+          humedad = double.parse(value);
+        }));
+    getMostRecentTime().then((value) => setState(() {
+          fasereproductivaActual = cycleHelper.getCurrentCycle(value)!;
+          getHumdRange();
+        }));
+    WidgetsBinding.instance?.addPostFrameCallback((_) async => {subscribe()});
+  }
+
+  void getHumdRange() {
+    var range = cycleHelper.getRelativeHumities(fasereproductivaActual);
+    setState(() {
+      if (range[0] == null && range[1] == null) {
+        humedadminimaoptima = "-";
+        humedadmaximaoptima = "-";
+      } else {
+        humedadminimaoptima = range[0].toString();
+        humedadmaximaoptima = range[1].toString();
+      }
+    });
+  }
+
+  Future<String> getMostRecentHumd() async {
+    var humedades = await AwsAppsyncRepository().listHumedRelativa() ?? "";
+    print("humedades: " + humedades.toString());
+    var lastHumed = json.decode(humedades)["listSensorHumedRelativas"]["items"];
+    print("last " + lastHumed[0].toString());
+    return (lastHumed[0]["humedadRelativa"]);
+  }
+
+  Future<String> getMostRecentTime() async {
+    var humedades = await AwsAppsyncRepository().listHumedRelativa() ?? "";
+    var lastTemp = json.decode(humedades)["listSensorHumedRelativas"]["items"];
+    return (lastTemp[0]["Tiempo"]);
+  }
+
+  Future<void> subscribe() async {
+    String graphQLDocument = '''subscription subscribeHumdRelativa {
+      onCreateSensorHumedRelativa {
+        Tiempo
+        humedadRelativa
+      }
+    }
+    ''';
+    final Stream<GraphQLResponse<String>> operation = Amplify.API.subscribe(
+      GraphQLRequest<String>(document: graphQLDocument),
+      onEstablished: () => print('Subscription established'),
+    );
+
+    final StreamSubscription<GraphQLResponse<String>> subscription =
+        operation.listen(
+      (event) {
+        data = event.data;
+
+        setState(() {
+          humedad = double.parse(
+              json.decode(data)["onCreateSensorHumedRelativa"]["humedadRelativa"]);
+        });
+      },
+      onError: (Object e) => print('Error in subscription stream: $e'),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

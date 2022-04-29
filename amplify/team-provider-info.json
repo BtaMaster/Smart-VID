@@ -1,0 +1,25 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-smartvid-staging-01535-authRole",
+      "UnauthRoleArn": "arn:aws:iam::067520880013:role/amplify-smartvid-staging-01535-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::067520880013:role/amplify-smartvid-staging-01535-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-smartvid-staging-01535-deployment",
+      "UnauthRoleName": "amplify-smartvid-staging-01535-unauthRole",
+      "StackName": "amplify-smartvid-staging-01535",
+      "StackId": "arn:aws:cloudformation:us-east-1:067520880013:stack/amplify-smartvid-staging-01535/80e6adb0-bde3-11ec-b1f1-0ec1afcbebaf",
+      "AmplifyAppId": "d1jlm5hp7qnh6z"
+    },
+    "categories": {
+      "auth": {
+        "smartvid": {
+          "userPoolId": "us-east-1_unzLgyRjc",
+          "userPoolName": "usuariosSmartVid",
+          "webClientId": "2foldrl1l4jgr2mkp8ammjk20g",
+          "nativeClientId": "2foldrl1l4jgr2mkp8ammjk20g"
+        }
+      }
+    }
+  }
+}
