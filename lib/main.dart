@@ -26,12 +26,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'Resources/classes/notificacion.dart';
 
 
-Future<void> backgroundHandler(RemoteMessage message) async {
+/*Future<void> backgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('Data: ${message.data.toString()}');
   print('Título de la Notificación: ${message.notification!.title}');
   print('Descripción de la Notificación: ${message.notification!.body}');
-}
+}*/
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
   late final Notificacion notificacion;
 
 
-  @override
+/*@override
   void initState(){
     super.initState();
     final messaging = FirebaseMessaging.instance;
@@ -74,11 +74,11 @@ class _MyAppState extends State<MyApp> {
     */
    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       await Firebase.initializeApp();
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
+      print('Mensaje con aplicación Abierta');
+      print('Data del Mensaje: ${message.data}');
       if (message.notification != null) {
-        print('Message also contained a Title notification: ${message.notification!.title}');
-        print('Message also contained a Description notification: ${message.notification!.body}');
+        print('Título de Notificacion: ${message.notification!.title}');
+        print('Descripcion de Notificacion: ${message.notification!.body}');
       }
    });
 
@@ -124,7 +124,7 @@ class _MyAppState extends State<MyApp> {
      }
     });
 
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
