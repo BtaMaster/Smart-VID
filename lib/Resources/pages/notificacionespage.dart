@@ -70,10 +70,6 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
               subtitle: notificaciones[index].mensaje != null
                   ? Text(notificaciones[index].mensaje ?? '')
                   : null,
-              leading: Container(
-                padding: const EdgeInsets.only(left: 5),
-                child: notificaciones[index].widget,
-              ),
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(

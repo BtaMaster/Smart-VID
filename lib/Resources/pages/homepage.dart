@@ -5,19 +5,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smartvid/Resources/classes/aws_cognito.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
-
 import '../classes/notificacion.dart';
 import '../provider/push_notifications_provider.dart';
 import 'notificaciondetallepage.dart';
 import 'notificacionespage.dart';
 
 
-/*Future<void> backgroundHandler(RemoteMessage message) async {
+Future<void> backgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('Data: ${message.data.toString()}');
   print('Título de la Notificación: ${message.notification!.title}');
   print('Descripción de la Notificación: ${message.notification!.body}');
-}*/
+}
 
 
 final cognitoRepository = AWSCognitoRepository();
@@ -32,7 +31,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
- /*@override
+ @override
   void initState(){
     super.initState();
     final messaging = FirebaseMessaging.instance;
@@ -103,7 +102,7 @@ class _HomePageState extends State<HomePage> {
     });
 
   }
-*/
+
 
 
 
