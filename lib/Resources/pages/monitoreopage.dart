@@ -117,12 +117,16 @@ class _MonitoreoPageState extends State<MonitoreoPage> {
             ),
             Card(
               color: Theme.of(context).colorScheme.primary,
-              child: Column(children: [
+              child: Column(children:
+              [
                 Flexible(
-                  child: Image(
+                  child:
+                  Image(
                       image: const AssetImage("assets/images/logo.jpg"),
                       width: MediaQuery.of(context).size.width / 3,
-                      height: MediaQuery.of(context).size.width / 3),
+                      height: MediaQuery.of(context).size.width / 3
+
+                  ),
                   flex: 6,
                 ),
                 const Spacer(),
@@ -145,6 +149,7 @@ class _MonitoreoPageState extends State<MonitoreoPage> {
                       height: MediaQuery.of(context).size.width / 3),
                   flex: 6,
                 ),
+
                 const Spacer(),
                 Flexible(
                     flex: 2,
@@ -152,7 +157,8 @@ class _MonitoreoPageState extends State<MonitoreoPage> {
                         style: GoogleFonts.lato(
                             fontSize: 16,
                             color: Colors.white,
-                            fontWeight: FontWeight.w400))),
+                            fontWeight: FontWeight.w400)
+                    )),
               ]),
             ),
           ],

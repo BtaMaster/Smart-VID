@@ -3,10 +3,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smartvid/Resources/classes/aws_cognito.dart';
+import 'package:smartvid/Resources/pages/calendariopage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
+import 'package:smartvid/Resources/pages/reportepage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import '../classes/notificacion.dart';
 import '../provider/push_notifications_provider.dart';
+import 'monitoreopage.dart';
 import 'notificaciondetallepage.dart';
 import 'notificacionespage.dart';
 
@@ -172,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const HomePage()),
+                              builder: (context) => const MonitoreoPage()),
                         );
                       },
                     )),
@@ -195,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const HomePage()),
+                              builder: (context) => const NotificacionesPage()),
                         );
                       },
                     )),
@@ -218,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const HomePage()),
+                              builder: (context) => const CalendarioPage()),
                         );
                       },
                     )),
@@ -264,7 +267,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const HomePage()),
+                              builder: (context) => const ReportePage()),
                         );
                       },
                     )),
