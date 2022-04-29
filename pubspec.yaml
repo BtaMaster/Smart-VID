@@ -42,6 +42,9 @@ dependencies:
   flutter_map: ^0.14.0
   material_design_icons_flutter: ^5.0.6295
   table_calendar: ^3.0.3
+  flutter_local_notifications: ^9.2.0
+  firebase_core: ^1.14.1
+  firebase_messaging: ^11.2.13
   provider: ^6.0.2
   amplify_auth_cognito: <1.0.0
   amplify_flutter: <1.0.0
@@ -49,6 +52,7 @@ dependencies:
   flutter_riverpod: ^1.0.3
   amazon_cognito_identity_dart_2: ^2.0.0
   flutter_dotenv: ^5.0.2
+
 
 dev_dependencies:
   flutter_test:

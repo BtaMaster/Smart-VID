@@ -1,10 +1,27 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smartvid/Resources/classes/aws_cognito.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 
+import '../classes/notificacion.dart';
+import '../provider/push_notifications_provider.dart';
+import 'notificaciondetallepage.dart';
+import 'notificacionespage.dart';
+
+
+/*Future<void> backgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('Data: ${message.data.toString()}');
+  print('Título de la Notificación: ${message.notification!.title}');
+  print('Descripción de la Notificación: ${message.notification!.body}');
+}*/
+
+
 final cognitoRepository = AWSCognitoRepository();
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,6 +31,83 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+ /*@override
+  void initState(){
+    super.initState();
+    final messaging = FirebaseMessaging.instance;
+    PushNotificationProvider().initNotifications();
+    /*
+      //Configuración para Apple
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+    print('User granted permission: ${settings.authorizationStatus}');
+    */
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      await Firebase.initializeApp();
+      print('Mensaje con aplicación Abierta');
+      print('Data del Mensaje: ${message.data}');
+      if (message.notification != null) {
+        print('Título de Notificacion: ${message.notification!.title}');
+        print('Descripcion de Notificacion: ${message.notification!.body}');
+      }
+    });
+
+
+    //Notificación cuando la aplicación esta en segundo plano
+    FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+
+    //Ruta de navegación al abrir el mensaje de la notificación
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      if(message.data != null){
+        switch(message.data['problema']){
+          case 'Humedad Relativa':
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+              (notificacion: NotificacionHumedadRelativa(message.notification!.body.toString(),
+                valorDetectado: message.data['valorDetectado']))));
+            break;
+          case 'Luminosidad Solar':
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+              (notificacion: NotificacionLuminosidadSolar(message.notification!.body.toString(),
+                valorDetectado: message.data['valorDetectado']))));
+            break;
+          case 'Temperatura Relativa':
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+              (notificacion: NotificacionTemperaturaRelativa(message.notification!.body.toString(),
+                valorDetectado: message.data['valorDetectado']))));
+            break;
+          case 'Temperatura Suelo':
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+              (notificacion: NotificacionTemperaturaSuelo(message.notification!.body.toString(),
+                valorDetectado: message.data['valorDetectado']))));
+            break;
+          case 'Humedad Suelo':
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+              (notificacion: NotificacionHumedadSuelo(message.notification!.body.toString(),
+                valorDetectado: message.data['valorDetectado']))));
+            break;
+          default:
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder:
+                (context) => const NotificacionesPage()));
+            break;
+        }
+      }
+    });
+
+  }
+*/
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

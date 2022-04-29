@@ -43,7 +43,7 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
         "Se detectó un valor fuera del rango optimo de humedad relativa."),
     NotificacionTemperaturaRelativa(
         "Se detectó un valor fuera del rango optimo de temperatura suelo."),
-    NotificacionHumedadSuelo(
+    NotificacionTemperaturaSuelo(
         "Se detectó un valor fuera del rango optimo de humedad de suelo."),
   ];
   @override
