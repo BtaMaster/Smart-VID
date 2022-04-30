@@ -1,18 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:smartvid/Resources/pages/calendariodetallepage.dart';
-import 'package:smartvid/Resources/util/colors.dart';
 
-import 'calendarioreproductivopage.dart';
+import '../util/colors.dart';
+import 'calendariodetallepage.dart';
 
-class CalendarioPage extends StatelessWidget {
-  const CalendarioPage({Key? key}) : super(key: key);
+class MenuAlarmas extends StatefulWidget {
+  const MenuAlarmas({Key? key}) : super(key: key);
 
+  @override
+  State<MenuAlarmas> createState() => _MenuAlarmasState();
+}
+
+class _MenuAlarmasState extends State<MenuAlarmas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("CALENDARIO"),
+          title: Text("ALARMA"),
           centerTitle: true,
         ),
         backgroundColor: HexColor.getColorfromHex(interfaceColor),
@@ -30,23 +35,26 @@ class CalendarioPage extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(MdiIcons.barley),
+                    const ImageIcon(AssetImage('assets/images/siembra.png')),
                     Container(
                       width: MediaQuery.of(context).size.width / 16,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 2,
                       child: const Text(
-                        'CALENDARIO\nVEGETATIVO',
+                        'Alarma de Siembra',
                         textAlign: TextAlign.center,
                       ),
                     )
                   ],
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => 
-                    const CalendarioDetallePage(tipoCalendario: 'VEGETATIVO',)
-                  ));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CalendarioDetallePage(
+                                tipoCalendario: 'VEGETATIVO',
+                              )));
                 },
               ),
             ),
@@ -63,23 +71,26 @@ class CalendarioPage extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(MdiIcons.fruitGrapes),
+                    const ImageIcon(AssetImage('assets/images/cosecha.png')),
                     Container(
                       width: MediaQuery.of(context).size.width / 16,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 2,
                       child: const Text(
-                        'CALENDARIO\nREPRODUCTIVO',
+                        'Alarma de Cosecha',
                         textAlign: TextAlign.center,
                       ),
                     )
                   ],
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => 
-                    const CalendarioDetallePage(tipoCalendario: 'REPRODUCTIVO',)
-                  ));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CalendarioDetallePage(
+                                tipoCalendario: 'REPRODUCTIVO',
+                              )));
                 },
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smartvid/Resources/pages/menualarmas.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -136,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      MaterialPageRoute(builder: (context) => const MenuAlarmas()),
                     );
                   },
                 )),

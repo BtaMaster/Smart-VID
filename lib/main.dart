@@ -30,21 +30,6 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    DateTime fechaActual = DateTime.now();
-    var faseActual1;
-    if (fechaActual.isAfter(DateTime(DateTime.now().year, 5, 1)) && fechaActual.isBefore(DateTime(DateTime.now().year, 9, 15))) {
-      faseActual1 = FaseCrecimientoOrganosVegetativos();
-    }
-    else if (fechaActual.isAfter(DateTime(DateTime.now().year, 9, 16)) && fechaActual.isBefore(DateTime(DateTime.now().year, 11, 31))) {
-      faseActual1 = FaseAgostamiento();
-    }
-    else if (fechaActual.isAfter(DateTime.now().month == 12 ? DateTime(DateTime.now().year, 12, 1) : DateTime(DateTime.now().year-1, 12, 1)) && fechaActual.isBefore(DateTime.now().month == 12 ? DateTime(DateTime.now().year + 1, 4, 30) : DateTime(DateTime.now().year, 4, 30))) {
-      faseActual1 = FaseReposoInvernal();
-    }
-    else {
-      faseActual1 = FaseNula();
-    }
-
     return Scaffold(
         appBar: AppBar(title: const Text('Smart VID')),
         body: ListView(children: <Widget>[
@@ -190,10 +175,8 @@ class MyApp extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => CalendarioDetallePage(
-                          tipoCalendario: "VEGETATIVO",
-                          fase1: faseActual1,
-                          fase2: FaseCrecimientoOrganosVegetativos(),
+                    builder: (context) => const CalendarioDetallePage(
+                          tipoCalendario: "VEGETATIVO"
                         )),
               );
             },
@@ -204,10 +187,8 @@ class MyApp extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => CalendarioDetallePage(
+                    builder: (context) => const CalendarioDetallePage(
                           tipoCalendario: "REPRODUCTIVO",
-                          fase1: FaseCrecimientoOrganosVegetativos(),
-                          fase2: FaseCrecimientoOrganosVegetativos(),
                         )),
               );
             },
