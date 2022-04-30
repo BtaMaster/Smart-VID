@@ -240,13 +240,13 @@ class _HomePageState extends State<HomePage> {
                       trailing: Icon(Icons.alarm,
                           size: MediaQuery.of(context).size.height / 18,
                           color: Colors.black),
-                      onTap: () {
+                      /*onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const HomePage()),
+                              builder: (context) => const AlarmaPage()),
                         );
-                      },
+                      },*/
                     )),
                 Theme(
                     data: Theme.of(context).copyWith(

@@ -34,7 +34,7 @@ class NotificacionLuminosidadSolar extends Notificacion {
             mensaje: mensaje,
             horaOcurrencia:
                 DateFormat('kk:mm \n EEE d MMM').format(DateTime.now()),
-            valorOptimo: "40000 lux - 80000 lux",
+            valorOptimo: "40000-80000 Lux",
             valorDetectado: valorDetectado);
 }
 
