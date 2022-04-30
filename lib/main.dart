@@ -21,18 +21,30 @@ import 'package:latlong2/latlong.dart';
 
 import 'Resources/pages/reportepage.dart';
 
-
-void main() => runApp(
-    MaterialApp(
-      title: "Smart VID",
-      home: const MyApp(),
-      theme: ThemeData(primarySwatch: HexColor.getMaterialColor(headColor)))
-);
+void main() => runApp(MaterialApp(
+    title: "Smart VID",
+    home: const MyApp(),
+    theme: ThemeData(primarySwatch: HexColor.getMaterialColor(headColor))));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    DateTime fechaActual = DateTime.now();
+    var faseActual1;
+    if (fechaActual.isAfter(DateTime(DateTime.now().year, 5, 1)) && fechaActual.isBefore(DateTime(DateTime.now().year, 9, 15))) {
+      faseActual1 = FaseCrecimientoOrganosVegetativos();
+    }
+    else if (fechaActual.isAfter(DateTime(DateTime.now().year, 9, 16)) && fechaActual.isBefore(DateTime(DateTime.now().year, 11, 31))) {
+      faseActual1 = FaseAgostamiento();
+    }
+    else if (fechaActual.isAfter(DateTime.now().month == 12 ? DateTime(DateTime.now().year, 12, 1) : DateTime(DateTime.now().year-1, 12, 1)) && fechaActual.isBefore(DateTime.now().month == 12 ? DateTime(DateTime.now().year + 1, 4, 30) : DateTime(DateTime.now().year, 4, 30))) {
+      faseActual1 = FaseReposoInvernal();
+    }
+    else {
+      faseActual1 = FaseNula();
+    }
+
     return Scaffold(
         appBar: AppBar(title: const Text('Smart VID')),
         body: ListView(children: <Widget>[
@@ -180,10 +192,8 @@ class MyApp extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => CalendarioDetallePage(
                           tipoCalendario: "VEGETATIVO",
-                          fase1: FaseReposoInvernal(
-                              diasTranscurridos: 39, diasFaltantes: 51),
-                          fase2: FaseLloros(
-                              diasTranscurridos: 9, diasFaltantes: 21),
+                          fase1: faseActual1,
+                          fase2: FaseCrecimientoOrganosVegetativos(),
                         )),
               );
             },
@@ -196,10 +206,8 @@ class MyApp extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => CalendarioDetallePage(
                           tipoCalendario: "REPRODUCTIVO",
-                          fase1: FaseCrecimientoDeOrganos(
-                              diasTranscurridos: 39, diasFaltantes: 51),
-                          fase2: FaseBrotamiento(
-                              diasTranscurridos: 9, diasFaltantes: 21),
+                          fase1: FaseCrecimientoOrganosVegetativos(),
+                          fase2: FaseCrecimientoOrganosVegetativos(),
                         )),
               );
             },
@@ -209,8 +217,7 @@ class MyApp extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => ReportePage()),
+                MaterialPageRoute(builder: (context) => ReportePage()),
               );
             },
           ),
