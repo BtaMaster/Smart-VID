@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 
 import '../util/colors.dart';
-import 'calendariodetallepage.dart';
+import 'newalarm.dart';
 
 class MenuAlarmas extends StatefulWidget {
   const MenuAlarmas({Key? key}) : super(key: key);
@@ -17,7 +16,7 @@ class _MenuAlarmasState extends State<MenuAlarmas> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("ALARMA"),
+          title: const Text("ALARMA"),
           centerTitle: true,
         ),
         backgroundColor: HexColor.getColorfromHex(interfaceColor),
@@ -52,9 +51,8 @@ class _MenuAlarmasState extends State<MenuAlarmas> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const CalendarioDetallePage(
-                                tipoCalendario: 'VEGETATIVO',
-                              )));
+                          builder: (context) =>
+                              const NewAlarm(AlarmType: "ALARMA SIEMBRA")));
                 },
               ),
             ),
@@ -88,12 +86,24 @@ class _MenuAlarmasState extends State<MenuAlarmas> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const CalendarioDetallePage(
-                                tipoCalendario: 'REPRODUCTIVO',
-                              )));
+                          builder: (context) =>
+                              const NewAlarm(AlarmType: "ALARMA COSECHA")));
                 },
               ),
             ),
+            Container(
+              height: MediaQuery.of(context).size.height / 16,
+            ),
+            Center(
+              child:  ElevatedButton(
+                onPressed: () {
+                  FlutterAlarmClock.showAlarms();
+                },
+                child: const Text(
+                  "Ver alarmas",
+                  style: TextStyle(fontSize: 17.0),
+                )),
+            )
           ],
         ));
   }

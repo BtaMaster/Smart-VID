@@ -3,8 +3,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:smartvid/Resources/pages/calendariodetallepage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 
-import 'calendarioreproductivopage.dart';
-
 class CalendarioPage extends StatelessWidget {
   const CalendarioPage({Key? key}) : super(key: key);
 

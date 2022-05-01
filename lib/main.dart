@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:smartvid/Resources/classes/fases.dart';
 import 'package:smartvid/Resources/pages/calendariopage.dart';
 import 'package:smartvid/Resources/pages/calendariodetallepage.dart';
 import 'package:smartvid/Resources/pages/dispositivospage.dart';
