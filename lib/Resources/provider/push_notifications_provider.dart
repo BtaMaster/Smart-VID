@@ -13,7 +13,7 @@ class PushNotificationProvider{
      print('-----Token del Dispositivo-----');
      print(token);
 
-     final tokenGuardar = TokenNotification(token!);
+     final tokenGuardar = TokenNotification(token!, DateTime.now());
 
      TokenSave().guardarToken(tokenGuardar);
    });
