@@ -37,8 +37,10 @@ class _HomePageState extends State<HomePage> {
  @override
   void initState(){
     super.initState();
-    final messaging = FirebaseMessaging.instance;
+    //final messaging = FirebaseMessaging.instance;
     PushNotificationProvider().initNotifications();
+
+
     /*
       //Configuración para Apple
     NotificationSettings settings = await messaging.requestPermission(
@@ -61,6 +63,7 @@ class _HomePageState extends State<HomePage> {
         print('Descripcion de Notificacion: ${message.notification!.body}');
       }
     });
+
 
 
     //Notificación cuando la aplicación esta en segundo plano

@@ -1,8 +1,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:smartvid/Resources/classes/tokenNotification.dart';
 
 class PushNotificationProvider{
 
- FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+ final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
 
  initNotifications(){
    _firebaseMessaging.requestPermission();
@@ -10,6 +12,10 @@ class PushNotificationProvider{
    _firebaseMessaging.getToken().then((token) {
      print('-----Token del Dispositivo-----');
      print(token);
+
+     final tokenGuardar = TokenNotification(token!);
+
+     TokenSave().guardarToken(tokenGuardar);
    });
  }
 
