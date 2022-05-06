@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smartvid/Resources/pages/confirmaccountpage.dart';
 import 'package:smartvid/Resources/pages/homepage.dart';
 import 'package:smartvid/Resources/pages/registerpage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
@@ -8,15 +7,15 @@ import '../classes/aws_cognito.dart';
 final cognitoRepository = AWSCognitoRepository();
 
 //Login widget
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class ConfirmationPage extends StatefulWidget {
+  const ConfirmationPage({Key? key}) : super(key: key);
   @override
-  _LoginState createState() => _LoginState();
+  _ConfirmationState createState() => _ConfirmationState();
 }
 
-class _LoginState extends State<LoginPage> {
-  final emaillController = TextEditingController();
-  final passwordController = TextEditingController();
+class _ConfirmationState extends State<ConfirmationPage> {
+  final emailController = TextEditingController(text: cognitoRepository.getUsername());
+  final codeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -39,7 +38,7 @@ class _LoginState extends State<LoginPage> {
                     const Spacer(flex: 1),
                     const Center(
                         child: Text(
-                      'Inicio de sesión',
+                      'Confirma tu cuenta',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
@@ -56,38 +55,36 @@ class _LoginState extends State<LoginPage> {
                               fontSize: 20.0,
                             ),
                             cursorColor: Colors.white,
-                            controller: emaillController,
+                            controller: emailController,
                             autocorrect: false,
                             decoration: const InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white)),
                               contentPadding: EdgeInsets.only(
                                   bottom: 5.0, left: 5.0, right: 5.0),
-                              labelText: 'Correo Electrónico',
+                              labelText: 'Email',
                               labelStyle: TextStyle(color: Colors.white),
                             ),
                           ),
                         )),
-                    const Spacer(flex: 1),
+                    const Spacer(flex: 2),
                     Flexible(
                         flex: 1,
                         child: Center(
                           child: TextFormField(
-                            //FocusScope.of(context).requestFocus(new FocusNode()),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20.0,
                             ),
                             cursorColor: Colors.white,
-                            controller: passwordController,
-                            obscureText: true,
+                            controller: codeController,
                             autocorrect: false,
                             decoration: const InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white)),
                               contentPadding: EdgeInsets.only(
                                   bottom: 5.0, left: 5.0, right: 5.0),
-                              labelText: 'Contraseña',
+                              labelText: 'Código de confirmación',
                               labelStyle: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -101,13 +98,12 @@ class _LoginState extends State<LoginPage> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50, vertical: 20)),
                       onPressed: () async {
-                        await cognitoRepository.login(
-                            emaillController.text, passwordController.text);
-                        var loggedIn;
+                        var succesfull;
                         await cognitoRepository
-                            .isLoggedIn()
-                            .then((value) => {loggedIn = value});
-                        if (loggedIn == true) {
+                            .confirmAccount(
+                                emailController.text, codeController.text)
+                            .then((value) => {succesfull = value});
+                        if (succesfull) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -115,7 +111,7 @@ class _LoginState extends State<LoginPage> {
                           );
                         } else {}
                       },
-                      child: const Text('Iniciar Sesión'),
+                      child: const Text('Confirmar'),
                     )),
                     const Spacer(flex: 1),
                     Center(
@@ -138,22 +134,7 @@ class _LoginState extends State<LoginPage> {
                                 builder: (context) => const RegisterPage()),
                           );
                         },
-                        child: const Text('Crear Cuenta'),
-                      ),
-                    ),
-                    const Spacer(flex: 1),
-                    Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 10)),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ConfirmationPage()),
-                          );
-                        },
-                        child: const Text('Confirmar'),
+                        child: const Text('Volver a login'),
                       ),
                     ),
                     const Spacer(flex: 1)
