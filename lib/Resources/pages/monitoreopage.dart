@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smartvid/Resources/pages/humedaddelsuelo.dart';
+import 'package:smartvid/Resources/pages/luminosidadpage.dart';
+import 'package:smartvid/Resources/pages/temperaturadelsuelopage.dart';
+import 'package:smartvid/Resources/pages/temperaturarelativapage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
+
+import 'humedadrelativapage.dart';
 
 class MonitoreoPage extends StatefulWidget {
   const MonitoreoPage({Key? key}) : super(key: key);
@@ -35,7 +41,8 @@ class _MonitoreoPageState extends State<MonitoreoPage> {
               MediaQuery.of(context).size.width / 32),
           primary: false, //para evitar scroll
           children: [
-            Card(
+            InkWell(
+              child: Card(
               color: Theme.of(context).colorScheme.primary,
               child: Column(children: [
                 Flexible(
@@ -54,8 +61,17 @@ class _MonitoreoPageState extends State<MonitoreoPage> {
                             color: Colors.white,
                             fontWeight: FontWeight.w400))),
               ]),
+              ),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TemperaturaRelativaPage()),
+                    );
+                },
             ),
-            Card(
+            InkWell(
+            child: Card(
               color: Theme.of(context).colorScheme.primary,
               child: Column(children: [
                 Flexible(
@@ -73,9 +89,18 @@ class _MonitoreoPageState extends State<MonitoreoPage> {
                             fontSize: 16,
                             color: Colors.white,
                             fontWeight: FontWeight.w400))),
-              ]),
+               ]),
+              ),
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HumedadRelativaPage()),
+                );
+              },
             ),
-            Card(
+            InkWell(
+              child: Card(
               color: Theme.of(context).colorScheme.primary,
               child: Column(children: [
                 Flexible(
@@ -94,8 +119,17 @@ class _MonitoreoPageState extends State<MonitoreoPage> {
                             color: Colors.white,
                             fontWeight: FontWeight.w400))),
               ]),
+              ),
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TemperaturaDelSueloPage()),
+                );
+              },
             ),
-            Card(
+            InkWell(
+              child:Card(
               color: Theme.of(context).colorScheme.primary,
               child: Column(children: [
                 Flexible(
@@ -114,15 +148,28 @@ class _MonitoreoPageState extends State<MonitoreoPage> {
                             color: Colors.white,
                             fontWeight: FontWeight.w400))),
               ]),
+              ),
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HumedadDelSueloPage()),
+                );
+              },
             ),
-            Card(
+            InkWell(
+              child: Card(
               color: Theme.of(context).colorScheme.primary,
-              child: Column(children: [
+              child: Column(children:
+              [
                 Flexible(
-                  child: Image(
+                  child:
+                  Image(
                       image: const AssetImage("assets/images/logo.jpg"),
                       width: MediaQuery.of(context).size.width / 3,
-                      height: MediaQuery.of(context).size.width / 3),
+                      height: MediaQuery.of(context).size.width / 3
+
+                  ),
                   flex: 6,
                 ),
                 const Spacer(),
@@ -133,27 +180,15 @@ class _MonitoreoPageState extends State<MonitoreoPage> {
                             fontSize: 16,
                             color: Colors.white,
                             fontWeight: FontWeight.w400))),
-              ]),
-            ),
-            Card(
-              color: Theme.of(context).colorScheme.primary,
-              child: Column(children: [
-                Flexible(
-                  child: Image(
-                      image: const AssetImage("assets/images/logo.jpg"),
-                      width: MediaQuery.of(context).size.width / 3,
-                      height: MediaQuery.of(context).size.width / 3),
-                  flex: 6,
-                ),
-                const Spacer(),
-                Flexible(
-                    flex: 2,
-                    child: Text('Dispositivos',
-                        style: GoogleFonts.lato(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400))),
-              ]),
+                ]),
+              ),
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const LuminosidadPage()),
+                );
+              },
             ),
           ],
         ));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:smartvid/Resources/pages/calendarioreproductivopage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 
 class CalendarioPage extends StatelessWidget {
@@ -40,7 +41,13 @@ class CalendarioPage extends StatelessWidget {
                     )
                   ],
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CalendarioVegetativoPage()),
+                  );
+                },
               ),
             ),
             Container(
@@ -69,7 +76,10 @@ class CalendarioPage extends StatelessWidget {
                     )
                   ],
                 ),
-                onPressed: () {},
+                onPressed: () {
+
+
+                },
               ),
             ),
           ],
