@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartvid/Resources/pages/confirmaccountpage.dart';
 import 'package:smartvid/Resources/pages/homepage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
@@ -137,19 +138,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         if (nameController.text.isEmpty) {
                           errorNombres = 'Campo vacío';
                         } else {
+                          var succesful;
                           await cognitoRepository.signup(emailControler.text,
-                              passwordController.text, nameController.text);
-                          await cognitoRepository.login(
-                              emailControler.text, passwordController.text);
-                          var loggedIn;
-                          await cognitoRepository
-                              .isLoggedIn()
-                              .then((value) => {loggedIn = value});
-                          if (loggedIn == true) {
+                              passwordController.text, nameController.text)
+                              .then((value) => succesful = value);
+                          if (succesful) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const HomePage()),
+                                  builder: (context) =>
+                                      const ConfirmationPage()),
                             );
                           } else {}
                         }
@@ -157,21 +155,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: const Text('Crear Cuenta'),
                     )),
                     const Spacer(flex: 1),
-                    Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 10)),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()),
-                          );
-                        },
-                        child: const Text('Inicio de Sesión'),
-                      ),
-                    ),
-                    const Spacer(flex: 1)
                   ],
                 ),
               ),

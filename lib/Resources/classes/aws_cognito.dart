@@ -6,12 +6,15 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AWSCognitoRepository {
-  Future<void> signup(String email, String password, String name) async {
+  String username = '';
+
+  Future<bool> signup(String email, String password, String name) async {
     try {
       final CognitoSignUpOptions options = CognitoSignUpOptions(
           userAttributes: {CognitoUserAttributeKey.parse('name'): name});
-      await Amplify.Auth.signUp(
+      SignUpResult res = await Amplify.Auth.signUp(
           username: email, password: password, options: options);
+      return res.isSignUpComplete;
       print("User $email created!.");
     } on Exception {
       print("User $email signup failed.");
@@ -33,7 +36,6 @@ class AWSCognitoRepository {
 
   Future<String?> getUser() async {
     try {
-
       final awsUser = await Amplify.Auth.getCurrentUser();
       return awsUser.username.toString();
     } catch (e) {
@@ -55,6 +57,21 @@ class AWSCognitoRepository {
         return false;
       }
     } catch (e) {
+      return false;
+    }
+  }
+
+  String getUsername() {
+    return username;
+  }
+
+  Future<bool> confirmAccount(String email, String code) async {
+    try {
+      SignUpResult res = await Amplify.Auth.confirmSignUp(
+          username: email, confirmationCode: code);
+      return res.isSignUpComplete;
+    } on AuthException catch (e) {
+      print(e.message);
       return false;
     }
   }
