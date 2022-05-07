@@ -1,18 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smartvid/Resources/classes/aws_cognito.dart';
 import 'package:smartvid/Resources/pages/calendariopage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:smartvid/Resources/pages/reportepage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
+import '../classes/localNotification.dart';
 import '../classes/notificacion.dart';
 import '../provider/push_notifications_provider.dart';
 import 'monitoreopage.dart';
 import 'notificaciondetallepage.dart';
 import 'notificacionespage.dart';
-
 
 Future<void> backgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -34,34 +35,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+
+
  @override
   void initState(){
     super.initState();
-    //final messaging = FirebaseMessaging.instance;
     PushNotificationProvider().initNotifications();
+    FirebaseMessaging.instance.getInitialMessage().then((message){
+      if(message != null){
+        sendDetalleNotificacion(message.notification!.body.toString(),
+            message.data['problema'], message.data['valorDetectado']);
+      }
+    });
 
 
-    /*
-      //Configuración para Apple
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-    print('User granted permission: ${settings.authorizationStatus}');
-    */
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       await Firebase.initializeApp();
+
+      LocalNotification.initialize(context, message.notification!.body, message.data['valorDetectado']);
+
       print('Mensaje con aplicación Abierta');
       print('Data del Mensaje: ${message.data}');
       if (message.notification != null) {
         print('Título de Notificacion: ${message.notification!.title}');
         print('Descripcion de Notificacion: ${message.notification!.body}');
       }
+      LocalNotification.mostrar(message);
     });
 
 
@@ -71,45 +70,48 @@ class _HomePageState extends State<HomePage> {
 
     //Ruta de navegación al abrir el mensaje de la notificación
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      if(message.data != null){
-        switch(message.data['problema']){
-          case 'Humedad Relativa':
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
-              (notificacion: NotificacionHumedadRelativa(message.notification!.body.toString(),
-                valorDetectado: message.data['valorDetectado']))));
-            break;
-          case 'Luminosidad Solar':
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
-              (notificacion: NotificacionLuminosidadSolar(message.notification!.body.toString(),
-                valorDetectado: message.data['valorDetectado']))));
-            break;
-          case 'Temperatura Relativa':
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
-              (notificacion: NotificacionTemperaturaRelativa(message.notification!.body.toString(),
-                valorDetectado: message.data['valorDetectado']))));
-            break;
-          case 'Temperatura Suelo':
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
-              (notificacion: NotificacionTemperaturaSuelo(message.notification!.body.toString(),
-                valorDetectado: message.data['valorDetectado']))));
-            break;
-          case 'Humedad Suelo':
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
-              (notificacion: NotificacionHumedadSuelo(message.notification!.body.toString(),
-                valorDetectado: message.data['valorDetectado']))));
-            break;
-          default:
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder:
-                (context) => const NotificacionesPage()));
-            break;
-        }
+      if(message.data != null) {
+        sendDetalleNotificacion(message.notification!.body.toString(),
+            message.data['problema'], message.data['valorDetectado']);
       }
     });
 
   }
 
-
+ void sendDetalleNotificacion(String body, String problema, String valorDetectado){
+     switch(problema){
+       case 'Humedad Relativa':
+         Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+           (notificacion: NotificacionHumedadRelativa(body,
+             valorDetectado: valorDetectado))));
+         break;
+       case 'Luminosidad Solar':
+         Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+           (notificacion: NotificacionLuminosidadSolar(body,
+             valorDetectado: valorDetectado))));
+         break;
+       case 'Temperatura Relativa':
+         Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+           (notificacion: NotificacionTemperaturaRelativa(body,
+             valorDetectado: valorDetectado))));
+         break;
+       case 'Temperatura Suelo':
+         Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+           (notificacion: NotificacionTemperaturaSuelo(body,
+             valorDetectado: valorDetectado))));
+         break;
+       case 'Humedad Suelo':
+         Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+           (notificacion: NotificacionHumedadSuelo(body,
+             valorDetectado: valorDetectado))));
+         break;
+       default:
+         Navigator.of(context)
+             .push(MaterialPageRoute(builder:
+             (context) => const NotificacionesPage()));
+         break;
+     }
+ }
 
 
 

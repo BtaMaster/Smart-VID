@@ -20,9 +20,11 @@ class TokenNotification{
 }
 
 class TokenSave{
-  final DatabaseReference tokenReference = FirebaseDatabase.instance.reference();
-
+  final DatabaseReference tokenReference = FirebaseDatabase.instance.ref().child('tokens');
+  final snap = FirebaseDatabase.instance.ref().child('tokens').get();
+  
   void guardarToken(TokenNotification tokenNotification){
+    var tokenEncontrado = tokenReference.child('token').equalTo(tokenNotification.token);
     tokenReference.push().set(tokenNotification.toJson());
   }
 }
