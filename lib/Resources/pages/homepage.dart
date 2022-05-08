@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smartvid/Resources/pages/calendariopage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:smartvid/Resources/pages/menualarmas.dart';
+import 'package:smartvid/Resources/pages/menurecordatorios.dart';
 import 'package:smartvid/Resources/pages/reportepage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import '../classes/aws_cognito.dart';
@@ -294,8 +295,30 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 )),
+            Theme(
+                data: Theme.of(context).copyWith(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                ),
+                child: ListTile(
+                  title: Text('Recordatorios',
+                      style: GoogleFonts.roboto(
+                          fontSize: 21,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400)),
+                  trailing: Icon(Icons.message,
+                      size: MediaQuery.of(context).size.height / 18,
+                      color: Colors.black),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MenuRecordatorios()),
+                    );
+                  },
+                )),
             Divider(
-                height: 2,
+                height: 1,
                 color: HexColor.getColorfromHex(dividerHomePageColor)),
             Theme(
                 data: Theme.of(context).copyWith(
