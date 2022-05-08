@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:smartvid/Resources/pages/menurecordatorios.dart';
 
 import '../services/notification_api.dart';
 import '../util/colors.dart';
@@ -71,8 +72,14 @@ class _NotificationItemState extends State<NotificationItem> {
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.delete))
+              IconButton(onPressed: () {
+                NotificationApi.cancelNotification(widget.notification.id);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                        const MenuRecordatorios()));
+              }, icon: Icon(Icons.delete))
             ],
           ),
         ),

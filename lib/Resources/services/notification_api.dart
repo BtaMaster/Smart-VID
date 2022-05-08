@@ -82,4 +82,9 @@ class NotificationApi {
     await _notifications.pendingNotificationRequests();
     return pendingNotificationRequests;
   }
+
+  static void cancelNotification(int id) {
+    _notifications.cancel(id);
+    getAllNotifications();
+  }
 }
