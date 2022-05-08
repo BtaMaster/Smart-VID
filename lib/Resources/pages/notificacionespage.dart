@@ -43,7 +43,7 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
         "Se detectó un valor fuera del rango optimo de humedad relativa."),
     NotificacionTemperaturaRelativa(
         "Se detectó un valor fuera del rango optimo de temperatura suelo."),
-    NotificacionHumedadSuelo(
+    NotificacionTemperaturaSuelo(
         "Se detectó un valor fuera del rango optimo de humedad de suelo."),
   ];
   @override
@@ -70,10 +70,6 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
               subtitle: notificaciones[index].mensaje != null
                   ? Text(notificaciones[index].mensaje ?? '')
                   : null,
-              leading: Container(
-                padding: const EdgeInsets.only(left: 5),
-                child: notificaciones[index].widget,
-              ),
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
