@@ -46,6 +46,12 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
     NotificacionTemperaturaSuelo(
         "Se detectó un valor fuera del rango optimo de humedad de suelo."),
   ];
+
+  void setNotificacion(Notificacion notificacion){
+    print("Se ha agregado una notificación");
+    notificaciones.add(notificacion);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,10 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smartvid/Resources/pages/calendariopage.dart';
+import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:smartvid/Resources/pages/menualarmas.dart';
+import 'package:smartvid/Resources/pages/reportepage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
+import '../classes/aws_cognito.dart';
 import '../classes/localNotification.dart';
 import '../classes/notificacion.dart';
 import '../provider/push_notifications_provider.dart';
@@ -75,6 +78,29 @@ class _HomePageState extends State<HomePage> {
 
   }
 
+ void enviarNotificacion(String body, String problema, String valorDetectado){
+   final notif= NotificacionesPage().createState();
+   print("Se va a agregar una notificacion");
+   switch(problema){
+     case 'Humedad Relativa':
+       notif.notificaciones.add(NotificacionHumedadRelativa(body,valorDetectado: valorDetectado));
+       break;
+     case 'Luminosidad Solar':
+       notif.notificaciones.add(NotificacionLuminosidadSolar(body,valorDetectado: valorDetectado));
+       break;
+     case 'Temperatura Relativa':
+       notif.notificaciones.add(NotificacionTemperaturaRelativa(body,valorDetectado: valorDetectado));
+       break;
+     case 'Temperatura Suelo':
+       notif.notificaciones.add(NotificacionTemperaturaSuelo(body,valorDetectado: valorDetectado));
+       break;
+     case 'Humedad Suelo':
+       notif.notificaciones.add(NotificacionHumedadSuelo(body,valorDetectado: valorDetectado));
+       break;
+   }
+ }
+
+
  void sendDetalleNotificacion(String body, String problema, String valorDetectado){
      switch(problema){
        case 'Humedad Relativa':
@@ -144,16 +170,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              const Spacer(),
-              CircleAvatar(
-                backgroundColor: HexColor.getColorfromHex(profileIconColor),
-                radius: 40,
-                child: const Image(
-                    image: AssetImage("assets/images/profiletemp.png")),
-              ),
-            ],
-          ),
-        ),
+            ),
         backgroundColor: HexColor.getColorfromHex(interfaceColor),
         body: ListView(
           itemExtent: MediaQuery.of(context).size.height / 12,
@@ -185,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      MaterialPageRoute(builder: (context) => const MonitoreoPage()),
                     );
                   },
                 )),
@@ -207,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      MaterialPageRoute(builder: (context) => const NotificacionesPage()),
                     );
                   },
                 )),
@@ -229,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      MaterialPageRoute(builder: (context) => const CalendarioPage()),
                     );
                   },
                 )),
@@ -273,7 +290,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      MaterialPageRoute(builder: (context) => const ReportePage()),
                     );
                   },
                 )),
@@ -296,13 +313,17 @@ class _HomePageState extends State<HomePage> {
                       size: MediaQuery.of(context).size.height / 18,
                       color: Colors.black),
                   onTap: () {
+                    cognitoRepository.signOut();
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()),
                     );
                   },
                 )),
-          ],
-        ));
+            ],
+          ),
+          ),
+        );
   }
 }
