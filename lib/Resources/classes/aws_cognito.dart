@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
@@ -18,7 +17,7 @@ class AWSCognitoRepository {
       print("User $email created!.");
     } on Exception {
       print("User $email signup failed.");
-      rethrow;
+      return false;
     }
   }
 
@@ -50,7 +49,6 @@ class AWSCognitoRepository {
   Future<bool> isLoggedIn() async {
     try {
       final awsUser = await Amplify.Auth.getCurrentUser();
-      print("LOGIN RESULT: " + awsUser.toString());
       if (awsUser != null) {
         return true;
       } else {
@@ -58,6 +56,20 @@ class AWSCognitoRepository {
       }
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<String> getName() async {
+    try {
+      final res = await Amplify.Auth.fetchUserAttributes();
+      final name = res[2].value;
+      if (name.isNotEmpty) {
+        return name;
+      } else {
+        return '';
+      }
+    } catch (e) {
+      return '';
     }
   }
 
@@ -72,6 +84,34 @@ class AWSCognitoRepository {
       return res.isSignUpComplete;
     } on AuthException catch (e) {
       print(e.message);
+      return false;
+    }
+  }
+
+  Future<bool> resetPassword(String email) async {
+    try {
+      ResetPasswordResult res = await Amplify.Auth.resetPassword(
+        username: email,
+      );
+      print("Recovery email send");
+      return true;
+    } on AmplifyException catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> confirmNewPassword(
+      String email, String newPassword, String confirmationCode) async {
+    try {
+      await Amplify.Auth.confirmResetPassword(
+          username: email,
+          newPassword: newPassword,
+          confirmationCode: confirmationCode);
+      print("Password changed");
+      return true;
+    } on AmplifyException catch (e) {
+      print(e);
       return false;
     }
   }

@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ import 'monitoreopage.dart';
 import 'notificaciondetallepage.dart';
 import 'notificacionespage.dart';
 
-
 Future<void> backgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('Data: ${message.data.toString()}');
@@ -21,9 +21,7 @@ Future<void> backgroundHandler(RemoteMessage message) async {
   print('Descripción de la Notificación: ${message.notification!.body}');
 }
 
-
 final cognitoRepository = AWSCognitoRepository();
-
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,14 +31,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var name = '';
 
- @override
-  void initState(){
+  @override
+  void initState() {
     super.initState();
     //final messaging = FirebaseMessaging.instance;
     PushNotificationProvider().initNotifications();
-
-
+    cognitoRepository.getName().then((value) => setState(() {
+          name = value;
+          print(name);
+        }));
     /*
       //Configuración para Apple
     NotificationSettings settings = await messaging.requestPermission(
@@ -64,54 +65,56 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
-
-
     //Notificación cuando la aplicación esta en segundo plano
     FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
     //Ruta de navegación al abrir el mensaje de la notificación
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      if(message.data != null){
-        switch(message.data['problema']){
+      if (message.data != null) {
+        switch (message.data['problema']) {
           case 'Humedad Relativa':
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
-              (notificacion: NotificacionHumedadRelativa(message.notification!.body.toString(),
-                valorDetectado: message.data['valorDetectado']))));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => NotificacionDetallePage(
+                    notificacion: NotificacionHumedadRelativa(
+                        message.notification!.body.toString(),
+                        valorDetectado: message.data['valorDetectado']))));
             break;
           case 'Luminosidad Solar':
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
-              (notificacion: NotificacionLuminosidadSolar(message.notification!.body.toString(),
-                valorDetectado: message.data['valorDetectado']))));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => NotificacionDetallePage(
+                    notificacion: NotificacionLuminosidadSolar(
+                        message.notification!.body.toString(),
+                        valorDetectado: message.data['valorDetectado']))));
             break;
           case 'Temperatura Relativa':
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
-              (notificacion: NotificacionTemperaturaRelativa(message.notification!.body.toString(),
-                valorDetectado: message.data['valorDetectado']))));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => NotificacionDetallePage(
+                    notificacion: NotificacionTemperaturaRelativa(
+                        message.notification!.body.toString(),
+                        valorDetectado: message.data['valorDetectado']))));
             break;
           case 'Temperatura Suelo':
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
-              (notificacion: NotificacionTemperaturaSuelo(message.notification!.body.toString(),
-                valorDetectado: message.data['valorDetectado']))));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => NotificacionDetallePage(
+                    notificacion: NotificacionTemperaturaSuelo(
+                        message.notification!.body.toString(),
+                        valorDetectado: message.data['valorDetectado']))));
             break;
           case 'Humedad Suelo':
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
-              (notificacion: NotificacionHumedadSuelo(message.notification!.body.toString(),
-                valorDetectado: message.data['valorDetectado']))));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => NotificacionDetallePage(
+                    notificacion: NotificacionHumedadSuelo(
+                        message.notification!.body.toString(),
+                        valorDetectado: message.data['valorDetectado']))));
             break;
           default:
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder:
-                (context) => const NotificacionesPage()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const NotificacionesPage()));
             break;
         }
       }
     });
-
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                       Image(
                           image: const AssetImage("assets/images/logo.jpg"),
                           width: MediaQuery.of(context).size.width / 2),
-                      const Text('Bienvenido(a), [NOMBRE]',
+                      Text('Bienvenido(a), ' + name,
                           overflow: TextOverflow.visible),
                     ],
                   ),
@@ -156,6 +159,30 @@ class _HomePageState extends State<HomePage> {
                   MediaQuery.of(context).size.width / 14),
               primary: false,
               children: [
+                Theme(
+                    data: Theme.of(context).copyWith(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                    ),
+                    child: ListTile(
+                      enableFeedback: false,
+                      selectedTileColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      title: Text('Test',
+                          style: GoogleFonts.roboto(
+                              fontSize: 21,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400)),
+                      trailing: Icon(Icons.insights,
+                          size: MediaQuery.of(context).size.height / 18,
+                          color: Colors.black),
+                      onTap: () {
+                        onTap: () async {
+                          FilePickerResult? result = await FilePicker.platform.pickFiles();
+                        };
+                      },
+                    )),
                 Theme(
                     data: Theme.of(context).copyWith(
                       splashColor: Colors.transparent,

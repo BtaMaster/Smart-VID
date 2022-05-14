@@ -53,7 +53,8 @@ dependencies:
   flutter_riverpod: ^1.0.3
   amazon_cognito_identity_dart_2: ^2.0.0
   flutter_dotenv: ^5.0.2
-
+  fluttertoast: ^8.0.9
+  file_picker: ^4.5.1
 
 dev_dependencies:
   flutter_test:
