@@ -140,12 +140,17 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   const Spacer(),
-                  CircleAvatar(
+                  GestureDetector(
+                onTap: () async {
+                          FilePickerResult? result = await FilePicker.platform.pickFiles();
+                        },
+                child:  CircleAvatar(
                     backgroundColor: HexColor.getColorfromHex(profileIconColor),
                     radius: 40,
                     child: const Image(
                         image: AssetImage("assets/images/profiletemp.png")),
-                  ),
+                  ), 
+           ),
                 ],
               ),
             ),
@@ -177,11 +182,11 @@ class _HomePageState extends State<HomePage> {
                       trailing: Icon(Icons.insights,
                           size: MediaQuery.of(context).size.height / 18,
                           color: Colors.black),
-                      onTap: () {
+                     
                         onTap: () async {
                           FilePickerResult? result = await FilePicker.platform.pickFiles();
-                        };
-                      },
+                        },
+                      
                     )),
                 Theme(
                     data: Theme.of(context).copyWith(
