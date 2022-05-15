@@ -5,5 +5,11 @@ export type AmplifyDependentResourcesAttributes = {
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }
+    },
+    "storage": {
+        "s3smartvidstorage": {
+            "BucketName": "string",
+            "Region": "string"
+        }
     }
 }

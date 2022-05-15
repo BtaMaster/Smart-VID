@@ -1,11 +1,12 @@
 {
-  "authSelections": "userPoolOnly",
+  "authSelections": "identityPoolAndUserPool",
   "resourceName": "smartvid",
   "serviceType": "imported",
   "region": "us-east-1",
   "usernameAttributes": [
     "email"
   ],
+  "authProvidersUserPool": [],
   "requiredAttributes": [
     "name",
     "email"

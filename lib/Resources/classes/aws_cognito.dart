@@ -116,6 +116,35 @@ class AWSCognitoRepository {
     }
   }
 
+  Future<bool> updateName(String newName) async {
+    try {
+      await Amplify.Auth.updateUserAttribute(
+        userAttributeKey: CognitoUserAttributeKey.name,
+        value: newName,
+      );
+      print("Name changed");
+      return true;
+      } on AmplifyException catch (e) {
+        print(e);
+        return false;
+      }
+  }
+
+  Future<bool> updatePassword(String oldpassword, String newPassword) async {
+    try {
+      await Amplify.Auth.updatePassword(
+        oldPassword: oldpassword,
+        newPassword: newPassword,
+      );
+      print("Password changed");
+      return true;
+      } on AmplifyException catch (e) {
+        print(e);
+        print("Wrong credentials.");
+        return false;
+      }
+  }
+
   Future<void> signOut() async {
     try {
       await Amplify.Auth.signOut();

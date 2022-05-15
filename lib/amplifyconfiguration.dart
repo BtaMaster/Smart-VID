@@ -9,6 +9,14 @@ const amplifyconfig = ''' {
                 "IdentityManager": {
                     "Default": {}
                 },
+                "CredentialsProvider": {
+                    "CognitoIdentity": {
+                        "Default": {
+                            "PoolId": "us-east-1:b94a7eb8-3380-46b5-acba-19f1aa48bc05",
+                            "Region": "us-east-1"
+                        }
+                    }
+                },
                 "CognitoUserPool": {
                     "Default": {
                         "PoolId": "us-east-1_unzLgyRjc",
@@ -51,6 +59,12 @@ const amplifyconfig = ''' {
                         "ApiKey": "da2-2hwkzmqr5nhrvobtipxcgzc64e",
                         "ClientDatabasePrefix": "smartvid_API_KEY"
                     }
+                },
+                "S3TransferUtility": {
+                    "Default": {
+                        "Bucket": "smartvid-storage01535-staging",
+                        "Region": "us-east-1"
+                    }
                 }
             }
         }
@@ -65,6 +79,15 @@ const amplifyconfig = ''' {
                     "authorizationType": "API_KEY",
                     "apiKey": "da2-2hwkzmqr5nhrvobtipxcgzc64e"
                 }
+            }
+        }
+    },
+    "storage": {
+        "plugins": {
+            "awsS3StoragePlugin": {
+                "bucket": "smartvid-storage01535-staging",
+                "region": "us-east-1",
+                "defaultAccessLevel": "guest"
             }
         }
     }
