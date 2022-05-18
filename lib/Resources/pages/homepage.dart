@@ -36,7 +36,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-
+  List<Notificacion> notificacionesHome = <Notificacion>[];
 
  @override
   void initState(){
@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
       if(message != null){
         sendDetalleNotificacion(message.notification!.body.toString(),
             message.data['problema'], message.data['valorDetectado']);
+        enviarNotificacion(message.notification?.body, message.data['problema'], message.data['valorDetectado']);
       }
     });
 
@@ -60,6 +61,11 @@ class _HomePageState extends State<HomePage> {
       if (message.notification != null) {
         print('Título de Notificacion: ${message.notification!.title}');
         print('Descripcion de Notificacion: ${message.notification!.body}');
+        if(message.notification?.body != null) {
+          enviarNotificacion(
+              message.notification?.body, message.data['problema'],
+              message.data['valorDetectado']);
+        }
       }
       LocalNotification.mostrar(message);
     });
@@ -74,29 +80,30 @@ class _HomePageState extends State<HomePage> {
       if(message.data != null) {
         sendDetalleNotificacion(message.notification!.body.toString(),
             message.data['problema'], message.data['valorDetectado']);
+        enviarNotificacion(message.notification?.body, message.data['problema'], message.data['valorDetectado']);
       }
     });
 
   }
 
- void enviarNotificacion(String body, String problema, String valorDetectado){
-   final notif= NotificacionesPage().createState();
+ void enviarNotificacion(String? body, String problema, String valorDetectado){
    print("Se va a agregar una notificacion");
    switch(problema){
      case 'Humedad Relativa':
-       notif.notificaciones.add(NotificacionHumedadRelativa(body,valorDetectado: valorDetectado));
+       notificacionesHome.add(NotificacionHumedadRelativa(body!,valorDetectado: valorDetectado));
        break;
      case 'Luminosidad Solar':
-       notif.notificaciones.add(NotificacionLuminosidadSolar(body,valorDetectado: valorDetectado));
+       notificacionesHome.add(NotificacionLuminosidadSolar(body!,valorDetectado: valorDetectado));
+       print(notificacionesHome);
        break;
      case 'Temperatura Relativa':
-       notif.notificaciones.add(NotificacionTemperaturaRelativa(body,valorDetectado: valorDetectado));
+       notificacionesHome.add(NotificacionTemperaturaRelativa(body!,valorDetectado: valorDetectado));
        break;
      case 'Temperatura Suelo':
-       notif.notificaciones.add(NotificacionTemperaturaSuelo(body,valorDetectado: valorDetectado));
+       notificacionesHome.add(NotificacionTemperaturaSuelo(body!,valorDetectado: valorDetectado));
        break;
      case 'Humedad Suelo':
-       notif.notificaciones.add(NotificacionHumedadSuelo(body,valorDetectado: valorDetectado));
+       notificacionesHome.add(NotificacionHumedadSuelo(body!,valorDetectado: valorDetectado));
        break;
    }
  }
@@ -223,10 +230,12 @@ class _HomePageState extends State<HomePage> {
                       size: MediaQuery.of(context).size.height / 18,
                       color: Colors.black),
                   onTap: () {
+                    if(notificacionesHome != null){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const NotificacionesPage()),
+                      MaterialPageRoute(builder: (context) => NotificacionesPage(notificaciones: notificacionesHome)),
                     );
+                    }
                   },
                 )),
             Theme(
