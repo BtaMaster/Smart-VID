@@ -35,8 +35,8 @@ class _NewRecordatorioState extends State<NewRecordatorio> {
   }
 
   void onClickedNotification(String? event) {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const MenuRecordatorios()));
+    /*Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const MenuRecordatorios()));*/
   }
 
   @override

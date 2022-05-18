@@ -14,8 +14,9 @@ class NotificacionDetallePage extends StatefulWidget {
 }
 
 class _NotificacionDetallePageState extends State<NotificacionDetallePage> {
+
   List<Recomendacion> recomendaciones = <Recomendacion>[
-    RecomendacionLuminosidad(
+  /*  RecomendacionLuminosidad(
         "Baja producción de antocianinas(luminosidad baja)"),
     RecomendacionLuminosidad(
         "Reducción de tasa de biosintesis (luminosidad alta)"),
@@ -26,8 +27,43 @@ class _NotificacionDetallePageState extends State<NotificacionDetallePage> {
     RecomendacionFollaje(
         "Poco follaje y deficiente relacion hoja-fruto (sobrecarga)"),
     RecomendacionHongo("Mal cuaje"),
-    RecomendacionHongo("Maduración deficiente"),
+    RecomendacionHongo("Maduración deficiente"),*/
   ];
+
+  @override
+  void initState(){
+    mostrarRecomendaciones();
+  }
+  void mostrarRecomendaciones(){
+    print(widget.notificacion.titulo);
+    switch(widget.notificacion.titulo){
+      case 'Notificacion: Humedad Relativa':
+          recomendaciones.addAll(<Recomendacion>[RecomendacionPlaga("Probabilidad de plaga"), RecomendacionHongo("Enfermedades"),
+          RecomendacionFollaje("Degradación de Uva"), RecomendacionPlaga("Chanchito blanco de la vid"), RecomendacionHongo("Oídio"),
+          RecomendacionAgua("Uso de plagicidas")]);
+        break;
+      case 'Notificacion: Luminosidad Solar':
+        recomendaciones.addAll(<Recomendacion>[RecomendacionLuminosidad("Baja produccion de antocianinas (luminosidad baja)"), RecomendacionLuminosidad("Reduccion de tasa de biosintesis (luminosidad alta)"),
+          RecomendacionFollaje("Uvas muy vigorosas(poco luminosidad)"), RecomendacionFollaje("Uvas poco vigorosas(alta luminosidad)"), RecomendacionFollaje("Poco follaje ydeficiente relacion hoja-fruto(sobrecarga)"),
+          RecomendacionLuminosidad("Mal cuaje(baja luminosidad)"), RecomendacionLuminosidad("Maduracion deficiente(baja iluminacion)")]);
+        break;
+      case 'Notificacion: Temperatura Relativa':
+        recomendaciones.addAll(<Recomendacion>[RecomendacionFollaje("Frutificacion-Concentracion de azucares en vides"), RecomendacionAgua("Floracion (clima seco y escazas lluvias)"),
+          RecomendacionFollaje("Daño de brotes y hojas jovenes(periodo vegetativo vid)"), RecomendacionHongo("Hongo de madera"), RecomendacionHongo("Brotytis"), RecomendacionHongo("Oídio"),
+          RecomendacionLuminosidad("Mildiu de la vid (Temperatura alta)"), RecomendacionLuminosidad("Quemaduras de hoja y racimos(temperaturas elevadas)")]);
+        break;
+      case 'Notificacion: Temperatura Suelo':
+        recomendaciones.addAll(<Recomendacion>[RecomendacionFollaje("Uvas poco vigorosas(alta temperatura)"), RecomendacionLuminosidad("Poco follaje y deficiente relacion hoja-fruto (sobrecarga)"),
+          RecomendacionLuminosidad("Mal cuaje(baja temperatura)"), RecomendacionLuminosidad("Maduracion deficiente(baja temperatura)")]);
+        break;
+      case 'Notificacion: Humedad Suelo':
+        recomendaciones.addAll(<Recomendacion>[RecomendacionHongo("Problemas de hongos en las plantas"), RecomendacionFollaje("Desarrollo y crecimiento de los cultivos"),
+          RecomendacionAgua("Demanda hidrica entre fases"), RecomendacionAgua("Disminución fotosintetica(pesima condicion de la humedad del suelo)"), RecomendacionAgua("Chanchitos blancos(humedad del suelo elevada)"),
+          RecomendacionFollaje("Caida de hojas y frutos(poca humedad del suelo)"), RecomendacionFollaje("Evitar punto de marchitez")]);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,6 +184,7 @@ class _NotificacionDetallePageState extends State<NotificacionDetallePage> {
               height: MediaQuery.of(context).size.width / 16,
               color: HexColor.getColorfromHex(interfaceColor),
             ),
+
             Expanded(
               child: ListView.builder(
                   shrinkWrap: true,
@@ -172,6 +209,7 @@ class _NotificacionDetallePageState extends State<NotificacionDetallePage> {
                       ),
                     );
                   }),
+
             ),
           ],
         ));
