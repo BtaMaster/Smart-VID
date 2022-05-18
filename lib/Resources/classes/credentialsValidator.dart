@@ -93,13 +93,27 @@ class CredentialValidator {
       isValid = false;
       Fluttertoast.showToast(msg: missingFields);
     }
-     if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+    if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
         .hasMatch(password)) {
       isValid = false;
       Fluttertoast.showToast(
           msg:
               "La contraseña debe tener al menos 1 mayúscula, 1 minúscula, 1 valor numérico, y 1 carácter especial.");
     }
+    return isValid;
+  }
+
+  bool validateName(String name) {
+    bool isValid = true;
+    if (name.isEmpty &&
+        !RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$")
+            .hasMatch(name)) {
+      isValid = false;
+      Fluttertoast.showToast(
+          msg:
+              "Nombre es inválido");
+    }
+
     return isValid;
   }
 }

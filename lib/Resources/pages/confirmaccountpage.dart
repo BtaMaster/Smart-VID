@@ -3,8 +3,10 @@ import 'package:smartvid/Resources/pages/homepage.dart';
 import 'package:smartvid/Resources/pages/registerpage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import '../classes/aws_cognito.dart';
+import '../classes/aws_storage.dart';
 
 final cognitoRepository = AWSCognitoRepository();
+final s3Repository = AWSStorageRepository();
 
 //Login widget
 class ConfirmationPage extends StatefulWidget {
@@ -14,7 +16,8 @@ class ConfirmationPage extends StatefulWidget {
 }
 
 class _ConfirmationState extends State<ConfirmationPage> {
-  final emailController = TextEditingController(text: cognitoRepository.getUsername());
+  final emailController =
+      TextEditingController(text: cognitoRepository.getUsername());
   final codeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -104,6 +107,7 @@ class _ConfirmationState extends State<ConfirmationPage> {
                                 emailController.text, codeController.text)
                             .then((value) => {succesfull = value});
                         if (succesfull) {
+                          //s3Repository.addDefaultPfp();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
