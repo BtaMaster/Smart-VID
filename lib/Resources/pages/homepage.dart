@@ -152,6 +152,7 @@ class _HomePageState extends State<HomePage> {
             message.data['problema'], message.data['valorDetectado']);
         enviarNotificacion(message.notification?.body, message.data['problema'], message.data['valorDetectado']);
       }
+      }
     });
   }
 
@@ -356,7 +357,7 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const NotificacionesPage(notificaciones: notificacionesHome)),
+                                    NotificacionesPage(notificaciones: notificacionesHome)),
                           );
                         },
                       )),
