@@ -23,7 +23,9 @@
         "UserPoolId": "us-east-1_unzLgyRjc",
         "UserPoolName": "usuariosSmartVid",
         "AppClientID": "2foldrl1l4jgr2mkp8ammjk20g",
-        "AppClientIDWeb": "2foldrl1l4jgr2mkp8ammjk20g"
+        "AppClientIDWeb": "2foldrl1l4jgr2mkp8ammjk20g",
+        "IdentityPoolId": "us-east-1:b94a7eb8-3380-46b5-acba-19f1aa48bc05",
+        "IdentityPoolName": "SmartVidIdentityPool"
       },
       "frontendAuthConfig": {
         "socialProviders": [],
@@ -49,7 +51,7 @@
           "EMAIL"
         ]
       },
-      "lastPushTimeStamp": "2022-04-17T00:28:57.185Z"
+      "lastPushTimeStamp": "2022-05-15T05:33:12.813Z"
     }
   },
   "api": {
@@ -71,12 +73,28 @@
         "GraphQLAPIEndpointOutput": "https://r56j5iznwrd4pmh6goitsfvnwm.appsync-api.us-east-1.amazonaws.com/graphql",
         "GraphQLAPIKeyOutput": "da2-oupdytoogvfklkszsmya4lw2eq"
       },
+      "lastPushTimeStamp": "2022-05-15T05:38:00.330Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-smartvid-staging-01535-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apismartvid"
+      }
+    }
+  },
+  "storage": {
+    "s3smartvidstorage": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "lastPushTimeStamp": "2022-05-15T05:38:00.380Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-smartvid-staging-01535-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "logicalId": "storages3smartvidstorage"
       },
-      "lastPushTimeStamp": "2022-04-21T18:43:33.462Z",
-      "lastPushDirHash": "7pLExNW/uDe3hicgy1HeKqwQEpQ="
+      "output": {
+        "BucketName": "smartvid-storage01535-staging",
+        "Region": "us-east-1"
+      },
+      "lastPushDirHash": "wDF85hCNXepxxTa2O7G++j9FH9c="
     }
   }
 }

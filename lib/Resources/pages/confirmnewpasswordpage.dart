@@ -1,30 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:smartvid/Resources/classes/credentialsValidator.dart';
-import 'package:smartvid/Resources/pages/confirmaccountpage.dart';
-import 'package:smartvid/Resources/pages/homepage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import '../classes/aws_cognito.dart';
-//import 'package:email_validator/email_validator.dart';
+import '../classes/credentialsValidator.dart';
 
 final cognitoRepository = AWSCognitoRepository();
 final credentialValidator = CredentialValidator();
 
 //Login widget
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+class ConfirmNewPasswordPage extends StatefulWidget {
+  const ConfirmNewPasswordPage({Key? key}) : super(key: key);
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _ConfirmNewPasswordState createState() => _ConfirmNewPasswordState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  var nameController = TextEditingController();
-  var errorNombres = '';
-  var emailControler = TextEditingController();
-  var errorCorreo = '';
-  var passwordController = TextEditingController();
-  var errorContrasenia = '';
+class _ConfirmNewPasswordState extends State<ConfirmNewPasswordPage> {
+  final emailController = TextEditingController();
+  final newPasswordController = TextEditingController();
+  final confirmationCodeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,84 +41,77 @@ class _RegisterPageState extends State<RegisterPage> {
                     const Spacer(flex: 1),
                     const Center(
                         child: Text(
-                      'Registrarse',
+                      'Ingresa tu nueva contraseña',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 30.0,
                       ),
                     )),
-                    const Spacer(flex: 2),
+                    const Spacer(flex: 1),
                     Flexible(
-                        flex: 2,
+                        flex: 1,
                         child: Center(
                           child: TextFormField(
-                            controller: nameController,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20.0,
                             ),
                             cursorColor: Colors.white,
+                            controller: emailController,
                             autocorrect: false,
-                            decoration: InputDecoration(
-                              errorText:
-                                  errorNombres.isNotEmpty ? errorNombres : null,
-                              enabledBorder: const UnderlineInputBorder(
+                            decoration: const InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white)),
-                              contentPadding: const EdgeInsets.only(
+                              contentPadding: EdgeInsets.only(
                                   bottom: 5.0, left: 5.0, right: 5.0),
-                              labelText: 'Nombres',
-                              labelStyle: const TextStyle(color: Colors.white),
+                              labelText: 'Email',
+                              labelStyle: TextStyle(color: Colors.white),
                             ),
                           ),
                         )),
                     const Spacer(flex: 1),
                     Flexible(
-                        flex: 2,
+                        flex: 1,
                         child: Center(
                           child: TextFormField(
-                            controller: emailControler,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20.0,
                             ),
                             cursorColor: Colors.white,
+                            controller: newPasswordController,
                             autocorrect: false,
-                            decoration: InputDecoration(
-                              errorText:
-                                  errorCorreo.isNotEmpty ? errorCorreo : null,
-                              enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white)),
-                              contentPadding: const EdgeInsets.only(
-                                  bottom: 5.0, left: 5.0, right: 5.0),
-                              labelText: 'Correo Electrónico',
-                              labelStyle: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        )),
-                    const Spacer(flex: 1),
-                    Flexible(
-                        flex: 2,
-                        child: Center(
-                          child: TextFormField(
-                            controller: passwordController,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                            ),
-                            cursorColor: Colors.white,
                             obscureText: true,
-                            autocorrect: false,
-                            decoration: InputDecoration(
-                              errorText: errorContrasenia.isNotEmpty
-                                  ? errorContrasenia
-                                  : null,
-                              enabledBorder: const UnderlineInputBorder(
+                            decoration: const InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white)),
-                              contentPadding: const EdgeInsets.only(
+                              contentPadding: EdgeInsets.only(
                                   bottom: 5.0, left: 5.0, right: 5.0),
-                              labelText: 'Contraseña',
-                              labelStyle: const TextStyle(color: Colors.white),
+                              labelText: 'Nueva Contraseña',
+                              labelStyle: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        )),
+                    const Spacer(flex: 1),
+                    Flexible(
+                        flex: 1,
+                        child: Center(
+                          child: TextFormField(
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                            ),
+                            cursorColor: Colors.white,
+                            controller: confirmationCodeController,
+                            autocorrect: false,
+                            decoration: const InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white)),
+                              contentPadding: EdgeInsets.only(
+                                  bottom: 5.0, left: 5.0, right: 5.0),
+                              labelText: 'Código de confirmación',
+                              labelStyle: TextStyle(color: Colors.white),
                             ),
                           ),
                         )),
@@ -138,27 +124,27 @@ class _RegisterPageState extends State<RegisterPage> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50, vertical: 20)),
                       onPressed: () async {
-                        //Aquí iría la validación de los campos:
-                        if (credentialValidator.validateSignup(
-                            emailControler.text, passwordController.text, nameController.text)) {
-                          var succesful;
+                        if (credentialValidator
+                                .validateEmail(emailController.text) &&
+                            credentialValidator
+                                .validatePassword(newPasswordController.text)) {
+                          var succesfull;
                           await cognitoRepository
-                              .signup(emailControler.text,
-                                  passwordController.text, nameController.text)
-                              .then((value) => succesful = value);
-                          if (succesful) {
+                              .confirmNewPassword(
+                                  emailController.text,
+                                  newPasswordController.text,
+                                  confirmationCodeController.text)
+                              .then((value) => succesfull = value);
+                          if (succesfull) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ConfirmationPage()),
+                                  builder: (context) => const LoginPage()),
                             );
-                          } else {
-                            Fluttertoast.showToast(msg: "Invalid credentials.");
-                          }
+                          } else {}
                         }
                       },
-                      child: const Text('Crear Cuenta'),
+                      child: const Text('Confirmar'),
                     )),
                     const Spacer(flex: 1),
                     Center(
@@ -172,9 +158,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 builder: (context) => const LoginPage()),
                           );
                         },
-                        child: const Text('Iniciar Sesión'),
+                        child: const Text('Volver a login'),
                       ),
                     ),
+                    const Spacer(flex: 1)
                   ],
                 ),
               ),

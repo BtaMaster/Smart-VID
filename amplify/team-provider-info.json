@@ -13,11 +13,37 @@
     },
     "categories": {
       "auth": {
+        "smartvid3940fa92": {
+          "userPoolId": "us-east-1_unzLgyRjc",
+          "userPoolName": "usuariosSmartVid",
+          "webClientId": "2foldrl1l4jgr2mkp8ammjk20g",
+          "nativeClientId": "2foldrl1l4jgr2mkp8ammjk20g",
+          "identityPoolId": "us-east-1:b94a7eb8-3380-46b5-acba-19f1aa48bc05",
+          "identityPoolName": "SmartVidIdentityPool",
+          "allowUnauthenticatedIdentities": true,
+          "authRoleArn": "arn:aws:iam::067520880013:role/Cognito_SmartVidIdentityPoolAuth_Role",
+          "authRoleName": "Cognito_SmartVidIdentityPoolAuth_Role",
+          "unauthRoleArn": "arn:aws:iam::067520880013:role/Cognito_SmartVidIdentityPoolUnauth_Role",
+          "unauthRoleName": "Cognito_SmartVidIdentityPoolUnauth_Role"
+        },
         "smartvid": {
           "userPoolId": "us-east-1_unzLgyRjc",
           "userPoolName": "usuariosSmartVid",
           "webClientId": "2foldrl1l4jgr2mkp8ammjk20g",
-          "nativeClientId": "2foldrl1l4jgr2mkp8ammjk20g"
+          "nativeClientId": "2foldrl1l4jgr2mkp8ammjk20g",
+          "identityPoolId": "us-east-1:b94a7eb8-3380-46b5-acba-19f1aa48bc05",
+          "identityPoolName": "SmartVidIdentityPool",
+          "allowUnauthenticatedIdentities": true,
+          "authRoleArn": "arn:aws:iam::067520880013:role/Cognito_SmartVidIdentityPoolAuth_Role",
+          "authRoleName": "Cognito_SmartVidIdentityPoolAuth_Role",
+          "unauthRoleArn": "arn:aws:iam::067520880013:role/Cognito_SmartVidIdentityPoolUnauth_Role",
+          "unauthRoleName": "Cognito_SmartVidIdentityPoolUnauth_Role"
+        }
+      },
+      "storage": {
+        "smartvid8c4006b5": {
+          "bucketName": "smartvid-storage01535-staging",
+          "region": "us-east-1"
         }
       }
     }

@@ -53,10 +53,12 @@ dependencies:
   flutter_riverpod: ^1.0.3
   amazon_cognito_identity_dart_2: ^2.0.0
   flutter_dotenv: ^5.0.2
+  fluttertoast: ^8.0.9
+  file_picker: ^4.5.1
+  amplify_storage_s3: ^0.4.0
   flutter_local_notifications: ^9.5.2
   rxdart: ^0.27.3
   timezone: ^0.8.0
-
 
 dev_dependencies:
   flutter_test:

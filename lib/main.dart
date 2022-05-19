@@ -8,7 +8,7 @@ import 'package:smartvid/Resources/util/colors.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:smartvid/amplifyconfiguration.dart';
 import 'package:amplify_api/amplify_api.dart';
-
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'models/ModelProvider.dart';
 
 
@@ -19,7 +19,8 @@ void main() async {
   await Firebase.initializeApp();
   await Amplify.addPlugins([
     AmplifyAuthCognito(),
-    AmplifyAPI(modelProvider: ModelProvider.instance)
+    AmplifyAPI(modelProvider: ModelProvider.instance),
+    AmplifyStorageS3()
   ]);
   await Amplify.configure(amplifyconfig);
   var loggedIn = false;

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smartvid/Resources/pages/confirmaccountpage.dart';
 import 'package:smartvid/Resources/pages/homepage.dart';
 import 'package:smartvid/Resources/pages/registerpage.dart';
+import 'package:smartvid/Resources/pages/resetpasswordpage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import '../classes/aws_cognito.dart';
+import '../classes/credentialsValidator.dart';
 
 final cognitoRepository = AWSCognitoRepository();
+final credentialValidator = CredentialValidator();
 
 //Login widget
 class LoginPage extends StatefulWidget {
@@ -101,19 +105,24 @@ class _LoginState extends State<LoginPage> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50, vertical: 20)),
                       onPressed: () async {
-                        await cognitoRepository.login(
-                            emaillController.text, passwordController.text);
-                        var loggedIn;
-                        await cognitoRepository
-                            .isLoggedIn()
-                            .then((value) => {loggedIn = value});
-                        if (loggedIn == true) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()),
-                          );
-                        } else {}
+                        if (credentialValidator.validateLogin(
+                            emaillController.text, passwordController.text)) {
+                          await cognitoRepository.login(
+                              emaillController.text, passwordController.text);
+                          var loggedIn;
+                          await cognitoRepository
+                              .isLoggedIn()
+                              .then((value) => {loggedIn = value});
+                          if (loggedIn == true) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomePage()),
+                            );
+                          } else {}
+                        } else {
+                          Fluttertoast.showToast(msg: "Invalid credentials.");
+                        }
                       },
                       child: const Text('Iniciar Sesión'),
                     )),
@@ -122,7 +131,13 @@ class _LoginState extends State<LoginPage> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             textStyle: const TextStyle(fontSize: 10)),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ResetPasswordPage()),
+                          );
+                        },
                         child: const Text('¿Olvidaste la contraseña?'),
                       ),
                     ),
@@ -153,7 +168,7 @@ class _LoginState extends State<LoginPage> {
                                 builder: (context) => const ConfirmationPage()),
                           );
                         },
-                        child: const Text('Confirmar'),
+                        child: const Text('Confirmar Cuenta'),
                       ),
                     ),
                     const Spacer(flex: 1)
