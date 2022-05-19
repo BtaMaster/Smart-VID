@@ -11,6 +11,7 @@ import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'models/ModelProvider.dart';
 
+
 final cognitoRepository = AWSCognitoRepository();
 
 void main() async {
@@ -30,7 +31,6 @@ void main() async {
       home: MyApp(loggedIn),
       theme: ThemeData(primarySwatch: HexColor.getMaterialColor(headColor))));
 }
-
 class MyApp extends StatelessWidget {
   //const MyApp({Key? key}) : super(key: key);
   MyApp(this.loggedIn);
@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     print("Is user logged in?: " + loggedIn.toString());
     if (loggedIn == true) {
       return const HomePage();

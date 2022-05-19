@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:smartvid/Resources/classes/notificacion.dart';
+import 'package:smartvid/Resources/pages/homepage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 
 import 'package:smartvid/Resources/pages/notificaciondetallepage.dart';
 
 class NotificacionesPage extends StatefulWidget {
-  const NotificacionesPage({Key? key}) : super(key: key);
+  final List<Notificacion>? notificaciones;
+  const NotificacionesPage({Key? key, this.notificaciones}) : super(key: key);
 
   @override
   _NotificacionesPageState createState() => _NotificacionesPageState();
 }
 
 class _NotificacionesPageState extends State<NotificacionesPage> {
+
+  final home = const HomePage();
+
   List<Notificacion> notificaciones = <Notificacion>[
-    NotificacionLuminosidadSolarTest(
+    /*NotificacionLuminosidadSolarTest(
         "Se detectó un valor fuera del rango oportuno de luminosidad."),
     NotificacionLuminosidadSolar(
         "Se detectó un valor fuera del rango oportuno de luminosidad."),
@@ -44,8 +49,10 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
     NotificacionTemperaturaRelativa(
         "Se detectó un valor fuera del rango optimo de temperatura suelo."),
     NotificacionTemperaturaSuelo(
-        "Se detectó un valor fuera del rango optimo de humedad de suelo."),
+        "Se detectó un valor fuera del rango optimo de humedad de suelo."),*/
   ];
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +63,7 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
       backgroundColor: HexColor.getColorfromHex(interfaceColor),
       body: ListView.separated(
           padding: const EdgeInsets.all(10),
-          itemCount: notificaciones.length,
+          itemCount: widget.notificaciones!.length,
           separatorBuilder: (BuildContext context, _) =>
               Container(height: MediaQuery.of(context).size.width / 32),
           itemBuilder: (BuildContext context, int index) {
@@ -66,15 +73,15 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
                 borderRadius: BorderRadius.circular(15.0),
               ),
               tileColor: Colors.white,
-              title: Text(notificaciones[index].titulo),
-              subtitle: notificaciones[index].mensaje != null
-                  ? Text(notificaciones[index].mensaje ?? '')
+              title: Text(widget.notificaciones![index].titulo),
+              subtitle: widget.notificaciones![index].mensaje != null
+                  ? Text(widget.notificaciones![index].mensaje ?? '')
                   : null,
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => NotificacionDetallePage(
-                          notificacion: notificaciones[index]))),
+                          notificacion: widget.notificaciones![index]))),
             );
           }),
     );
