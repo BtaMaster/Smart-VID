@@ -56,6 +56,7 @@ dependencies:
   fluttertoast: ^8.0.9
   file_picker: ^4.5.1
   amplify_storage_s3: ^0.4.0
+  amplify_datastore: ^0.4.0
   
 dev_dependencies:
   flutter_test:

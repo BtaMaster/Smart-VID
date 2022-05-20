@@ -27,6 +27,8 @@ class _TemperaturaDelSueloPageState extends State<TemperaturaDelSueloPage> {
   String fasereproductivaActual = "FRUCTIFICACIÓN";
   String temperaturaminimaoptima = "10.0";
   String temperaturamaximaoptima = "21.0";
+  var date1;
+  var date2;
   var data;
 
   @override
@@ -59,14 +61,24 @@ class _TemperaturaDelSueloPageState extends State<TemperaturaDelSueloPage> {
     var temps = await AwsAppsyncRepository().listTempSuelo() ?? "";
     print("Temps: " + temps.toString());
     var lastTemp = json.decode(temps)["listSensorTempSuelos"]["items"];
-    print("last temp" + lastTemp[0].toString());
-    return (lastTemp[0]["temperaturaSuelo"]);
+    final value = lastTemp.reduce((a, b) {
+      date1 = DateTime.parse(a["Tiempo"].toString());
+      date2 = DateTime.parse(b["Tiempo"].toString());
+      return date1.compareTo(date2) < 0 ? b : a;
+    });
+    print("Most recent value -> " + value.toString());
+    return (value["temperaturaSuelo"]);
   }
 
   Future<String> getMostRecentTime() async {
     var temps = await AwsAppsyncRepository().listTempSuelo() ?? "";
     var lastTemp = json.decode(temps)["listSensorTempSuelos"]["items"];
-    return (lastTemp[0]["Tiempo"]);
+    final value = lastTemp.reduce((a, b) {
+      date1 = DateTime.parse(a["Tiempo"].toString());
+      date2 = DateTime.parse(b["Tiempo"].toString());
+      return date1.compareTo(date2) < 0 ? b : a;
+    });
+    return (value["Tiempo"]);
   }
 
   Future<void> subscribe() async {

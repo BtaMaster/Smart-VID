@@ -25,7 +25,6 @@ import 'SensorHumedSuelo.dart';
 import 'SensorLuminosidad.dart';
 import 'SensorTempRelativa.dart';
 import 'SensorTempSuelo.dart';
-import 'Todo.dart';
 import 'ModelTodoConnection.dart';
 import 'ReporteDashboard.dart';
 import 'ReporteDashboardConnection.dart';
@@ -34,6 +33,7 @@ import 'SensorHumedSueloConnection.dart';
 import 'SensorLuminosidadConnection.dart';
 import 'SensorTempRelativaConnection.dart';
 import 'SensorTempSueloConnection.dart';
+import 'Todo.dart';
 
 export 'ModelAttributeTypes.dart';
 export 'ModelSortDirection.dart';
@@ -56,10 +56,10 @@ class ModelProvider implements ModelProviderInterface {
   @override
   String version = "4926aa2521fb5f0e41a333596e3f8e7a";
   @override
-  List<ModelSchema> modelSchemas = [SensorHumedRelativa.schema, SensorHumedSuelo.schema, SensorLuminosidad.schema, SensorTempRelativa.schema, SensorTempSuelo.schema, Todo.schema];
+  List<ModelSchema> modelSchemas = [SensorHumedRelativa.schema, SensorHumedSuelo.schema, SensorLuminosidad.schema, SensorTempRelativa.schema, SensorTempSuelo.schema];
   static final ModelProvider _instance = ModelProvider();
   @override
-  List<ModelSchema> customTypeSchemas = [ModelTodoConnection.schema, ReporteDashboard.schema, ReporteDashboardConnection.schema, SensorHumedRelativaConnection.schema, SensorHumedSueloConnection.schema, SensorLuminosidadConnection.schema, SensorTempRelativaConnection.schema, SensorTempSueloConnection.schema];
+  List<ModelSchema> customTypeSchemas = [ModelTodoConnection.schema, ReporteDashboard.schema, ReporteDashboardConnection.schema, SensorHumedRelativaConnection.schema, SensorHumedSueloConnection.schema, SensorLuminosidadConnection.schema, SensorTempRelativaConnection.schema, SensorTempSueloConnection.schema, Todo.schema];
 
   static ModelProvider get instance => _instance;
   
@@ -75,8 +75,6 @@ class ModelProvider implements ModelProviderInterface {
         return SensorTempRelativa.classType;
       case "SensorTempSuelo":
         return SensorTempSuelo.classType;
-      case "Todo":
-        return Todo.classType;
       default:
         throw Exception("Failed to find model in model provider for model name: " + modelName);
     }

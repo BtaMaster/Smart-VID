@@ -10,6 +10,7 @@ import 'package:smartvid/amplifyconfiguration.dart';
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'models/ModelProvider.dart';
+import 'package:amplify_datastore/amplify_datastore.dart';
 
 final cognitoRepository = AWSCognitoRepository();
 
@@ -19,7 +20,8 @@ void main() async {
   await Amplify.addPlugins([
     AmplifyAuthCognito(),
     AmplifyAPI(modelProvider: ModelProvider.instance),
-    AmplifyStorageS3()
+    AmplifyStorageS3(),
+    AmplifyDataStore(modelProvider: ModelProvider.instance),
   ]);
   await Amplify.configure(amplifyconfig);
   var loggedIn = false;

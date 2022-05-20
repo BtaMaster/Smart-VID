@@ -27,8 +27,10 @@ class _HumedadDelSueloPageState extends State<HumedadDelSueloPage> {
   String fasereproductivaActual = "FRUCTIFICACIÓN";
   String humedadminimaoptima = "10.0";
   String humedadmaximaoptima = "21.0";
+  var date1;
+  var date2;
   var data;
-  
+
   @override
   void initState() {
     super.initState();
@@ -59,14 +61,24 @@ class _HumedadDelSueloPageState extends State<HumedadDelSueloPage> {
     var humedades = await AwsAppsyncRepository().listHumedSuelo() ?? "";
     print("humedades: " + humedades.toString());
     var lastHumed = json.decode(humedades)["listSensorHumedSuelos"]["items"];
-    print("last " + lastHumed[0].toString());
-    return (lastHumed[0]["humedadSuelo"]);
+    final value = lastHumed.reduce((a, b) {
+      date1 = DateTime.parse(a["Tiempo"].toString());
+      date2 = DateTime.parse(b["Tiempo"].toString());
+      return date1.compareTo(date2) < 0 ? b : a;
+    });
+    print("Most recent value -> " + value.toString());
+    return (value["humedadSuelo"]);
   }
 
   Future<String> getMostRecentTime() async {
     var humedades = await AwsAppsyncRepository().listHumedSuelo() ?? "";
-    var lastTemp = json.decode(humedades)["listSensorHumedSuelos"]["items"];
-    return (lastTemp[0]["Tiempo"]);
+    var lastHumed = json.decode(humedades)["listSensorHumedSuelos"]["items"];
+    final value = lastHumed.reduce((a, b) {
+      date1 = DateTime.parse(a["Tiempo"].toString());
+      date2 = DateTime.parse(b["Tiempo"].toString());
+      return date1.compareTo(date2) < 0 ? b : a;
+    });
+    return (value["Tiempo"]);
   }
 
   Future<void> subscribe() async {
@@ -87,8 +99,8 @@ class _HumedadDelSueloPageState extends State<HumedadDelSueloPage> {
         data = event.data;
 
         setState(() {
-          humedad = double.parse(json
-              .decode(data)["onCreateSensorHumedSuelo"]["humedadSuelo"]);
+          humedad = double.parse(
+              json.decode(data)["onCreateSensorHumedSuelo"]["humedadSuelo"]);
         });
       },
       onError: (Object e) => print('Error in subscription stream: $e'),

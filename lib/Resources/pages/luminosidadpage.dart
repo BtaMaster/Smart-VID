@@ -27,6 +27,8 @@ class _LuminosidadPageState extends State<LuminosidadPage> {
   String fasereproductivaActual = "FRUCTIFICACIÓN";
   String luminosidadminimaoptima = "40000.0";
   String luminosidadmaximamaoptima = "80000.0";
+  var date1;
+  var date2;
   var data;
 
   @override
@@ -59,14 +61,24 @@ class _LuminosidadPageState extends State<LuminosidadPage> {
     var luminosidades = await AwsAppsyncRepository().listLuminosidad() ?? "";
     print("luminosidades: " + luminosidades.toString());
     var lastLum = json.decode(luminosidades)["listSensorLuminosidads"]["items"];
-    print("last " + lastLum[0].toString());
-    return (lastLum[0]["luminosidadSolar"]);
+    final value = lastLum.reduce((a, b) {
+      date1 = DateTime.parse(a["Tiempo"].toString());
+      date2 = DateTime.parse(b["Tiempo"].toString());
+      return date1.compareTo(date2) < 0 ? b : a;
+    });
+    print("Most recent value -> " + value.toString());
+    return (value["luminosidadSolar"]);
   }
 
   Future<String> getMostRecentTime() async {
     var luminosidades = await AwsAppsyncRepository().listLuminosidad() ?? "";
     var lastLum = json.decode(luminosidades)["listSensorLuminosidads"]["items"];
-    return (lastLum[0]["Tiempo"]);
+    final value = lastLum.reduce((a, b) {
+      date1 = DateTime.parse(a["Tiempo"].toString());
+      date2 = DateTime.parse(b["Tiempo"].toString());
+      return date1.compareTo(date2) < 0 ? b : a;
+    });
+    return (value["Tiempo"]);
   }
 
   Future<void> subscribe() async {
@@ -76,7 +88,7 @@ class _LuminosidadPageState extends State<LuminosidadPage> {
         luminosidadSolar
       }
     }''';
-  
+
     final Stream<GraphQLResponse<String>> operation = Amplify.API.subscribe(
       GraphQLRequest<String>(document: graphQLDocument),
       onEstablished: () => print('Subscription established'),
@@ -95,7 +107,6 @@ class _LuminosidadPageState extends State<LuminosidadPage> {
       onError: (Object e) => print('Error in subscription stream: $e'),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
