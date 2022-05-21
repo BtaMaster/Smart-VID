@@ -16,16 +16,6 @@ class Notificacion {
       required this.horaOcurrencia});
 }
 
-class NotificacionLuminosidadSolarTest extends Notificacion {
-  NotificacionLuminosidadSolarTest(String mensaje)
-      : super(
-            titulo: "Notificacion: Luminosidad Solar",
-            mensaje: mensaje,
-            valorOptimo: "40000-80000 Lux",
-            valorDetectado: "95000 Lux",
-            horaOcurrencia: DateFormat('kk:mm d/M/y').format(DateTime.now()));
-}
-
 class NotificacionLuminosidadSolar extends Notificacion {
   NotificacionLuminosidadSolar(String mensaje,
       {String? valorDetectado})
@@ -35,7 +25,7 @@ class NotificacionLuminosidadSolar extends Notificacion {
             horaOcurrencia:
                 DateFormat('kk:mm \n EEE d MMM').format(DateTime.now()),
             valorOptimo: "40000-80000 Lux",
-            valorDetectado: valorDetectado);
+            valorDetectado: valorDetectado! + ' lux' );
 }
 
 class NotificacionTemperaturaRelativa extends Notificacion {
@@ -47,7 +37,7 @@ class NotificacionTemperaturaRelativa extends Notificacion {
             horaOcurrencia:
                 DateFormat('kk:mm \n EEE d MMM').format(DateTime.now()),
             valorOptimo: "26°C - 30°C",
-            valorDetectado: valorDetectado);
+            valorDetectado: valorDetectado! + ' °C');
 }
 
 class NotificacionHumedadRelativa extends Notificacion {
@@ -59,7 +49,7 @@ class NotificacionHumedadRelativa extends Notificacion {
             horaOcurrencia:
                 DateFormat('kk:mm \n EEE d MMM').format(DateTime.now()),
             valorOptimo: "60% - 70%",
-            valorDetectado: valorDetectado);
+            valorDetectado: valorDetectado! + ' %');
 }
 
 class NotificacionTemperaturaSuelo extends Notificacion {
@@ -71,7 +61,7 @@ class NotificacionTemperaturaSuelo extends Notificacion {
             horaOcurrencia:
                 DateFormat('kk:mm \n EEE d MMM').format(DateTime.now()),
             valorOptimo: "25°C - 30°C",
-            valorDetectado: valorDetectado);
+            valorDetectado: valorDetectado! + ' °C');
 }
 
 class NotificacionHumedadSuelo extends Notificacion {
@@ -83,5 +73,5 @@ class NotificacionHumedadSuelo extends Notificacion {
             horaOcurrencia:
                 DateFormat('kk:mm \n EEE d MMM').format(DateTime.now()),
             valorOptimo: "35% - 45%",
-            valorDetectado: valorDetectado);
+            valorDetectado: valorDetectado! + ' %');
 }

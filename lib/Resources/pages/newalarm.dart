@@ -107,10 +107,7 @@ class _NewAlarmState extends State<NewAlarm> {
             hour = int.parse(hourController.text);
             minutes = int.parse(minuteController.text);
             FlutterAlarmClock.createAlarm(hour, minutes, title: nameController.text + "-" + widget.AlarmType);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MenuAlarmas()),
-            );
+            Navigator.of(context).pop('Creado');
           },
         ),
       ])),

@@ -74,11 +74,11 @@ class _NotificationItemState extends State<NotificationItem> {
             children: <Widget>[
               IconButton(onPressed: () {
                 NotificationApi.cancelNotification(widget.notification.id);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                        const MenuRecordatorios()));
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Se ha eliminado el recordatorio'),
+                  backgroundColor: Colors.purple,
+                ));
+                Navigator.of(context).pop('Creado');
               }, icon: Icon(Icons.delete))
             ],
           ),

@@ -30,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          return false;
+          return true;
         },
         child: Stack(
           children: <Widget>[
@@ -166,11 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         style: ElevatedButton.styleFrom(
                             textStyle: const TextStyle(fontSize: 10)),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()),
-                          );
+                          Navigator.of(context).pop();
                         },
                         child: const Text('Iniciar Sesión'),
                       ),
