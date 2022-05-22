@@ -50,14 +50,13 @@ class _LoginState extends State<LoginPage> {
                           fontSize: 30.0,
                         ),
                       )),
-                      const Spacer(flex: 2),
+                      const Spacer(flex: 1),
                       Flexible(
-                          flex: 1,
                           child: Center(
                             child: TextFormField(
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 20.0,
+                                fontSize: 18.0,
                               ),
                               cursorColor: Colors.white,
                               controller: emaillController,
@@ -74,13 +73,12 @@ class _LoginState extends State<LoginPage> {
                           )),
                       const Spacer(flex: 1),
                       Flexible(
-                          flex: 1,
                           child: Center(
                             child: TextFormField(
                               //FocusScope.of(context).requestFocus(new FocusNode()),
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 20.0,
+                                fontSize: 18.0,
                               ),
                               cursorColor: Colors.white,
                               controller: passwordController,
@@ -99,11 +97,11 @@ class _LoginState extends State<LoginPage> {
                       const Spacer(flex: 1),
                       Center(
                           child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 15),
+                          style: ElevatedButton.styleFrom(
+                            textStyle: const TextStyle(fontSize: 10),
                             primary: HexColor.getColorfromHex(calendarColor),
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 50, vertical: 20)),
+                                horizontal: 30, vertical: 15)),
                         onPressed: () async {
                           if (credentialValidator.validateLogin(
                               emaillController.text, passwordController.text)) {
@@ -157,7 +155,7 @@ class _LoginState extends State<LoginPage> {
                         ),
                       ),
                       const Spacer(flex: 1),
-                      Center(
+                      /*Center(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               textStyle: const TextStyle(fontSize: 10)),
@@ -172,6 +170,7 @@ class _LoginState extends State<LoginPage> {
                         ),
                       ),
                       const Spacer(flex: 1),
+                      */
                     ],
                   ),
                 ),

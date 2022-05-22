@@ -15,6 +15,8 @@ class NotificacionDetallePage extends StatefulWidget {
 
 class _NotificacionDetallePageState extends State<NotificacionDetallePage> {
 
+  var valDetectado;
+
   List<Recomendacion> recomendaciones = <Recomendacion>[
   /*  RecomendacionLuminosidad(
         "Baja producción de antocianinas(luminosidad baja)"),
@@ -35,31 +37,108 @@ class _NotificacionDetallePageState extends State<NotificacionDetallePage> {
     mostrarRecomendaciones();
   }
   void mostrarRecomendaciones(){
-    print(widget.notificacion.titulo);
+    valDetectado = int.parse(widget.notificacion.valorDetectado ?? '' );
+    //print(valDetectado);
+    //print(widget.notificacion.titulo);
     switch(widget.notificacion.titulo){
       case 'Notificacion: Humedad Relativa':
-          recomendaciones.addAll(<Recomendacion>[RecomendacionPlaga("Probabilidad de plaga"), RecomendacionHongo("Enfermedades"),
-          RecomendacionFollaje("Degradación de Uva"), RecomendacionPlaga("Chanchito blanco de la vid"), RecomendacionHongo("Oídio"),
-          RecomendacionAgua("Uso de plagicidas")]);
+        if(valDetectado < 60) {
+          recomendaciones.addAll(<Recomendacion>[
+            RecomendacionPlaga("Probabilidad de plaga"),
+            RecomendacionHongo("Enfermedades"),
+            RecomendacionFollaje("Degradación de Uva"),
+            RecomendacionPlaga("Chanchito blanco de la vid"),
+            RecomendacionHongo("Oídio")
+          ]);
+        }else if(valDetectado > 70) {
+          recomendaciones.addAll(<Recomendacion>[
+            RecomendacionPlaga("Probabilidad de plaga"),
+            RecomendacionHongo("Enfermedades"),
+            RecomendacionFollaje("Degradación de Uva"),
+            RecomendacionPlaga("Chanchito blanco de la vid"),
+            RecomendacionHongo("Oídio"),
+            RecomendacionAgua("Uso de plagicidas")
+          ]);
+        }
         break;
+
       case 'Notificacion: Luminosidad Solar':
-        recomendaciones.addAll(<Recomendacion>[RecomendacionLuminosidad("Baja produccion de antocianinas (luminosidad baja)"), RecomendacionLuminosidad("Reduccion de tasa de biosintesis (luminosidad alta)"),
-          RecomendacionFollaje("Uvas muy vigorosas(poco luminosidad)"), RecomendacionFollaje("Uvas poco vigorosas(alta luminosidad)"), RecomendacionFollaje("Poco follaje ydeficiente relacion hoja-fruto(sobrecarga)"),
-          RecomendacionLuminosidad("Mal cuaje(baja luminosidad)"), RecomendacionLuminosidad("Maduracion deficiente(baja iluminacion)")]);
+        if(valDetectado < 40000) {
+          recomendaciones.addAll(<Recomendacion>[
+            RecomendacionLuminosidad(
+                "Baja produccion de antocianinas"),
+            RecomendacionFollaje("Uvas muy vigorosas"),
+            RecomendacionLuminosidad("Mal cuaje"),
+            RecomendacionLuminosidad("Maduracion deficiente")
+          ]);
+        } else if(valDetectado > 80000){
+          recomendaciones.addAll(<Recomendacion>[
+            RecomendacionLuminosidad(
+                "Reduccion de tasa de biosintesis"),
+            RecomendacionFollaje("Uvas poco vigorosas"),
+            RecomendacionFollaje(
+                "Poco follaje ydeficiente relacion hoja-fruto")
+          ]);
+        }
         break;
       case 'Notificacion: Temperatura Relativa':
-        recomendaciones.addAll(<Recomendacion>[RecomendacionFollaje("Frutificacion-Concentracion de azucares en vides"), RecomendacionAgua("Floracion (clima seco y escazas lluvias)"),
-          RecomendacionFollaje("Daño de brotes y hojas jovenes(periodo vegetativo vid)"), RecomendacionHongo("Hongo de madera"), RecomendacionHongo("Brotytis"), RecomendacionHongo("Oídio"),
-          RecomendacionLuminosidad("Mildiu de la vid (Temperatura alta)"), RecomendacionLuminosidad("Quemaduras de hoja y racimos(temperaturas elevadas)")]);
+        if(valDetectado < 26) {
+          recomendaciones.addAll(<Recomendacion>[
+            RecomendacionFollaje(
+                "Daño de brotes y hojas jovenes"),
+            RecomendacionHongo("Hongo de madera"),
+            RecomendacionHongo("Brotytis"),
+            RecomendacionHongo("Oídio")
+          ]);
+        }else if(valDetectado > 30){
+          recomendaciones.addAll(<Recomendacion>[
+            RecomendacionFollaje(
+                "Frutificacion-Concentracion de azucares en vides"),
+            RecomendacionAgua("Floracion"),
+            RecomendacionHongo("Hongo de madera"),
+            RecomendacionHongo("Brotytis"),
+            RecomendacionHongo("Oídio"),
+            RecomendacionLuminosidad("Mildiu de la vid"),
+            RecomendacionLuminosidad(
+                "Quemaduras de hoja y racimos")
+          ]);
+        }
         break;
       case 'Notificacion: Temperatura Suelo':
-        recomendaciones.addAll(<Recomendacion>[RecomendacionFollaje("Uvas poco vigorosas(alta temperatura)"), RecomendacionLuminosidad("Poco follaje y deficiente relacion hoja-fruto (sobrecarga)"),
-          RecomendacionLuminosidad("Mal cuaje(baja temperatura)"), RecomendacionLuminosidad("Maduracion deficiente(baja temperatura)")]);
+        if(valDetectado < 25) {
+          recomendaciones.addAll(<Recomendacion>[
+            RecomendacionLuminosidad("Mal cuaje"),
+            RecomendacionLuminosidad("Maduracion deficiente")
+          ]);
+        }else if(valDetectado > 30){
+          recomendaciones.addAll(<Recomendacion>[
+            RecomendacionFollaje("Uvas poco vigorosas"),
+            RecomendacionLuminosidad(
+                "Poco follaje y deficiente relacion hoja-fruto")
+          ]);
+        }
         break;
       case 'Notificacion: Humedad Suelo':
-        recomendaciones.addAll(<Recomendacion>[RecomendacionHongo("Problemas de hongos en las plantas"), RecomendacionFollaje("Desarrollo y crecimiento de los cultivos"),
-          RecomendacionAgua("Demanda hidrica entre fases"), RecomendacionAgua("Disminución fotosintetica(pesima condicion de la humedad del suelo)"), RecomendacionAgua("Chanchitos blancos(humedad del suelo elevada)"),
-          RecomendacionFollaje("Caida de hojas y frutos(poca humedad del suelo)"), RecomendacionFollaje("Evitar punto de marchitez")]);
+        if(valDetectado < 35) {
+          recomendaciones.addAll(<Recomendacion>[
+            RecomendacionHongo("Problemas de hongos en las plantas"),
+            RecomendacionFollaje("Desarrollo y crecimiento de los cultivos"),
+            RecomendacionAgua("Demanda hidrica entre fases"),
+            RecomendacionAgua(
+                "Disminución fotosintetica"),
+            RecomendacionFollaje(
+                "Caida de hojas y frutos"),
+            RecomendacionFollaje("Evitar punto de marchitez")
+          ]);
+        }else if(valDetectado > 45){
+          recomendaciones.addAll(<Recomendacion>[
+            RecomendacionHongo("Problemas de hongos en las plantas"),
+            RecomendacionFollaje("Desarrollo y crecimiento de los cultivos"),
+            RecomendacionAgua("Demanda hidrica entre fases"),
+            RecomendacionAgua("Chanchitos blancos"),
+            RecomendacionFollaje("Evitar punto de marchitez")
+          ]);
+        }
         break;
     }
   }
@@ -163,9 +242,9 @@ class _NotificacionDetallePageState extends State<NotificacionDetallePage> {
                                       height:
                                           MediaQuery.of(context).size.width /
                                               16),
-                                if (widget.notificacion.valorDetectado != null)
+                                if (widget.notificacion.valorDetectadoMostrar != null)
                                   Text(
-                                      (widget.notificacion.valorDetectado ??
+                                      (widget.notificacion.valorDetectadoMostrar ??
                                           ''),
                                       style: GoogleFonts.lato(
                                           fontSize: MediaQuery.of(context)
