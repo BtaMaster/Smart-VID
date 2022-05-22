@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartvid/Resources/pages/homepage.dart';
+import 'package:smartvid/Resources/pages/loginpage.dart';
 import 'package:smartvid/Resources/pages/registerpage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import '../classes/aws_cognito.dart';
@@ -135,7 +136,7 @@ class _ConfirmationState extends State<ConfirmationPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const RegisterPage()),
+                                builder: (context) => const LoginPage()),
                           );
                         },
                         child: const Text('Volver a login'),

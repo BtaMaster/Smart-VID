@@ -5,11 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smartvid/Resources/classes/aws_cognito.dart';
 import 'package:smartvid/Resources/classes/aws_storage.dart';
+import 'package:smartvid/Resources/pages/profileconfigurationpage.dart';
 import 'package:smartvid/Resources/pages/calendariopage.dart';
 import 'package:smartvid/Resources/pages/loginpage.dart';
-import 'package:smartvid/Resources/pages/profileconfigurationpage.dart';
+import 'package:smartvid/Resources/pages/menualarmas.dart';
+import 'package:smartvid/Resources/pages/menurecordatorios.dart';
 import 'package:smartvid/Resources/pages/reportepage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
+import '../classes/aws_cognito.dart';
+import '../classes/localNotification.dart';
 import '../classes/notificacion.dart';
 import '../provider/push_notifications_provider.dart';
 import 'monitoreopage.dart';
@@ -37,10 +41,12 @@ class _HomePageState extends State<HomePage> {
   var name = '';
   var pfpUrl = '';
 
-  @override
-  void initState() {
+
+  List<Notificacion> notificacionesHome = <Notificacion>[];
+
+ @override
+  void initState(){
     super.initState();
-    //final messaging = FirebaseMessaging.instance;
     PushNotificationProvider().initNotifications();
     cognitoRepository.getName().then((value) => setState(() {
           name = value;
@@ -63,14 +69,34 @@ class _HomePageState extends State<HomePage> {
     );
     print('User granted permission: ${settings.authorizationStatus}');
     */
+
+    FirebaseMessaging.instance.getInitialMessage().then((message){
+      if(message != null){
+        sendDetalleNotificacion(message.notification!.body.toString(),
+            message.data['problema'], message.data['valorDetectado']);
+        enviarNotificacion(message.notification?.body, message.data['problema'], message.data['valorDetectado']);
+      }
+    });
+
+
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       await Firebase.initializeApp();
+
+      LocalNotification.initialize(context, message.notification!.body, message.data['valorDetectado']);
+
       print('Mensaje con aplicación Abierta');
       print('Data del Mensaje: ${message.data}');
       if (message.notification != null) {
         print('Título de Notificacion: ${message.notification!.title}');
         print('Descripcion de Notificacion: ${message.notification!.body}');
+        if(message.notification?.body != null) {
+          enviarNotificacion(
+              message.notification?.body, message.data['problema'],
+              message.data['valorDetectado']);
+        }
       }
+      LocalNotification.mostrar(message);
     });
 
     //Notificación cuando la aplicación esta en segundo plano
@@ -120,9 +146,72 @@ class _HomePageState extends State<HomePage> {
                 builder: (context) => const NotificacionesPage()));
             break;
         }
+      if(message.data != null) {
+        sendDetalleNotificacion(message.notification!.body.toString(),
+            message.data['problema'], message.data['valorDetectado']);
+        enviarNotificacion(message.notification?.body, message.data['problema'], message.data['valorDetectado']);
+      }
       }
     });
   }
+
+ void enviarNotificacion(String? body, String problema, String valorDetectado){
+   print("Se va a agregar una notificacion");
+   switch(problema){
+     case 'Humedad Relativa':
+       notificacionesHome.add(NotificacionHumedadRelativa(body!,valorDetectado: valorDetectado));
+       break;
+     case 'Luminosidad Solar':
+       notificacionesHome.add(NotificacionLuminosidadSolar(body!,valorDetectado: valorDetectado));
+       print(notificacionesHome);
+       break;
+     case 'Temperatura Relativa':
+       notificacionesHome.add(NotificacionTemperaturaRelativa(body!,valorDetectado: valorDetectado));
+       break;
+     case 'Temperatura Suelo':
+       notificacionesHome.add(NotificacionTemperaturaSuelo(body!,valorDetectado: valorDetectado));
+       break;
+     case 'Humedad Suelo':
+       notificacionesHome.add(NotificacionHumedadSuelo(body!,valorDetectado: valorDetectado));
+       break;
+   }
+ }
+
+
+ void sendDetalleNotificacion(String body, String problema, String valorDetectado){
+     switch(problema){
+       case 'Humedad Relativa':
+         Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+           (notificacion: NotificacionHumedadRelativa(body,
+             valorDetectado: valorDetectado))));
+         break;
+       case 'Luminosidad Solar':
+         Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+           (notificacion: NotificacionLuminosidadSolar(body,
+             valorDetectado: valorDetectado))));
+         break;
+       case 'Temperatura Relativa':
+         Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+           (notificacion: NotificacionTemperaturaRelativa(body,
+             valorDetectado: valorDetectado))));
+         break;
+       case 'Temperatura Suelo':
+         Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+           (notificacion: NotificacionTemperaturaSuelo(body,
+             valorDetectado: valorDetectado))));
+         break;
+       case 'Humedad Suelo':
+         Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificacionDetallePage
+           (notificacion: NotificacionHumedadSuelo(body,
+             valorDetectado: valorDetectado))));
+         break;
+       default:
+         Navigator.of(context)
+             .push(MaterialPageRoute(builder:
+             (context) => const NotificacionesPage()));
+         break;
+     }
+ }
 
   @override
   Widget build(BuildContext context) {
@@ -273,7 +362,7 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const NotificacionesPage()),
+                                    NotificacionesPage(notificaciones: notificacionesHome)),
                           );
                         },
                       )),
@@ -319,7 +408,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AlarmaPage()),
+                              builder: (context) => const MenuAlarmas()),
                         );
                       },*/
                       )),
@@ -384,6 +473,28 @@ class _HomePageState extends State<HomePage> {
                               });
                         },
                       )),
+                  Theme(
+                  data: Theme.of(context).copyWith(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  ),
+                  child: ListTile(
+                  title: Text('Recordatorios',
+                      style: GoogleFonts.roboto(
+                          fontSize: 21,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400)),
+                   trailing: Icon(Icons.message,
+                      size: MediaQuery.of(context).size.height / 18,
+                      color: Colors.black),
+                   onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MenuRecordatorios()),
+                     );
+                   },
+                  )),
                   Divider(
                       height: 2,
                       color: HexColor.getColorfromHex(dividerHomePageColor)),
