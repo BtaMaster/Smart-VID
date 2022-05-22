@@ -103,7 +103,7 @@ class _LoginState extends State<LoginPage> {
                           textStyle: const TextStyle(fontSize: 15),
                           primary: HexColor.getColorfromHex(calendarColor),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 20)),
+                              horizontal: 20, vertical: 15)),
                       onPressed: () async {
                         if (credentialValidator.validateLogin(
                             emaillController.text, passwordController.text)) {
@@ -141,7 +141,6 @@ class _LoginState extends State<LoginPage> {
                         child: const Text('¿Olvidaste la contraseña?'),
                       ),
                     ),
-                    const Spacer(flex: 1),
                     Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -156,7 +155,7 @@ class _LoginState extends State<LoginPage> {
                         child: const Text('Crear Cuenta'),
                       ),
                     ),
-                    const Spacer(flex: 1),
+                    
                     Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -171,7 +170,6 @@ class _LoginState extends State<LoginPage> {
                         child: const Text('Confirmar Cuenta'),
                       ),
                     ),
-                    const Spacer(flex: 1)
                   ],
                 ),
               ),

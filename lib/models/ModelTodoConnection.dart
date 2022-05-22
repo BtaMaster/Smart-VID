@@ -92,7 +92,7 @@ class ModelTodoConnection {
   ModelTodoConnection.fromJson(Map<String, dynamic> json)  
     : _items = json['items'] is List
         ? (json['items'] as List)
-          .where((e) => e?['serializedData'] != null)
+          .where((e) => e != null)
           .map((e) => Todo.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null,
@@ -106,11 +106,11 @@ class ModelTodoConnection {
     modelSchemaDefinition.name = "ModelTodoConnection";
     modelSchemaDefinition.pluralName = "ModelTodoConnections";
     
-    modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(
+    modelSchemaDefinition.addField(ModelFieldDefinition.embedded(
       fieldName: 'items',
       isRequired: true,
       isArray: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.string))
+      ofType: ModelFieldType(ModelFieldTypeEnum.embeddedCollection, ofCustomTypeName: 'Todo')
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.customTypeField(

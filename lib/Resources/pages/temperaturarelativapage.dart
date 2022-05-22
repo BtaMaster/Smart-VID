@@ -28,7 +28,10 @@ class _TemperaturaRelativaPageState extends State<TemperaturaRelativaPage> {
   String fasereproductivaActual = "FRUCTIFICACIÓN";
   String temperaturaminimaoptima = "10.0";
   String temperaturamaximaoptima = "21.0";
+  var date1;
+  var date2;
   var data;
+
   @override
   void initState() {
     super.initState();
@@ -57,15 +60,26 @@ class _TemperaturaRelativaPageState extends State<TemperaturaRelativaPage> {
 
   Future<String> getMostRecentTemp() async {
     var temps = await AwsAppsyncRepository().listTempRelativa() ?? "";
-    var lastTemp = json.decode(temps)["listSensorTempRelativas"]["items"];
-    print("last temp" + lastTemp[0].toString());
-    return (lastTemp[0]["temperaturaRelativa"]);
+    dynamic lastTemp = json.decode(temps)["listSensorTempRelativas"]["items"];
+    print("last temp" + lastTemp.toString());
+    final value = lastTemp.reduce((a, b) {
+      date1 = DateTime.parse(a["Tiempo"].toString());
+      date2 = DateTime.parse(b["Tiempo"].toString());
+      return date1.compareTo(date2) < 0 ? b : a;
+    });
+    print("Most recent value -> " + value.toString());
+    return (value["temperaturaRelativa"]);
   }
 
   Future<String> getMostRecentTime() async {
     var temps = await AwsAppsyncRepository().listTempRelativa() ?? "";
     var lastTemp = json.decode(temps)["listSensorTempRelativas"]["items"];
-    return (lastTemp[0]["Tiempo"]);
+    final value = lastTemp.reduce((a, b) {
+      date1 = DateTime.parse(a["Tiempo"].toString());
+      date2 = DateTime.parse(b["Tiempo"].toString());
+      return date1.compareTo(date2) < 0 ? b : a;
+    });
+    return (value["Tiempo"]);
   }
 
   Future<void> subscribe() async {

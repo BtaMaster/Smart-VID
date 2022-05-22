@@ -1,8 +1,18 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:crypto/crypto.dart';
+
+String sha1RandomString() {
+  final randomNumber = Random().nextDouble();
+  final randomBytes = utf8.encode(randomNumber.toString());
+  final randomString = sha1.convert(randomBytes).toString();
+  return randomString;
+}
 
 class AWSCognitoRepository {
   String username = '';
@@ -124,10 +134,10 @@ class AWSCognitoRepository {
       );
       print("Name changed");
       return true;
-      } on AmplifyException catch (e) {
-        print(e);
-        return false;
-      }
+    } on AmplifyException catch (e) {
+      print(e);
+      return false;
+    }
   }
 
   Future<bool> updatePassword(String oldpassword, String newPassword) async {
@@ -138,11 +148,11 @@ class AWSCognitoRepository {
       );
       print("Password changed");
       return true;
-      } on AmplifyException catch (e) {
-        print(e);
-        print("Wrong credentials.");
-        return false;
-      }
+    } on AmplifyException catch (e) {
+      print(e);
+      print("Wrong credentials.");
+      return false;
+    }
   }
 
   Future<void> signOut() async {
@@ -151,6 +161,22 @@ class AWSCognitoRepository {
       print("User signed out.");
     } catch (e) {
       print("User sign out failed.");
+    }
+  }
+
+  Future<bool> deleteAccount(String password) async {
+    try {
+      //await Amplify.Auth.deleteUser();
+      print(password);
+      await Amplify.Auth.updatePassword(
+        oldPassword: password,
+        newPassword: sha1RandomString() + '!A1z#%',
+      );
+      print('Delete user succeeded');
+      return true;
+    } on Exception catch (e) {
+      print('Delete user failed with error: $e');
+      return false;
     }
   }
 }

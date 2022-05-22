@@ -39,8 +39,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var name = '';
-  var pfpUrl =
-      'https://smartvid-storage01535-staging.s3.us-east-1.amazonaws.com/public/profiletemp.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjELv%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJIMEYCIQC%2BVmOYqQ1EewDvk7JKX3rGV8qKzop%2FqNOPKPDdtOQmGQIhALFxSKOqz%2FxLPFlqptemorWwwRsTMuqUaCJe88yMrsoRKu0CCJT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMDY3NTIwODgwMDEzIgy0rlnFlvMxJNgkatYqwQKPkONSzCnWtXJ55QnKZgWpXwND%2Bn0mF6TnTJngzz6IDVgB0q8wg5tufosxi7bxYYKpkVcaFAo%2FRq6UMkUR12NHYqHPFQRQsuRZXw5n0YXD%2FKB77bs5X529W1p4DZgUa688Gx3BoCF%2Fo5ZF%2Bnkog6iVNUO7DCaefj%2BpQNJ6CeAJ%2FCtffoDGqg08rbkk3Dnu%2BTBjV25GYLbtnSZV%2B9ygZDPb9C9eE3UsFA5DA6lKWOSkDucwaux8vI2ECJEsLdOJTyD%2Fu0Wp7mzSCagjcjhPyiiQAFmuEPYWsigvGRdQ0zHuPvEWYQZPykJWemLsZq3psTXyyuOa0sAxvBT5YrgfTy6TT0H3vw7eGl%2BXRgEBo7%2FDVwnj9LrcYT5BzVPoJfVOTDK3zxPvIKk7YrsUEcBvYWUCm4OTLa35eDVqX1q1crhazG0w75WFlAY6sgIImKyUAX19QBsx7obv2OH9itbbC3REXev%2BuI%2F%2F8ykqCPyZl2%2BjzTwi2sEixQ1%2Fwif8OLhseawwshf0R7TLVlyUVTelonHhIp9MhQj158lj%2BFLsH5YkfLt%2FI64Gfz7vGl04LFjc1%2Fz011bUz0CYKETFpwN9Wf97Ajvec65cIfnR1R8en4GZeWfZMtakteXvaJSX7zMjx4UkO%2B88w8cTPfzQMhwNtpw0BtkrvCGIEn9%2F9s%2BwNnAvv4ltMBVIFW3Al28iLsDwE%2Bxu6YCF9oYPcU25uVvnTyEpQBLZQn6TXVtsLAeomDxneEgErwVZPgERx%2FNlUiMqgi2jH2y2S54p%2Bt3CKnb4c6%2BrBtGaRSyqWRnI1TvkBHkczivlD2D0undsaVdDfz1VK5Pe7TFVxliZr3VeoMM%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20220515T191401Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ7OEO3WGXPPNEIVO%2F20220515%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=0ffe3e11b766606865ec247cfccbc2a02a2fc806a49601ec97bdac0df21cb43a';
+  var pfpUrl = '';
 
 
   List<Notificacion> notificacionesHome = <Notificacion>[];
@@ -259,11 +258,17 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: Stack(
                         children: [
-                          CircleAvatar(
-                            backgroundColor:
-                                HexColor.getColorfromHex(profileIconColor),
-                            radius: 40,
-                            backgroundImage: NetworkImage(pfpUrl),
+                          pfpUrl != '' ? CircleAvatar(
+                              backgroundColor:
+                                  HexColor.getColorfromHex(profileIconColor),
+                              radius: 50,
+                              backgroundImage: NetworkImage(pfpUrl),
+                            ) : CircleAvatar(
+                              backgroundColor:
+                                  HexColor.getColorfromHex(profileIconColor),
+                              radius: 50,
+                              child: const Image(
+                                image: AssetImage("assets/images/profiletemp.png")),
                           ),
                           Positioned(
                             bottom: 0,

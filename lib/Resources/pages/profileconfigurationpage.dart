@@ -6,10 +6,13 @@ import 'package:smartvid/Resources/pages/registerpage.dart';
 import 'package:smartvid/Resources/pages/resetpasswordpage.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import '../classes/aws_cognito.dart';
+import '../classes/aws_storage.dart';
 import '../classes/credentialsValidator.dart';
+import 'loginpage.dart';
 
 final cognitoRepository = AWSCognitoRepository();
 final credentialValidator = CredentialValidator();
+final s3Repository = AWSStorageRepository();
 
 //Login widget
 class ProfileConfigurationPage extends StatefulWidget {
@@ -24,10 +27,118 @@ class _ProfileConfigurationState extends State<ProfileConfigurationPage> {
   final oldNameController = TextEditingController();
   final passwordController = TextEditingController();
   final oldpasswordController = TextEditingController();
+  final emailConfirmationController = TextEditingController();
+  final passwordConfirmationController = TextEditingController();
   var isEnabled = false;
   var name = '';
-  var pfpUrl =
-      'https://smartvid-storage01535-staging.s3.us-east-1.amazonaws.com/public/profiletemp.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjELv%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJIMEYCIQC%2BVmOYqQ1EewDvk7JKX3rGV8qKzop%2FqNOPKPDdtOQmGQIhALFxSKOqz%2FxLPFlqptemorWwwRsTMuqUaCJe88yMrsoRKu0CCJT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMDY3NTIwODgwMDEzIgy0rlnFlvMxJNgkatYqwQKPkONSzCnWtXJ55QnKZgWpXwND%2Bn0mF6TnTJngzz6IDVgB0q8wg5tufosxi7bxYYKpkVcaFAo%2FRq6UMkUR12NHYqHPFQRQsuRZXw5n0YXD%2FKB77bs5X529W1p4DZgUa688Gx3BoCF%2Fo5ZF%2Bnkog6iVNUO7DCaefj%2BpQNJ6CeAJ%2FCtffoDGqg08rbkk3Dnu%2BTBjV25GYLbtnSZV%2B9ygZDPb9C9eE3UsFA5DA6lKWOSkDucwaux8vI2ECJEsLdOJTyD%2Fu0Wp7mzSCagjcjhPyiiQAFmuEPYWsigvGRdQ0zHuPvEWYQZPykJWemLsZq3psTXyyuOa0sAxvBT5YrgfTy6TT0H3vw7eGl%2BXRgEBo7%2FDVwnj9LrcYT5BzVPoJfVOTDK3zxPvIKk7YrsUEcBvYWUCm4OTLa35eDVqX1q1crhazG0w75WFlAY6sgIImKyUAX19QBsx7obv2OH9itbbC3REXev%2BuI%2F%2F8ykqCPyZl2%2BjzTwi2sEixQ1%2Fwif8OLhseawwshf0R7TLVlyUVTelonHhIp9MhQj158lj%2BFLsH5YkfLt%2FI64Gfz7vGl04LFjc1%2Fz011bUz0CYKETFpwN9Wf97Ajvec65cIfnR1R8en4GZeWfZMtakteXvaJSX7zMjx4UkO%2B88w8cTPfzQMhwNtpw0BtkrvCGIEn9%2F9s%2BwNnAvv4ltMBVIFW3Al28iLsDwE%2Bxu6YCF9oYPcU25uVvnTyEpQBLZQn6TXVtsLAeomDxneEgErwVZPgERx%2FNlUiMqgi2jH2y2S54p%2Bt3CKnb4c6%2BrBtGaRSyqWRnI1TvkBHkczivlD2D0undsaVdDfz1VK5Pe7TFVxliZr3VeoMM%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20220515T191401Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ7OEO3WGXPPNEIVO%2F20220515%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=0ffe3e11b766606865ec247cfccbc2a02a2fc806a49601ec97bdac0df21cb43a';
+  var pfpUrl = '';
+
+  Future<void> showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Borrar Cuenta'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                const Text('¿Estas seguro que quieres borrar tu cuenta?.'),
+                const Text('Esta acción no es reversible.'),
+                const Spacer(flex: 1),
+                Flexible(
+                    flex: 1,
+                    child: Center(
+                      child: TextFormField(
+                        //FocusScope.of(context).requestFocus(new FocusNode()),
+                        style: const TextStyle(
+                          color: Colors.purple,
+                          fontSize: 15.0,
+                        ),
+                        cursorColor: Colors.white,
+                        controller: emailConfirmationController,
+                        autocorrect: false,
+                        decoration: const InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.purple)),
+                          contentPadding: EdgeInsets.only(
+                              bottom: 5.0, left: 5.0, right: 5.0),
+                          labelText: 'Email',
+                          labelStyle: TextStyle(color: Colors.purple),
+                        ),
+                      ),
+                    )),
+                const Spacer(flex: 1),
+                Flexible(
+                    flex: 1,
+                    child: Center(
+                      child: TextFormField(
+                        //FocusScope.of(context).requestFocus(new FocusNode()),
+                        style: const TextStyle(
+                          color: Colors.purple,
+                          fontSize: 15.0,
+                        ),
+                        cursorColor: Colors.white,
+                        controller: passwordConfirmationController,
+                        obscureText: true,
+                        autocorrect: false,
+                        decoration: const InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.purple)),
+                          contentPadding: EdgeInsets.only(
+                              bottom: 5.0, left: 5.0, right: 5.0),
+                          labelText: 'Contraseña',
+                          labelStyle: TextStyle(color: Colors.purple),
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    child: const Text('Cancel'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: const Text('Confirm'),
+                    onPressed: () async {
+                      if (emailConfirmationController.text == emailController.text &&
+                          credentialValidator.validatePassword(
+                              passwordConfirmationController.text)) {
+                        var succesful;
+                        await cognitoRepository
+                            .deleteAccount(passwordConfirmationController.text).then((value) => succesful = value);
+                        Navigator.of(context).pop();
+                        if (succesful) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()),
+                          );
+                        } else {
+                          Fluttertoast.showToast(msg: "Wrong password.");
+                        }
+                      }
+                      else {
+                        Fluttertoast.showToast(msg: "Wrong email or password.");
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void initState() {
     super.initState();
@@ -86,12 +197,21 @@ class _ProfileConfigurationState extends State<ProfileConfigurationPage> {
                         },
                         child: Stack(
                           children: [
-                            CircleAvatar(
-                              backgroundColor:
-                                  HexColor.getColorfromHex(profileIconColor),
-                              radius: 75,
-                              backgroundImage: NetworkImage(pfpUrl),
-                            ),
+                            pfpUrl != ''
+                                ? CircleAvatar(
+                                    backgroundColor: HexColor.getColorfromHex(
+                                        profileIconColor),
+                                    radius: 75,
+                                    backgroundImage: NetworkImage(pfpUrl),
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: HexColor.getColorfromHex(
+                                        profileIconColor),
+                                    radius: 75,
+                                    child: const Image(
+                                        image: AssetImage(
+                                            "assets/images/profiletemp.png")),
+                                  ),
                             Positioned(
                               bottom: 0,
                               right: 0,
@@ -235,6 +355,18 @@ class _ProfileConfigurationState extends State<ProfileConfigurationPage> {
                             ))
                         : SizedBox(),
                     const Spacer(flex: 1),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 15),
+                          primary: HexColor.getColorfromHex(calendarColor),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10)),
+                      onPressed: () {
+                        showMyDialog();
+                      },
+                      child: const Text('Borrar Cuenta'),
+                    ),
+                    const Spacer(flex: 1),
                     Center(
                         child: Row(
                       children: [
@@ -266,13 +398,17 @@ class _ProfileConfigurationState extends State<ProfileConfigurationPage> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 15)),
                                 onPressed: () {
-                                  setState(() {
-                                    isEnabled = false;
-                                    cognitoRepository
-                                        .updateName(nameController.text);
-                                    cognitoRepository.updatePassword(
-                                        oldpasswordController.text,
-                                        passwordController.text);
+                                  setState(() async {
+                                    if (credentialValidator.validatePassword(
+                                            passwordController.text) &&
+                                        nameController.text != '') {
+                                      isEnabled = false;
+                                      cognitoRepository
+                                          .updateName(nameController.text);
+                                      cognitoRepository.updatePassword(
+                                          oldpasswordController.text,
+                                          passwordController.text);
+                                    } else {}
                                   });
                                 },
                                 child: const Text('Confirm'),
