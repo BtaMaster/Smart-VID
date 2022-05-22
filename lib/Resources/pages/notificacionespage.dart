@@ -17,9 +17,7 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
 
   final home = const HomePage();
 
-  List<Notificacion> notificaciones = <Notificacion>[
-    /*NotificacionLuminosidadSolarTest(
-        "Se detectó un valor fuera del rango oportuno de luminosidad."),
+  List<Notificacion> notificacionesActuales = <Notificacion>[/*
     NotificacionLuminosidadSolar(
         "Se detectó un valor fuera del rango oportuno de luminosidad."),
     NotificacionTemperaturaRelativa(
@@ -53,6 +51,11 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
   ];
 
 
+  void eliminarNotificacion(int index){
+    widget.notificaciones!.removeAt(index);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +64,7 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
         centerTitle: true,
       ),
       backgroundColor: HexColor.getColorfromHex(interfaceColor),
-      body: ListView.separated(
+      body:  ListView.separated(
           padding: const EdgeInsets.all(10),
           itemCount: widget.notificaciones!.length,
           separatorBuilder: (BuildContext context, _) =>
@@ -81,7 +84,22 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => NotificacionDetallePage(
-                          notificacion: widget.notificaciones![index]))),
+                          notificacion:widget.notificaciones![index])
+                  )
+              ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                IconButton(onPressed: () {
+                  eliminarNotificacion(index);
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Se ha eliminado la notificación'),
+                    backgroundColor: Colors.purple,
+                  ));
+                  Navigator.of(context).pop();
+                }, icon: Icon(Icons.delete))
+              ],
+            ),
             );
           }),
     );

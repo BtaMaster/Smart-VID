@@ -114,7 +114,16 @@ class _ConfirmationState extends State<ConfirmationPage> {
                             MaterialPageRoute(
                                 builder: (context) => const HomePage()),
                           );
-                        } else {}
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text('Se ha creado su cuenta'),
+                            backgroundColor: Colors.purple,
+                          ));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text('Hubo un problema con el registro de su cuenta'),
+                            backgroundColor: Colors.redAccent,
+                          ));
+                        }
                       },
                       child: const Text('Confirmar'),
                     )),

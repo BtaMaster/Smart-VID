@@ -141,10 +141,6 @@ class _HomePageState extends State<HomePage> {
                         message.notification!.body.toString(),
                         valorDetectado: message.data['valorDetectado']))));
             break;
-          default:
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const NotificacionesPage()));
-            break;
         }
       if(message.data != null) {
         sendDetalleNotificacion(message.notification!.body.toString(),
@@ -404,13 +400,13 @@ class _HomePageState extends State<HomePage> {
                         trailing: Icon(Icons.alarm,
                             size: MediaQuery.of(context).size.height / 18,
                             color: Colors.black),
-                        /*onTap: () {
+                        onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const MenuAlarmas()),
                         );
-                      },*/
+                      },
                       )),
                   Theme(
                       data: Theme.of(context).copyWith(
@@ -432,6 +428,28 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const ReportePage()),
+                          );
+                        },
+                      )),
+                  Theme(
+                      data: Theme.of(context).copyWith(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                      ),
+                      child: ListTile(
+                        title: Text('Recordatorios',
+                            style: GoogleFonts.roboto(
+                                fontSize: 21,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400)),
+                        trailing: Icon(Icons.message,
+                            size: MediaQuery.of(context).size.height / 18,
+                            color: Colors.black),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const MenuRecordatorios()),
                           );
                         },
                       )),
@@ -473,28 +491,6 @@ class _HomePageState extends State<HomePage> {
                               });
                         },
                       )),
-                  Theme(
-                  data: Theme.of(context).copyWith(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  hoverColor: Colors.transparent,
-                  ),
-                  child: ListTile(
-                  title: Text('Recordatorios',
-                      style: GoogleFonts.roboto(
-                          fontSize: 21,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400)),
-                   trailing: Icon(Icons.message,
-                      size: MediaQuery.of(context).size.height / 18,
-                      color: Colors.black),
-                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const MenuRecordatorios()),
-                     );
-                   },
-                  )),
                   Divider(
                       height: 2,
                       color: HexColor.getColorfromHex(dividerHomePageColor)),

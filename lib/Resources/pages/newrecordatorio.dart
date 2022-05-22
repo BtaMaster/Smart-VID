@@ -141,11 +141,11 @@ class _NewRecordatorioState extends State<NewRecordatorio> {
               scheduledDate: finalDateTime.toLocal(),
               payload: 'recordatorio',
             );
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                    const MenuRecordatorios()));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Se ha creado el recordatorio'),
+              backgroundColor: Colors.purple,
+            ));
+            Navigator.of(context).pop('Creado');
           },
         ),
       ])),
