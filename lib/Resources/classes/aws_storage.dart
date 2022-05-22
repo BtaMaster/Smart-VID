@@ -38,6 +38,10 @@ class AWSStorageRepository {
     }
   }
 
+  Future<bool> uploadDefaultPfp() async {
+    return true;
+  }
+
   void getUserPfp() async {
     try {
       final GetUrlResult result =

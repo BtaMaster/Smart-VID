@@ -21,15 +21,16 @@ class HumedadRelativaPage extends StatefulWidget {
 }
 
 class _HumedadRelativaPageState extends State<HumedadRelativaPage> {
-
   double humedad = 70.0;
   double thicknessMeter = 35.0;
   String fasereproductivaActual = "FRUCTIFICACIÓN";
   String humedadminimaoptima = "10.0";
   String humedadmaximaoptima = "21.0";
+  var date1;
+  var date2;
   var data;
 
- @override
+  @override
   void initState() {
     super.initState();
     getMostRecentHumd().then((value) => setState(() {
@@ -59,14 +60,24 @@ class _HumedadRelativaPageState extends State<HumedadRelativaPage> {
     var humedades = await AwsAppsyncRepository().listHumedRelativa() ?? "";
     print("humedades: " + humedades.toString());
     var lastHumed = json.decode(humedades)["listSensorHumedRelativas"]["items"];
-    print("last " + lastHumed[0].toString());
-    return (lastHumed[0]["humedadRelativa"]);
+    final value = lastHumed.reduce((a, b) {
+      date1 = DateTime.parse(a["Tiempo"].toString());
+      date2 = DateTime.parse(b["Tiempo"].toString());
+      return date1.compareTo(date2) < 0 ? b : a;
+    });
+    print("Most recent value -> " + value.toString());
+    return (value["humedadRelativa"]);
   }
 
   Future<String> getMostRecentTime() async {
     var humedades = await AwsAppsyncRepository().listHumedRelativa() ?? "";
-    var lastTemp = json.decode(humedades)["listSensorHumedRelativas"]["items"];
-    return (lastTemp[0]["Tiempo"]);
+    var lastHumed = json.decode(humedades)["listSensorHumedRelativas"]["items"];
+    final value = lastHumed.reduce((a, b) {
+      date1 = DateTime.parse(a["Tiempo"].toString());
+      date2 = DateTime.parse(b["Tiempo"].toString());
+      return date1.compareTo(date2) < 0 ? b : a;
+    });
+    return (value["Tiempo"]);
   }
 
   Future<void> subscribe() async {
@@ -88,14 +99,13 @@ class _HumedadRelativaPageState extends State<HumedadRelativaPage> {
         data = event.data;
 
         setState(() {
-          humedad = double.parse(
-              json.decode(data)["onCreateSensorHumedRelativa"]["humedadRelativa"]);
+          humedad = double.parse(json
+              .decode(data)["onCreateSensorHumedRelativa"]["humedadRelativa"]);
         });
       },
       onError: (Object e) => print('Error in subscription stream: $e'),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
