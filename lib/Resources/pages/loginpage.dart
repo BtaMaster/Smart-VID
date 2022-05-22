@@ -40,14 +40,14 @@ class _LoginState extends State<LoginPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Spacer(flex: 1),
+                      //const Spacer(flex: 1),
                       const Center(
                           child: Text(
                         'Inicio de sesión',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 30.0,
+                          fontSize: 25.0,
                         ),
                       )),
                       const Spacer(flex: 1),
@@ -56,7 +56,7 @@ class _LoginState extends State<LoginPage> {
                             child: TextFormField(
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 18.0,
+                                fontSize: 15.0,
                               ),
                               cursorColor: Colors.white,
                               controller: emaillController,
@@ -78,7 +78,7 @@ class _LoginState extends State<LoginPage> {
                               //FocusScope.of(context).requestFocus(new FocusNode()),
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 18.0,
+                                fontSize: 15.0,
                               ),
                               cursorColor: Colors.white,
                               controller: passwordController,
@@ -155,7 +155,7 @@ class _LoginState extends State<LoginPage> {
                         ),
                       ),
                       const Spacer(flex: 1),
-                      /*Center(
+                      Center(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               textStyle: const TextStyle(fontSize: 10)),
@@ -170,7 +170,7 @@ class _LoginState extends State<LoginPage> {
                         ),
                       ),
                       const Spacer(flex: 1),
-                      */
+
                     ],
                   ),
                 ),

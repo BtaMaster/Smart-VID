@@ -77,7 +77,7 @@ class _NotificacionDetallePageState extends State<NotificacionDetallePage> {
                 "Reduccion de tasa de biosintesis"),
             RecomendacionFollaje("Uvas poco vigorosas"),
             RecomendacionFollaje(
-                "Poco follaje ydeficiente relacion hoja-fruto")
+                "Poco follaje y deficiente relacion hoja-fruto")
           ]);
         }
         break;
