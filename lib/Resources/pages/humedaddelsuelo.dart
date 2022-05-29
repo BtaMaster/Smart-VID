@@ -48,8 +48,8 @@ class _HumedadDelSueloPageState extends State<HumedadDelSueloPage> {
     var range = cycleHelper.getRelativeHumities(fasereproductivaActual);
     setState(() {
       if (range[0] == null && range[1] == null) {
-        humedadminimaoptima = "-";
-        humedadmaximaoptima = "-";
+        humedadminimaoptima = "No Def.";
+        humedadmaximaoptima = "No Def.";
       } else {
         humedadminimaoptima = range[0].toString();
         humedadmaximaoptima = range[1].toString();

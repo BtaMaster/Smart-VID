@@ -48,8 +48,8 @@ class _TemperaturaDelSueloPageState extends State<TemperaturaDelSueloPage> {
     var range = cycleHelper.getRelativeTemps(fasereproductivaActual);
     setState(() {
       if (range[0] == null && range[1] == null) {
-        temperaturaminimaoptima = "-";
-        temperaturamaximaoptima = "-";
+        temperaturaminimaoptima = "No Def.";
+        temperaturamaximaoptima = "No Def.";
       } else {
         temperaturaminimaoptima = range[0].toString();
         temperaturamaximaoptima = range[1].toString();

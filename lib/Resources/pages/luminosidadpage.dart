@@ -48,8 +48,8 @@ class _LuminosidadPageState extends State<LuminosidadPage> {
     var range = cycleHelper.getRelativeHumities(fasereproductivaActual);
     setState(() {
       if (range[0] == null && range[1] == null) {
-        luminosidadminimaoptima = "-";
-        luminosidadmaximamaoptima = "-";
+        luminosidadminimaoptima = "No Def.";
+        luminosidadmaximamaoptima = "No Def.";
       } else {
         luminosidadminimaoptima = range[0].toString();
         luminosidadmaximamaoptima = range[1].toString();
