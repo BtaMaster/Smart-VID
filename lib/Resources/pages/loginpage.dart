@@ -40,24 +40,23 @@ class _LoginState extends State<LoginPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Spacer(flex: 1),
                     const Center(
                         child: Text(
                       'Inicio de sesión',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 30.0,
+                        fontSize: 25.0,
                       ),
                     )),
-                    const Spacer(flex: 2),
+                    const Spacer(flex: 1),
                     Flexible(
                         flex: 1,
                         child: Center(
                           child: TextFormField(
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 20.0,
+                              fontSize: 15.0,
                             ),
                             cursorColor: Colors.white,
                             controller: emaillController,
@@ -80,7 +79,7 @@ class _LoginState extends State<LoginPage> {
                             //FocusScope.of(context).requestFocus(new FocusNode()),
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 20.0,
+                              fontSize: 15.0,
                             ),
                             cursorColor: Colors.white,
                             controller: passwordController,

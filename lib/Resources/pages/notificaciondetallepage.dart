@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smartvid/Resources/classes/recomendaciones.dart';
 import 'package:smartvid/Resources/util/colors.dart';
 import 'package:smartvid/Resources/classes/notificacion.dart';
+import 'package:smartvid/models/ModelProvider.dart';
 
 class NotificacionDetallePage extends StatefulWidget {
   final Notificacion notificacion;
@@ -37,7 +40,7 @@ class _NotificacionDetallePageState extends State<NotificacionDetallePage> {
     mostrarRecomendaciones();
   }
   void mostrarRecomendaciones(){
-    valDetectado = int.parse(widget.notificacion.valorDetectado ?? '' );
+    valDetectado = double.parse(widget.notificacion.valorDetectado ?? '' );
     //print(valDetectado);
     //print(widget.notificacion.titulo);
     switch(widget.notificacion.titulo){
@@ -82,7 +85,7 @@ class _NotificacionDetallePageState extends State<NotificacionDetallePage> {
         }
         break;
       case 'Notificacion: Temperatura Relativa':
-        if(valDetectado < 26) {
+        if(valDetectado < (26)) {
           recomendaciones.addAll(<Recomendacion>[
             RecomendacionFollaje(
                 "Daño de brotes y hojas jovenes"),
