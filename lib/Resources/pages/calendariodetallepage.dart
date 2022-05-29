@@ -96,7 +96,7 @@ class _CalendarioVegetativoPageState extends State<CalendarioDetallePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    if (faseActual1.faseActual == "Sin fase")
+                    if (faseActual1.faseActual == "Sin fase" || faseActual1.diasTranscurridos < 0)
                       ...[
                         Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -108,6 +108,39 @@ class _CalendarioVegetativoPageState extends State<CalendarioDetallePage> {
                               fontWeight: FontWeight.w400),
                         ),
                       ),
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Días Faltantes:\n" +
+                                      faseActual1.diasFaltantes.toString(),
+                                  style: GoogleFonts.lato(
+                                      fontSize:
+                                      MediaQuery.of(context).size.width / 26,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                "Siguiente Fase:\n" +
+                                    faseActual1.faseActual.toString(),
+                                style: GoogleFonts.lato(
+                                    fontSize:
+                                    MediaQuery.of(context).size.width / 26,
+                                    color:
+                                    const Color.fromARGB(255, 193, 255, 128),
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ],
+                        ),
                       ]
                     else ...[
                       Padding(
@@ -163,7 +196,7 @@ class _CalendarioVegetativoPageState extends State<CalendarioDetallePage> {
                         ],
                       ),
                     ],
-                    if (faseActual2.faseActual == "Sin fase")
+                    if (faseActual2.faseActual == "Sin fase" || faseActual2.diasTranscurridos < 0)
                       ...[
                         Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -175,6 +208,39 @@ class _CalendarioVegetativoPageState extends State<CalendarioDetallePage> {
                               fontWeight: FontWeight.w400),
                         ),
                       ),
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Días Faltantes:\n" +
+                                      faseActual2.diasFaltantes.toString(),
+                                  style: GoogleFonts.lato(
+                                      fontSize:
+                                      MediaQuery.of(context).size.width / 26,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 10,
+                            ),
+                            Expanded(
+                              child: Text(
+                                "Siguiente Fase:\n" +
+                                    faseActual2.faseActual.toString(),
+                                style: GoogleFonts.lato(
+                                    fontSize:
+                                    MediaQuery.of(context).size.width / 26,
+                                    color:
+                                    const Color.fromARGB(255, 193, 255, 128),
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ],
+                        ),
                       ]
                     else ...[
                       Padding(
